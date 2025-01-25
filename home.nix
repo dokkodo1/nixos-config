@@ -6,28 +6,26 @@
     
   ];
 
-  home.homeDirectory = "/home/dokkodo";
-  home.username = "dokkodo";
-  home.stateVersion = "24.11"; # Please read the comment before changing.
-  home.sessionPath = [ "/home/dokkodo/bin" ];
+  home = {
+    stateVersion = "24.11"; # DO NOT TOUCH THIS
+    homeDirectory = "/home/dokkodo";
+    username = "dokkodo";
+    sessionPath = [ "/home/dokkodo/bin" ];
+    sessionVariables = {
+      EDITOR = "nano";
+    };
 
-  home.packages = [
+    packages = with pkgs; [
+      neovim
+    ];
 
-    pkgs.neovim
-
-  ];
-
-
-  home.file = {
-
-  };
-
-  home.sessionVariables = {
-    EDITOR = "nano";
+    file = {
+    };
   };
 
 
   programs = {
+
     home-manager.enable = true;
 
     bash = {

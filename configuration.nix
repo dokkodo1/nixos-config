@@ -2,12 +2,10 @@
 
 
 {
-  # Import hardware configuration
   imports = [
     ./hardware-configuration.nix
   ];
 
-  # Bootloader configuration (systemd-boot for EFI)
   boot.loader = {
     grub.memtest86.enable = true;
     systemd-boot.enable = true;
@@ -21,51 +19,40 @@
       systemd-journal-upload.enable = true;
     };
   };
-
-  # persistent logging
-  services.journald = {
-    storage = "persistent";
-    compress = true;
+  
+  nixpkgs.config = {
+    allowUnfree = true;
+    debugInfo = true;
   };
 
-  # shell
-  users.users.root.shell = pkgs.bash; # Root shell configuration
-  environment.shells = with pkgs; [ bash ];
-  users.defaultUserShell = pkgs.bash;
+  nix = {
+    settings = {
+      allowed-users = [ "@wheel" "@builder" "dokkodo" ];
+      experimental-features = ["nix-command" "flakes"];
+    };
+  };
   
-
-  nixpkgs.config.allowUnfree = true;  
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  
   security.rtkit.enable = true; # For real-time tasks 
 
-  # Hostname and networking settings
-  networking.hostName = "nixos"; 
+  # locale and networking settings
   time.timeZone = "Africa/Johannesburg"; # Set time zone
   i18n.defaultLocale = "en_US.UTF-8";  # Set locale
-  networking.networkmanager.enable = true;
 
-  # Enable bluetooth 
-  hardware.bluetooth = {
-
-    enable = true;
-    powerOnBoot = true;
-    settings = {
-      General = {
-        Enable = "Source,Sink,Media,Socket";
-	      Experimental = false;
-      };
-    };
+  networking = {
+    hostName = "nixos";
+    networkmanager.enable = true;
   };
 
 
   hardware = {
-    # graphics driver
+
     graphics = {
       enable = true;
       enable32Bit = true;
       #extraPackages = with pkgs; [ amdvlk ];
     };
-    # graphics driver
+
     amdgpu.amdvlk = {
       enable = false;
       support32Bit.enable = false;
@@ -73,41 +60,62 @@
 
     enableAllFirmware = true;
 
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+      settings = {
+        General = {
+          Enable = "Source,Sink,Media,Socket";
+	        Experimental = false;
+        };
+      };
+    };
+    steam-hardware.enable = true;
+  };
+  services = {
+
+    xserver = {
+      enable = true;
+      videoDrivers = [ "modesetting" "amdgpu" ];
+      xkb.layout = "us";
+      xkb.variant = "";
+      desktopManager.plasma5.enable = true;
+    };
+    
+    displayManager = {
+      sddm.enable = true;
+    };
+
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
+
+    journald = {
+      storage = "persistent";
+      compress = true;
+    };
+
+
   };
 
-  # Enable x11 with video drivers and configure keymap
-  services.xserver = {
-    enable = true;
-    videoDrivers = [ "modesetting" "amdgpu" ];
-    xkb.layout = "us";
-    xkb.variant = "";
+  users = {
+    defaultUserShell = pkgs.bash;
+    users = {
+      root.shell = pkgs.bash;
+      dokkodo = {
+        isNormalUser = true;
+        description = "dokkodo";
+        extraGroups = [ "wheel" "networkmanager" "cpu" "video" "gamemode" ];
+        shell = pkgs.bash;
+      };
+    };
   };
 
-  # Enable KDE Plasma Desktop
-  services.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-
-
-  # audio
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  # User configuration
-  users.users.dokkodo = {
-    isNormalUser = true;
-    description = "dokkodo";
-    extraGroups = [ "wheel" "networkmanager" "cpu" "video" "gamemode" ];
-    shell = pkgs.bash;
-  };
-
-  nix.settings.allowed-users = [ "@wheel" "@builder" "dokkodo" ];
 
   programs = {
-
     gamemode = {
       enable = true;
     };
@@ -126,71 +134,64 @@
     };
   };  
 
+  environment = {
+    shells = with pkgs; [ bash ];
+    systemPackages = with pkgs; [
 
-  # System packages
-  environment.systemPackages = with pkgs; [
-    
-    wget
-    bitwarden
-    reaper
-    
-    # comms
-    brave
-    firefox
-    discord
-    qbittorrent
-    telegram-desktop
-    mc
-    neofetch
+      wget
+      bitwarden
+      reaper
 
-    # dev
-    vscode
-    python3
-    git
-    nixos-generators
-    gnumake
-    speedtest-cli
+      # comms
+      brave
+      firefox
+      discord
+      qbittorrent
+      telegram-desktop
+      mc
+      neofetch
 
-    # monitoring
-    htop
-    btop
-    radeontop
-    tree
-    traceroute
+      # dev
+      vscode
+      python3
+      git
+      nixos-generators
+      gnumake
+      speedtest-cli
 
-    pciutils
-    lshw
-    lsof
-    dmidecode
-    sysstat  # System performance monitoring tools
-    stress-ng  # Stress testing
-    iotop    # I/O monitoring
+      # monitoring
+      htop
+      btop
+      radeontop
+      tree
+      traceroute
 
-    
-    # office
-    libreoffice
-    vim
-    vlc
-
-    # gaming
-    steam
-    gamemode
-    mangohud
-    lact
-    lutris
-    wine
-    #wine64Packages.unstable
-    #inetricks
-  ];
-
-  
-  # controller support
-  hardware.steam-hardware.enable = true;
+      pciutils
+      lshw
+      lsof
+      dmidecode
+      sysstat  # System performance monitoring tools
+      stress-ng  # Stress testing
+      iotop    # I/O monitoring
 
 
+      # office
+      libreoffice
+      vim
+      vlc
+
+      # gaming
+      steam
+      gamemode
+      mangohud
+      lact
+      lutris
+      wine
+      #wine64Packages.unstable
+      #inetricks
+    ];
+  };
 
 
-  # System state version (important for upgrades)
-  system.stateVersion = "24.11";
-
+  system.stateVersion = "24.11"; # NEVER CHANGE THIS
 }
