@@ -14,9 +14,21 @@
     efi.canTouchEfiVariables = true;
   };
 
+  systemd = {
+    packages = with pkgs; [ lact ];
+    services = {
+      lactd.wantedBy = ["multi-user.target"];
+      systemd-journal-upload.enable = true;
+    };
+  };
+
   # persistent logging
-  services.journald.settings = {
-    Storage = "persistent";
+  services.journald = {
+    storage = "persistent";
+    extraConfig = ''
+      SystemMaxUse=2G
+      RuntimeMaxUse=500M"
+    '';
   };
 
   # shell
@@ -43,7 +55,7 @@
     settings = {
       General = {
         Enable = "Source,Sink,Media,Socket";
-	      Experimental = true;
+	      Experimental = false;
       };
     };
   };
@@ -145,11 +157,18 @@
     # monitoring
     htop
     btop
-
-    #radeon-profile
     radeontop
     tree
     traceroute
+
+    pciutils
+    lshw
+    lsof
+    dmidecode
+    sysstat  # System performance monitoring tools
+    stress-ng  # Stress testing
+    iotop    # I/O monitoring
+
     
     # office
     libreoffice
@@ -169,10 +188,6 @@
   # controller support
   hardware.steam-hardware.enable = true;
 
-
-  
-  systemd.packages = with pkgs; [ lact ];
-  systemd.services.lactd.wantedBy = ["multi-user.target"];
 
 
 

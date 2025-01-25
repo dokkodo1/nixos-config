@@ -8,10 +8,23 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+
+  boot = {
+    initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
+    initrd.kernelModules = [ ];
+
+    kernelModules = [ "kvm-intel" ];
+    kernelPackages = pkgs.linuxPackages_latest;
+    kernelParams = [
+      "amdgpu.modeset=1"
+      "amdgpu.noretry=0"
+      "amdgpu.vm_size=4096"
+      "radeon.dpm=1"
+      "radeon.audio=1"
+    ];
+    extraModulePackages = [ ];
+  };
+
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/791af638-2646-4a82-8ad7-731299e4aa3c";
@@ -37,7 +50,7 @@
 
 
   swapDevices = [
-    { device = "/swapfile"; size = "8GB"; }
+    { device = "/swapfile"; size = 8192; } # size in MB
   ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
