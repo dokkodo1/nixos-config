@@ -25,10 +25,7 @@
   # persistent logging
   services.journald = {
     storage = "persistent";
-    extraConfig = ''
-      SystemMaxUse=2G
-      RuntimeMaxUse=500M"
-    '';
+    compress = true;
   };
 
   # shell
@@ -181,9 +178,9 @@
     mangohud
     lact
     lutris
-    #wine
-    wineWowPackages.unstableFull
-    winetricks
+    wine
+    #wine64Packages.unstable
+    #inetricks
   ];
 
   

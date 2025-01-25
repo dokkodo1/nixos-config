@@ -16,7 +16,6 @@
     kernelModules = [ "kvm-intel" ];
     kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [
-      "amdgpu.modeset=1"
       "amdgpu.noretry=0"
       "amdgpu.vm_size=4096"
       "radeon.dpm=1"
