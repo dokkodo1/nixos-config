@@ -8,8 +8,16 @@
   ];
 
   # Bootloader configuration (systemd-boot for EFI)
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    grub.memtest86.enable = true;
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
+
+  # persistent logging
+  services.journald.settings = {
+    Storage = "persistent";
+  };
 
   # shell
   users.users.root.shell = pkgs.bash; # Root shell configuration
@@ -45,15 +53,16 @@
     # graphics driver
     graphics = {
       enable = true;
-      enable32Bit = false;
+      enable32Bit = true;
       #extraPackages = with pkgs; [ amdvlk ];
     };
     # graphics driver
     amdgpu.amdvlk = {
       enable = false;
       support32Bit.enable = false;
-    
     };
+
+    enableAllFirmware = true;
 
   };
 
