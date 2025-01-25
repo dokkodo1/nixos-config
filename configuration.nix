@@ -95,7 +95,9 @@
 
     journald = {
       storage = "persistent";
-      compress = true;
+      extraConfig = ''
+        Compress=true
+      '';
     };
 
 
