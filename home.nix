@@ -25,13 +25,22 @@
 
 
   programs = {
-
     home-manager.enable = true;
 
     bash = {
       enable = true;
       shellAliases = {
         ".." = "cd ..";
+      };
+    };
+
+    git = {
+      enable = true;
+      userName = "dokkodo1";
+      userEmail = "callum.dokkodo@gmail.com";
+      extraConfig = {
+        init.defaultBranch = "main";
+        safe.directory = "/etc/nixos";
       };
     };
   };
