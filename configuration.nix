@@ -182,6 +182,8 @@
     lact
     lutris
     wine
+    wineWowPackages.unstableFull
+    winetricks
   ];
 
   
