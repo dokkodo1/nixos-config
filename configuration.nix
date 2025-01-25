@@ -181,7 +181,7 @@
     mangohud
     lact
     lutris
-    wine
+    #wine
     wineWowPackages.unstableFull
     winetricks
   ];
