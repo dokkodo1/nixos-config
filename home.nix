@@ -9,7 +9,7 @@
   home.homeDirectory = "/home/dokkodo";
   home.username = "dokkodo";
   home.stateVersion = "24.11"; # Please read the comment before changing.
-  home.sessionPath = [ "$HOME/bin" ];
+  home.sessionPath = [ "/home/dokkodo/bin" ];
 
   home.packages = [
 
