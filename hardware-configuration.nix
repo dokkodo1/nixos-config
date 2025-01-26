@@ -48,9 +48,10 @@
     };
 
 
-  swapDevices = [
-    { device = "/swapfile"; size = 3*8192; } # size in MB
-  ];
+  swapDevices = [ {
+    device = "/swapfile";
+    size = 24*1024; # size in MB
+  } ];
 
 
   networking.useDHCP = lib.mkDefault true;
