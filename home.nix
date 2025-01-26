@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./nix-citizen.nix
+    #./nix-citizen.nix
     
   ];
 
