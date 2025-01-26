@@ -35,9 +35,9 @@
   
   security.rtkit.enable = true; # For real-time tasks 
 
-  # locale and networking settings
-  time.timeZone = "Africa/Johannesburg"; # Set time zone
-  i18n.defaultLocale = "en_US.UTF-8";  # Set locale
+
+  time.timeZone = "Africa/Johannesburg";
+  i18n.defaultLocale = "en_US.UTF-8";
 
   networking = {
     hostName = "nixos";
@@ -183,6 +183,7 @@
       vlc
 
       # gaming
+      protonup-qt
       steam
       gamemode
       mangohud

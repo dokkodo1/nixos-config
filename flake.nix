@@ -1,5 +1,5 @@
 {
-  description = "dokkodo's flake";
+  description = "dokkodo's desktop flake";
 
   inputs = {
 
