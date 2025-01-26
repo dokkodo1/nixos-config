@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 
 {
@@ -205,6 +205,7 @@
       wine
       #wine64Packages.unstable
       #inetricks
+      inputs.nix-citizen.packages."x86_64-linux".star-citizen
     ];
   };
 

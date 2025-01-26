@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
@@ -16,7 +16,6 @@
     };
 
     packages = with pkgs; [
-      inputs.nix-citizen.packages."x86_64-linux".star-citizen
       neovim
     ];
 
