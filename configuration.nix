@@ -204,8 +204,9 @@
       lutris
       wine
       #wine64Packages.unstable
-      #inetricks
+      #winetricks
       inputs.nix-citizen.packages."x86_64-linux".star-citizen
+      lug-helper
     ];
   };
 
