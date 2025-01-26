@@ -17,7 +17,6 @@
 
     packages = with pkgs; [
       neovim
-      nano
     ];
 
     file = {
