@@ -49,7 +49,7 @@
 
 
   swapDevices = [
-    { device = "/swapfile"; size = 8192; } # size in MB
+    { device = "/swapfile"; size = 3*8192; } # size in MB
   ];
 
 
