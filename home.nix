@@ -35,6 +35,15 @@
       };
     };
 
+    nano = {
+      nanorc = ''
+        set autoindent
+        set linenumbers
+        set mouse
+      '';
+      syntaxHighlight = true;
+    };
+
     git = {
       enable = true;
       userName = "dokkodo1";
