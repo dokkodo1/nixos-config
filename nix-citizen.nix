@@ -9,7 +9,7 @@
   
   outputs = { self, nixpkgs, nix-citizen, nix-gaming, ...}: {
        nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-           specialArgs = {inherit inputs;};
+           specialArgs = { nix-citizen nix-gaming };
            modules = [
                ./configuration.nix
                nix-citizen.nixosModules.StarCitizen
