@@ -7,7 +7,7 @@
        nix-citizen.inputs.nix-gaming.follows = "nix-gaming";
   };
   
-  outputs = { self, nixpkgs, ...}: @inputs: {
+  outputs = { self, nixpkgs, nix-citizen, nix-gaming, ...}: {
        nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
            specialArgs = {inherit inputs;};
            modules = [
