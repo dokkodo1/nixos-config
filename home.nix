@@ -35,8 +35,6 @@
       };
     };
 
-
-
     git = {
       enable = true;
       userName = "dokkodo1";
