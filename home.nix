@@ -36,15 +36,7 @@
       };
     };
 
-    nano = {
-      enable = true;
-      nanorc = ''
-        set autoindent
-        set linenumbers
-        set mouse
-      '';
-      syntaxHighlight = true;
-    };
+
 
     git = {
       enable = true;
