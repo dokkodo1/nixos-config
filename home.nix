@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./nix-citizen/nix-citizen.nix
+    ./nix-citizen.nix
     
   ];
 
@@ -16,6 +16,7 @@
     };
 
     packages = with pkgs; [
+      inputs.nix-citizen.packages."x86_64-linux".star-citizen
       neovim
     ];
 

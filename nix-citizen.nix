@@ -8,7 +8,7 @@
   };
   
   outputs = { self, nixpkgs, ...}: @inputs: {
-       nixosConfigurations.HOST = nixpkgs.lib.nixosSystem {
+       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
            specialArgs = {inherit inputs;};
            modules = [
                ./configuration.nix
