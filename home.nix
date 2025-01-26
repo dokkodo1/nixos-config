@@ -36,6 +36,7 @@
     };
 
     nano = {
+      enable = true;
       nanorc = ''
         set autoindent
         set linenumbers
