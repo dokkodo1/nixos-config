@@ -69,10 +69,11 @@
   networking = {
     hostName = "nixos";
     networkmanager.enable = true;
-
-    #dropbox
-    allowedTCPPorts = [ 17500 ];
-    allowedUDPPorts = [ 17500 ];
+    firewall = {
+      #dropbox
+      allowedTCPPorts = [ 17500 ];
+      allowedUDPPorts = [ 17500 ];
+    };
   };
 
 
