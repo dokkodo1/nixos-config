@@ -185,7 +185,7 @@
       wget
       bitwarden
       reaper
-      dropbox
+      dropbox-cli
 
       # comms
       brave
