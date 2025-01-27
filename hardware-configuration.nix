@@ -41,12 +41,6 @@
       fsType = "ext4";
     };
 
-  # mount second drive to home/
-  fileSystems."/home/dokkodo/250GB-SATA" = 
-    { device = "/dev/sda";
-      fsType = "auto";
-    };
-
 
   swapDevices = [ {
     device = "/swapfile";
