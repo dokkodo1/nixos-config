@@ -162,6 +162,7 @@
       wget
       bitwarden
       reaper
+      dropbox
 
       # comms
       brave
