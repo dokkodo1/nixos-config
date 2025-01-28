@@ -193,6 +193,7 @@
       discord
       qbittorrent
       telegram-desktop
+      zoom
       mc
       neofetch
 
