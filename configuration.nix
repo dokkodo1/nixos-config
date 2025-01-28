@@ -176,6 +176,7 @@
       neofetch
 
       # dev
+      alacritty
       vscode
       git
       nixos-generators
