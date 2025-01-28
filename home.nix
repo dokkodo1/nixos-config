@@ -2,7 +2,7 @@
 
 {
   imports = [
-    # ...
+    ./modules/alacritty.nix
   ];
 
   home = {
@@ -12,6 +12,8 @@
     sessionPath = [ "/home/dokkodo/bin" ];
     sessionVariables = {
       EDITOR = "nano";
+      BROWSER = "firefox";
+      TERMINAL = "alacritty"
     };
 
     packages = with pkgs; [
