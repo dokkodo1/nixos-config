@@ -41,6 +41,11 @@
       fsType = "ext4";
     };
 
+  fileSystems."/250GB-SATA" =
+    { device = "/dev/disk/by-uuid/739d66ea-1708-4b87-8e4e-ec52f132b911";
+      fsType = "ext4";
+    };
+
 
   swapDevices = [ {
     device = "/swapfile";
