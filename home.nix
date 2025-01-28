@@ -2,8 +2,7 @@
 
 {
   imports = [
-    #./nix-citizen.nix
-    
+    # ...
   ];
 
   home = {
@@ -16,10 +15,11 @@
     };
 
     packages = with pkgs; [
-      neovim
+      # ...
     ];
 
     file = {
+      # ...
     };
   };
 

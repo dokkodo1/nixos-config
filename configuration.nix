@@ -18,24 +18,6 @@
       lactd.wantedBy = ["multi-user.target"];
       systemd-journal-upload.enable = true;
     };
-    #dropbox
-    user.services.dropbox = {
-      description = "Dropbox";
-      wantedBy = [ "graphical-session.target" ];
-      environment = {
-        QT_PLUGIN_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtPluginPrefix;
-        QML2_IMPORT_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtQmlPrefix;
-      };
-      serviceConfig = {
-        ExecStart = "${lib.getBin pkgs.dropbox}/bin/dropbox";
-        ExecReload = "${lib.getBin pkgs.coreutils}/bin/kill -HUP $MAINPID";
-        KillMode = "control-group"; # upstream recommends process
-        Restart = "on-failure";
-        PrivateTmp = true;
-        ProtectSystem = "full";
-        Nice = 10;
-      };      
-    };
   };
   
   nixpkgs.config = {
@@ -70,9 +52,7 @@
     hostName = "nixos";
     networkmanager.enable = true;
     firewall = {
-      #dropbox
-      allowedTCPPorts = [ 17500 ];
-      allowedUDPPorts = [ 17500 ];
+      # ...
     };
   };
 
@@ -185,7 +165,6 @@
       wget
       bitwarden
       reaper
-      dropbox-cli
 
       # comms
       brave
@@ -194,19 +173,16 @@
       qbittorrent
       telegram-desktop
       zoom-us
-      mc
       neofetch
 
       # dev
       vscode
-      python3
       git
       nixos-generators
       gnumake
       speedtest-cli
 
       # monitoring
-      htop
       btop
       radeontop
       tree
@@ -234,8 +210,6 @@
       lact
       lutris
       wine
-      #wine64Packages.unstable
-      #winetricks
       inputs.nix-citizen.packages."x86_64-linux".star-citizen
       lug-helper
     ];
