@@ -13,7 +13,7 @@
     sessionVariables = {
       EDITOR = "nano";
       BROWSER = "firefox";
-      TERMINAL = "alacritty"
+      TERMINAL = "alacritty";
     };
 
     packages = with pkgs; [
