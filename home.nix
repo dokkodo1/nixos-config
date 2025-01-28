@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./modules/alacritty.nix
+
   ];
 
   home = {
