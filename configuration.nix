@@ -179,6 +179,7 @@
     lug-helper
     inputs.nix-citizen.packages."x86_64-linux".star-citizen
     protonup-qt
+    dxvk
 
   ];
 
