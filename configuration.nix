@@ -178,9 +178,13 @@
     mangohud
     lug-helper
     inputs.nix-citizen.packages."x86_64-linux".star-citizen
+    
+    ### really just winging it here, huh?
     protonup-qt
     dxvk
     lutris
+    wine
+    winetricks
 
   ];
 
