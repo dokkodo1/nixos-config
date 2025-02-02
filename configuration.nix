@@ -170,6 +170,7 @@
     # comms
     discord
     telegram-desktop
+    vlc
 
     # editors
     vscode
