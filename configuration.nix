@@ -1,5 +1,12 @@
 { config, lib, pkgs, inputs, ... }:
 
+let
+
+system = "x86_64-linux";
+username = "dokkodo";
+host = "nixos";
+
+in
 
 {
   imports = [
@@ -70,7 +77,7 @@
 
     xserver = {
       enable = true;
-      videoDrivers = [ "amdgpu" ];
+      videoDrivers = [ "modesetting" ];
     };
 
     displayManager = {
@@ -171,6 +178,8 @@
     discord
     telegram-desktop
     vlc
+    brave
+    zoom-us
 
     # editors
     vscode
@@ -200,7 +209,11 @@
     elisa
   ];
 
+  environment.shellAliases = {
+    nixup = "sudo nixos-rebuild switch --flake ~/configurations/.#nixos";
+    nixedit = "vim configurations/configuration.nix";
 
+  };
 
   system.stateVersion = "24.11"; # DO NOT TOUCH <<<
 
