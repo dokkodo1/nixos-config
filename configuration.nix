@@ -13,6 +13,13 @@ in
       ./hardware-configuration.nix
     ];
 
+  fileSystems."/mnt/SATA-250GB" = {
+    device = "/dev/sda";
+    fsType = "ext4";
+    options = [ "rw" "exec" "defaults" "nofail" "uid=0" "gid=100" "umask=0000" ];
+  }; 
+  
+
   time.timeZone = "Africa/Johannesburg";
   i18n.defaultLocale = "en_US.UTF-8";
   nixpkgs.config.allowUnfree = true;
@@ -173,6 +180,7 @@ in
 
     alacritty
     bitwarden-desktop
+    qbittorrent
 
     # comms
     discord
@@ -210,8 +218,9 @@ in
   ];
 
   environment.shellAliases = {
-    nixup = "sudo nixos-rebuild switch --flake ~/configurations/.#nixos";
-    nixedit = "vim configurations/configuration.nix";
+    nixup = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/.#nixos";
+    nixedit = "sudo vim /home/dokkodo/configurations/configuration.nix";
+    nixhwedit = "sudo vim /home/dokkodo/configurations/hardware-configuration.nix";
 
   };
 
