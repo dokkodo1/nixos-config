@@ -35,6 +35,8 @@ in
 
   boot = {
 
+    kernelPackages = pkgs.linuxPackages_latest;
+
     kernel.sysctl = {
       "vm.max_map_count" = 16777216;
       "fs.file-max" = 524288;
@@ -206,14 +208,15 @@ in
     protonup-qt
     dxvk
     lutris
-    wine
+    #wine
+    wineWowPackages.waylandFull
+    wineWowPackages.staging
     winetricks
 
   ];
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     plasma-browser-integration
-    konsole
     elisa
   ];
 
