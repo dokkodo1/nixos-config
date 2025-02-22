@@ -187,6 +187,7 @@ in
     # comms
     discord
     telegram-desktop
+    whatsapp-for-linux
     vlc
     brave
     zoom-us
