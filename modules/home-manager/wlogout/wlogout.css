@@ -1,0 +1,98 @@
+@define-color night rgba(26, 27, 38, 0.8); /* #1a1b26 */
+@define-color storm rgba(36, 40, 59, 0.8); /* #24283b */
+@define-color letters #a9b1d6;
+@define-color red #f7768e;
+@define-color yellow #e0af68;
+@define-color green #73daca;
+@define-color cyan #7dcfff;
+@define-color blue #7aa2f7;
+@define-color magenta #bb9af7;
+@define-color white #c0caf5;
+@define-color black #414868;
+@define-color nightfull #1a1b26;
+
+
+/* general */ 
+* {
+    background-image: none;
+    transition: 20ms;
+    box-shadow: none;
+}
+
+window {
+    background: transparent; 
+}
+
+button {
+    color: #FFFFFF;
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 20%;
+    border: none;
+	  border-radius: 10px;
+	  outline-style: none;
+}
+
+/* options */ 
+#lock {
+    background-color: @nightfull;
+    background-image: url("/etc/nixos/modules/home-manager/wlogout/icons/lock.png");
+    border-style:solid;
+    border-radius: 5px 0px 0px 0px;
+    border-color: @magenta @magenta @blue @blue;
+    margin : 100px 0px 0px 550px;
+}
+
+#reboot {
+    background-color: @nightfull;
+    background-image: url("/etc/nixos/modules/home-manager/wlogout/icons/reboot.png");
+    border-style:solid;
+    border-radius: 0px 0px 0px 5px;
+    border-color: @magenta @magenta @blue @blue;
+    margin : 0px 0px 100px 550px;
+}
+
+#logout {
+    background-color: @nightfull;
+    background-image: url("/etc/nixos/modules/home-manager/wlogout/icons/logout.png");
+    border-style:solid;
+    border-radius: 0px 5px 0px 0px;
+    border-color: @magenta @magenta @blue @blue;
+    margin : 100px 550px 0px 0px;
+}
+
+#shutdown {
+    background-color: @nightfull;
+    background-image: url("/etc/nixos/modules/home-manager/wlogout/icons/shutdown.png");
+    border-style:solid;
+    border-radius: 0px 0px 5px 0px;
+    border-color: @magenta @magenta @blue @blue;
+    margin : 0px 550px 100px 0px;
+}
+
+/* options on hover */ 
+button:hover {
+    background-size: 25%;
+}
+
+button:hover#lock {
+    border-radius: 10px 10px 0px 10px;
+    margin : 80px 0px 0px 530px;
+}
+
+button:hover#reboot {
+    border-radius: 10px 0px 10px 10px;
+    margin : 0px 0px 80px 530px;
+}
+
+button:hover#logout {
+    border-radius: 10px 10px 10px 0px;
+    margin : 80px 530px 0px 0px;
+}
+
+button:hover#shutdown {
+    border-radius: 0px 10px 10px 10px;
+    margin: 0px 530px 80px 0px;
+}
+

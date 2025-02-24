@@ -1,0 +1,114 @@
+@define-color night rgba(26, 27, 38, 0.8); /* #1a1b26 */
+@define-color storm rgba(36, 40, 59, 0.8); /* #24283b */
+@define-color letters #a9b1d6;
+@define-color red #f7768e;
+@define-color yellow #e0af68;
+@define-color green #73daca;
+@define-color cyan #7dcfff;
+@define-color blue #7aa2f7;
+@define-color magenta #bb9af7;
+@define-color white #c0caf5;
+@define-color black #414868;
+
+* {
+  transition: 0.2s;
+}
+
+window {
+	font-family: " JetBrainsMono-Nerd"; font-size: 13px;
+}
+
+window {
+    margin: 0px;
+    border: 2px solid;
+    border-color: @magenta @magenta @blue @blue;
+/*
+    background-color: transparent;
+*/
+    background-color: rgba(26, 27, 38, 0.95);
+    border-radius: 16px;
+}
+
+#input {
+    padding: 4px;
+    margin: 20px;
+    padding-left: 20px;
+    border: 2px solid;
+    color: #a9b1d6;
+    font-weight: bold;
+    background: transparent;
+   	outline: none;
+    border-radius: 16px;
+    border-color: @magenta @magenta @blue @blue;
+}
+
+#input image {
+    color: @red; 
+}
+
+#input:focus {
+    border: 2px solid;
+    outline: none;
+    border-radius: 16px;
+    border-color: @magenta @magenta @blue @blue;
+}
+
+#inner-box {
+    margin: 20px;
+    margin-top: 0px;
+    border: none;
+    color: @cyan;
+    border-radius: 16px;
+}
+
+#inner-box * {
+    transition: none;
+}
+
+#outer-box {
+    margin: 0px;
+    border: none;
+    padding: 0px;
+    border-radius: 16px;
+}
+
+#scroll {
+    margin-top: 5px;
+    border: none;
+    border-radius: 16px;
+    margin-bottom: 5px;
+}
+
+#text:selected {
+    color: @black;
+    font-weight: bold;
+}
+
+#img {
+    margin-right: 20px;
+    background: transparent;
+}
+
+#text {
+    margin: 0px;
+    border: none;
+    padding: 0px;
+    background: transparent;
+}
+
+#entry {
+    margin: 0px;
+    border: none;
+    border-radius: 16px;
+    background-color: transparent;
+    min-height:32px;
+    font-weight: bold;
+}
+
+#entry:selected {
+    outline: none;
+    margin: 0px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(90deg, @magenta 0%, @blue 100%);
+}

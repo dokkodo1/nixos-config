@@ -1,6 +1,4 @@
 {
-  
-  
   description = "dokkodo main flake";
 
   inputs = {
@@ -14,17 +12,39 @@
       inputs.nix-gaming.follows = "nix-gaming";
     };
 
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  let
 
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./configuration.nix
-      ];
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
+  
+  in 
+  {
+
+    nixosConfigurations = {
+
+      default = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs;};
+        modules = [
+          ./hosts/default/configuration.nix
+        ];
+      };
+
+      gamestation = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+        modules = [
+          ./hosts/gamestation/configuration.nix
+        ];
+      };
+
     };
   };
 }
