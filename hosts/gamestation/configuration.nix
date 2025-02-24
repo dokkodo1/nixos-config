@@ -2,8 +2,7 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-  imports =
-    [
+  imports = [
 	./hardware-configuration.nix
 	inputs.home-manager.nixosModules.default
     #Overlay
@@ -26,7 +25,7 @@
 	./../../modules/nixos/Services/ssh.nix
 	./../../modules/nixos/Services/bluetooth.nix
 	./../../modules/nixos/Services/sound.nix
-    ];
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

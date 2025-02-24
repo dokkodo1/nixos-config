@@ -22,7 +22,7 @@ in
 
   time.timeZone = "Africa/Johannesburg";
   i18n.defaultLocale = "en_US.UTF-8";
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfree = true;      # home
 
   users.users.dokkodo = {
     description = "dokkodo";
@@ -146,7 +146,7 @@ in
 
   programs = {
 
-    git = {
+    git = {             # home
       enable = true;
     };
 
@@ -154,24 +154,20 @@ in
       enable = true;
     };
 
-    yazi = {
+    firefox = {         # home
       enable = true;
     };
 
-    firefox = {
-      enable = true;
-    };
-
-    steam = {
+    steam = {           # home
       enable = true;
       gamescopeSession.enable = true;
     };
 
-    gamemode = {
+    gamemode = {        # home
       enable = true;
     };
 
-    gamescope = {
+    gamescope = {       # home
       enable = true;
     };
 
@@ -181,38 +177,37 @@ in
   environment.systemPackages = with pkgs; [
 
     alacritty
-    bitwarden-desktop
-    qbittorrent
+    bitwarden-desktop             # home
+    qbittorrent                   # home
 
-    # comms
-    discord
-    telegram-desktop
-    whatsapp-for-linux
-    vlc
-    brave
-    zoom-us
+    # comms         
+    discord         
+    telegram-desktop              # home
+    whatsapp-for-linux            # home
+    vlc                           # home
+    brave                         # home
+    zoom-us                       # home
 
-    # editors
-    vscode
-    sublime
+    # editors         
+    vscode                        # home
 
     # hardware/monitoring
     lact
     btop
 
     # gaming
-    mangohud
-    lug-helper
-    inputs.nix-citizen.packages."x86_64-linux".star-citizen
+    mangohud                      # home
+    lug-helper                    # home
+    inputs.nix-citizen.packages."x86_64-linux".star-citizen    # home
     
     ### really just winging it here, huh?
-    protonup-qt
-    dxvk
-    lutris
+    protonup-qt                   # home
+    dxvk                          # home
+    lutris                        # home
     #wine
-    wineWowPackages.waylandFull
-    wineWowPackages.staging
-    winetricks
+    wineWowPackages.waylandFull   # home
+    wineWowPackages.staging       # home
+    winetricks                    # home
 
   ];
 

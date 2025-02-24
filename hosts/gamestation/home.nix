@@ -7,15 +7,15 @@
 	./../../modules/home-manager/Hyprland/hyprpaper.nix   # done
 	./../../modules/home-manager/Hyprland/hyprlock.nix    # done
 	./../../modules/home-manager/Terminals/kitty.nix      # done
-	./../../modules/home-manager/desktop-essentials.nix
-	./../../modules/home-manager/Wofi/wofi.nix
-	./../../modules/home-manager/Waybar/waybar.nix
-	./../../modules/home-manager/zsh.nix
-	./../../modules/home-manager/fastfetch.nix
-	./../../modules/home-manager/gaming.nix
-	./../../modules/home-manager/Themes/theme.nix
-	./../../modules/home-manager/wlogout/wlogout.nix
-	#./../../modules/home-manager/firefox.nix
+	./../../modules/home-manager/desktop-essentials.nix   # done
+	./../../modules/home-manager/Wofi/wofi.nix						# done
+	./../../modules/home-manager/Waybar/waybar.nix				# done
+	./../../modules/home-manager/zsh.nix									# done
+	./../../modules/home-manager/fastfetch.nix						# done
+	./../../modules/home-manager/gaming.nix								# done
+	./../../modules/home-manager/Themes/theme.nix					# done
+	./../../modules/home-manager/wlogout/wlogout.nix			# done
+	#./../../modules/home-manager/firefox.nix							# who knows
   ];
 
   home.username = "dokkodo";

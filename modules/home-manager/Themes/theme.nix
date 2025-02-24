@@ -3,10 +3,10 @@
 { 
 #QT
   qt.enable = false;
-  #qt.platformTheme = "gtk";
-  #qt.style.name = "tokyo-night-gtk-theme";
+#  qt.platformTheme = "gtk";
+#  qt.style.name = "tokyo-night-gtk-theme";
 
-  #qt.style.package = tokyo-night-gtk-theme;
+#  qt.style.package = tokyo-night-gtk-theme;
 
 #GTK
   gtk.enable = true;

@@ -8,25 +8,25 @@
 	{
     	label = "lock";
     	action = "hyprlock";
-	text = "lock";
+			text = "lock";
     	keybind = "l";
 	}
 	{
     	label = "reboot";
     	action = "systemctl reboot";
-	text = "reboot";
+			text = "reboot";
     	keybind = "r";
 	}
 	{
     	label = "logout";
     	action = "loginctl terminate-user $USER";
-	text = "logout";
+			text = "logout";
     	keybind = "e";
 	}
 	{
     	label = "shutdown";
     	action = "systemctl poweroff";
-	text = "shutdown";
+			text = "shutdown";
     	keybind = "s";
 	}
     ];

@@ -2,20 +2,20 @@
 
 { 
   programs.firefox = {
-     	enable = true;
+    enable = true;
 
-	policies = {
+		policies = {
   		BlockAboutConfig = true;
-		DefaultDownloadDirectory = "\${home}/Downloads";
-	};
+			DefaultDownloadDirectory = "\${home}/Downloads";
+		};
 
 	profiles.standard = {
 		isDefault = true;
 
-	#	extensions =  with inputs.firefox-addons.${pkgs.system};[
-	#		ublock-origin
-	#		bitwarden
-	#	];
+#		extensions =  with inputs.firefox-addons.${pkgs.system};[
+#			ublock-origin
+#			bitwarden
+#		];
 
 		bookmarks = [
 	  	{
