@@ -6,11 +6,11 @@
       inputs.home-manager.nixosModules.default
     ];
 
-  fileSystems."/mnt/SATA-250GB" = {
-    device = "/dev/sda";
-    fsType = "ext4";
-    options = [ "rw" "exec" "defaults" "nofail" "uid=0" "gid=100" "umask=0000" ];
-  }; 
+#  fileSystems."/mnt/SATA-250GB" = {
+#    device = "/dev/sda";
+#    fsType = "ext4";
+#    options = [ "rw" "exec" "defaults" "nofail" "uid=0" "gid=100" "umask=0000" ];
+#  }; 
   
 
   time.timeZone = "Africa/Johannesburg";

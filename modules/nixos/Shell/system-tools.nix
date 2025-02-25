@@ -2,12 +2,12 @@
 
 {
   environment.systemPackages = with pkgs; [
-  	vim
+  vim
 	wget
 	tree
-	feh
-	grim
+	#feh
+	#grim
 	wl-clipboard
-	slurp
+	#slurp
   ];
 }

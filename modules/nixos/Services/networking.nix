@@ -1,7 +1,20 @@
 { config, pkgs, lib, ... }:
 
 {
-  networking.networkmanager.enable = true;
+  networking = {
+
+    hostName = "Nix-Station";
+    networkmanager.enable = true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [
+
+      ];
+      allowedUDPPorts = [
+
+      ];      
+    };
+  };
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # Configure network proxy if necessary
@@ -10,14 +23,14 @@
   networking.dhcpcd.enable = true;
 
 #Static IP (Raspi) 
-  # networking.interfaces = {
-  # 	end0.ipv4.addresses = [{
-  #   		address = "172.16.10.1";
-  #    		prefixLength = 16;
-  #   	}];
-  # };
-  # networking.defaultGateway = {
-  #	address = "172.16.0.1";
-  #	interface = "end0";
-  # };
+#  networking.interfaces = {
+#  	end0.ipv4.addresses = [{
+#    		address = "172.16.10.1";
+#     		prefixLength = 16;
+#    	}];
+#  };
+#  networking.defaultGateway = {
+# 	address = "172.16.0.1";
+# 	interface = "end0";
+#  };
 }

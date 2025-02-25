@@ -1,11 +1,13 @@
 { config, pkgs, lib, ... }:
 
 {
-  users.users.tjey = {
+  users.users.dokkodo = {
+    description = "dokkodo";
     isNormalUser = true;
-    description = "TJey";
-    extraGroups = [ "networkmanager" "wheel" "plugdev" ];
-    packages = with pkgs; [];
+    extraGroups = [ "wheel" "networkmanager" "gamemode" "video" "cpu" ];
+    packages = with pkgs; [
+      
+    ];
   };
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;

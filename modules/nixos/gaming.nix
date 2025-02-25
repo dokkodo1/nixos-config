@@ -12,6 +12,8 @@
     wineWowPackages.waylandFull
     wineWowPackages.staging
     winetricks
+    lact
+    btop
   ];
 
   programs = {

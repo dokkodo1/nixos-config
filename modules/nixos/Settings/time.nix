@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 
 {
-  time.timeZone = "Europe/Berlin";
+  time.timeZone = "Africa/Johannesburg";
 
 }

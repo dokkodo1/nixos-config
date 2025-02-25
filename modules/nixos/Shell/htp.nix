@@ -2,7 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
-  	nmap
+  nmap
 	netcat-gnu
 	metasploit
 	exploitdb
