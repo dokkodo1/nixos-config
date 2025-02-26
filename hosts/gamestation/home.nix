@@ -15,7 +15,7 @@
 	
 	./../../modules/home-manager/Themes/theme.nix					# done
 	./../../modules/home-manager/wlogout/wlogout.nix			# done
-	./../../modules/home-manager/firefox.nix							# who knows
+#	./../../modules/home-manager/firefox.nix							# who knows
   ];
 
   home.username = "dokkodo";
