@@ -14,7 +14,7 @@
 #	./../../modules/nixos/homeoffice.nix
 #	./../../modules/nixos/Shell/htp.nix                   # done
 	./../../modules/nixos/Shell/system-tools.nix
-    #Gaming
+    #Programs
 	./../../modules/nixos/desktop-essentials.nix   	      # done
 	./../../modules/nixos/gaming.nix								      # done
     #Settings
@@ -80,6 +80,7 @@
 	  users = {
 	    "dokkodo" = import ./home.nix;
 	  };
+    backupFileExtension = "backup";
   };
 
  
