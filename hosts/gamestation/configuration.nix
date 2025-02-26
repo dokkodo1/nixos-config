@@ -1,32 +1,31 @@
-# NOT EDITED AT ALL
 { config, pkgs, lib, inputs, ... }:
 
 {
   imports = [
-	./hardware-configuration.nix
-	inputs.home-manager.nixosModules.default
-    #Overlay
-	./../../modules/nixos/sddm.nix                        # done
-	./../../modules/nixos/WindowManager.nix               # done
-	./../../modules/nixos/FileManager/thunar.nix          # done
-    #System	
-	./../../modules/nixos/fonts.nix                       # done
-#	./../../modules/nixos/homeoffice.nix
-#	./../../modules/nixos/Shell/htp.nix                   # done
-	./../../modules/nixos/Shell/system-tools.nix
-    #Programs
-	./../../modules/nixos/desktop-essentials.nix   	      # done
-	./../../modules/nixos/gaming.nix								      # done
-    #Settings
-	./../../modules/nixos/Settings/hardware.nix           # done
-	./../../modules/nixos/Settings/keyboard-layout.nix    # done
-	./../../modules/nixos/Settings/time.nix               # done
-	./../../modules/nixos/Settings/users.nix              # done
-    #Services
-	./../../modules/nixos/Services/networking.nix         # done
-	./../../modules/nixos/Services/ssh.nix                # done
-	./../../modules/nixos/Services/bluetooth.nix          # done
-	./../../modules/nixos/Services/sound.nix              # done
+	  ./hardware-configuration.nix
+	  inputs.home-manager.nixosModules.default
+      #Overlay
+	  ./../../modules/nixos/sddm.nix                        
+	  ./../../modules/nixos/WindowManager.nix               
+	  ./../../modules/nixos/FileManager/thunar.nix          
+      #System	
+	  ./../../modules/nixos/fonts.nix                       
+#	  ./../../modules/nixos/homeoffice.nix
+#	  ./../../modules/nixos/Shell/htp.nix                   
+	  ./../../modules/nixos/Shell/system-tools.nix
+      #Programs
+	  ./../../modules/nixos/desktop-essentials.nix   	      
+	  ./../../modules/nixos/gaming.nix								      
+      #Settings
+	  ./../../modules/nixos/Settings/hardware.nix           
+	  ./../../modules/nixos/Settings/keyboard-layout.nix    
+	  ./../../modules/nixos/Settings/time.nix               
+	  ./../../modules/nixos/Settings/users.nix              
+      #Services
+	  ./../../modules/nixos/Services/networking.nix         
+	  ./../../modules/nixos/Services/ssh.nix                
+	  ./../../modules/nixos/Services/bluetooth.nix          
+	  ./../../modules/nixos/Services/sound.nix              
   ];
 
 

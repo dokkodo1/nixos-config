@@ -46,15 +46,15 @@
       };
     };
 
-    homeConfigurations = {
-      "dokkodo" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/gamestation/home.nix
-        ];
-      };
-
-    };
+#    homeConfigurations = {
+#      "dokkodo" = home-manager.lib.homeManagerConfiguration {
+#        inherit pkgs;
+#        extraSpecialArgs = { inherit inputs; };
+#        modules = [
+#          ./hosts/gamestation/home.nix
+#        ];
+#      };
+#
+#    };
   };
 }
