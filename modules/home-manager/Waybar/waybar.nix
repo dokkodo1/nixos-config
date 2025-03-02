@@ -77,7 +77,7 @@
 
 #-----------------------------------------------------------------------------------
 				"image#logo" = {
-					path = "/etc/nixos/files/icons/NixOS-Logo.png";
+					path = "/home/dokkodo/configurations/files/icons/NixOS-Logo.png";
 					on-click = "kitty";
 				};
 

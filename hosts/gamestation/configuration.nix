@@ -25,7 +25,7 @@
 	  ./../../modules/nixos/Services/networking.nix         
 	  ./../../modules/nixos/Services/ssh.nix                
 	  ./../../modules/nixos/Services/bluetooth.nix          
-	  ./../../modules/nixos/Services/sound.nix              
+	  ./../../modules/nixos/Services/sound.nix
   ];
 
 

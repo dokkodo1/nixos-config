@@ -37,7 +37,7 @@ button {
 /* options */ 
 #lock {
     background-color: @nightfull;
-    background-image: url("/etc/nixos/modules/home-manager/wlogout/icons/lock.png");
+    background-image: url("/home/dokkodo/configurations/modules/home-manager/wlogout/icons/lock.png");
     border-style:solid;
     border-radius: 5px 0px 0px 0px;
     border-color: @magenta @magenta @blue @blue;
@@ -46,7 +46,7 @@ button {
 
 #reboot {
     background-color: @nightfull;
-    background-image: url("/etc/nixos/modules/home-manager/wlogout/icons/reboot.png");
+    background-image: url("/home/dokkodo/configurations/modules/home-manager/wlogout/icons/reboot.png");
     border-style:solid;
     border-radius: 0px 0px 0px 5px;
     border-color: @magenta @magenta @blue @blue;
@@ -55,7 +55,7 @@ button {
 
 #logout {
     background-color: @nightfull;
-    background-image: url("/etc/nixos/modules/home-manager/wlogout/icons/logout.png");
+    background-image: url("/home/dokkodo/configurations/modules/home-manager/wlogout/icons/logout.png");
     border-style:solid;
     border-radius: 0px 5px 0px 0px;
     border-color: @magenta @magenta @blue @blue;
@@ -64,7 +64,7 @@ button {
 
 #shutdown {
     background-color: @nightfull;
-    background-image: url("/etc/nixos/modules/home-manager/wlogout/icons/shutdown.png");
+    background-image: url("/home/dokkodo/configurations/modules/home-manager/wlogout/icons/shutdown.png");
     border-style:solid;
     border-radius: 0px 0px 5px 0px;
     border-color: @magenta @magenta @blue @blue;

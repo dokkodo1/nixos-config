@@ -6,7 +6,7 @@
 
 		settings = {
 		  logo = {
-  	  	source = "/etc/nixos/files/icons/NixOS-Logo.png";
+  	  	source = "/home/dokkodo/configurations/files/icons/NixOS-Logo.png";
   	  	type = "kitty-direct";
   	  	padding = {
 # 	   		"top" = 2;
