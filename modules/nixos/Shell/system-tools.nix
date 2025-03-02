@@ -5,9 +5,9 @@
   vim
 	wget
 	tree
-	#feh
-	#grim
+	feh
+	grim
 	wl-clipboard
-	#slurp
+	slurp
   ];
 }

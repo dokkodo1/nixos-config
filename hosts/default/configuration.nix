@@ -6,13 +6,6 @@
       inputs.home-manager.nixosModules.default
     ];
 
-#  fileSystems."/mnt/SATA-250GB" = {
-#    device = "/dev/sda";
-#    fsType = "ext4";
-#    options = [ "rw" "exec" "defaults" "nofail" "uid=0" "gid=100" "umask=0000" ];
-#  }; 
-  
-
   time.timeZone = "Africa/Johannesburg";
   i18n.defaultLocale = "en_US.UTF-8";
   nixpkgs.config.allowUnfree = true;
@@ -212,13 +205,6 @@
     plasma-browser-integration
     elisa
   ];
-
-  environment.shellAliases = {
-    nixup = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/.#nix-kde";
-    nixedit = "sudo vim /home/dokkodo/configurations/hosts/default/configuration.nix";
-    nixhwedit = "sudo vim /home/dokkodo/configurations/hosts/default/hardware-configuration.nix";
-
-  };
 
   system.stateVersion = "24.11"; # DO NOT TOUCH <<<
 
