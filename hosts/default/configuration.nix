@@ -5,14 +5,14 @@
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
       #Settings
-    ./../../modules/nixos/Settings/users
-    ./../../modules/nixos/Settings/time
-    ./../../modules/nixos/Settings/hardware
-    ./../../modules/nixos/Settings/keyboard-layout
+    ./../../modules/nixos/Settings/users.nix
+    ./../../modules/nixos/Settings/time.nix
+    ./../../modules/nixos/Settings/hardware.nix
+    ./../../modules/nixos/Settings/keyboard-layout.nix
       #Services
-    ./../../modules/nixos/Services/bluetooth
-    ./../../modules/nixos/Services/networking
-    ./../../modules/nixos/Services/sound
+    ./../../modules/nixos/Services/bluetooth.nix
+    ./../../modules/nixos/Services/networking.nix
+    ./../../modules/nixos/Services/sound.nix
     ];
 
   networking.hostName = "kde";
