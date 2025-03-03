@@ -2,8 +2,6 @@
 
 {
   networking = {
-
-    hostName = "Nix-Station";
     networkmanager.enable = true;
     firewall = {
       enable = true;

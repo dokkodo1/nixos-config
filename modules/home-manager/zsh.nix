@@ -15,12 +15,12 @@
 
 
 			#Update
-			update-default = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#default";
-			update-gamestation = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#gamestation";
+			update-kde = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#kde";
+			update-hyprland = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#hyprland";
 
 			#Upgrade
-			upgrade-default = "sudo nixos-rebuild switch --upgrade --flake /home/dokkodo/configurations/#default";
-			upgrade-gamestation = "sudo nixos-rebuild switch --upgrade --flake /home/dokkodo/configurations/#gamestation";
+			upgrade-kde = "sudo nixos-rebuild switch --upgrade --flake /home/dokkodo/configurations/#kde";
+			upgrade-hyprland = "sudo nixos-rebuild switch --upgrade --flake /home/dokkodo/configurations/#hyprland";
 		};
 
 		oh-my-zsh = {

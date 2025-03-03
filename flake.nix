@@ -30,18 +30,18 @@
 
     nixosConfigurations = {
 
-      default = nixpkgs.lib.nixosSystem {
+      kde = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs;};
         modules = [
-          ./hosts/default/configuration.nix
+          ./hosts/kde/configuration.nix
         ];
       };
 
-      gamestation = nixpkgs.lib.nixosSystem {
+     hyprland = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         modules = [
-          ./hosts/gamestation/configuration.nix
+          ./hosts/hyprland/configuration.nix
         ];
       };
     };
