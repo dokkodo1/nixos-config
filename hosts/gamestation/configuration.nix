@@ -28,6 +28,7 @@
 	  ./../../modules/nixos/Services/sound.nix
   ];
 
+  networking.hostName = "hyprland";
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
@@ -57,6 +58,10 @@
       enable = true;
       debug = true;
     };
+    pam.services = {
+      hyprlock = {};
+      swaylock = {};
+    };
   };
 
   nix = {
@@ -73,6 +78,8 @@
     };
   }; 
 
+  services.xserver.enable = true;
+
   home-manager = {
 	  extraSpecialArgs = {inherit inputs; };
 	  users = {
@@ -80,16 +87,6 @@
 	  };
     backupFileExtension = "backup";
   };
-
- 
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  services.xserver.enable = true;
-
-  security.pam.services.hyprlock = {};
-  security.pam.services.swaylock = {};
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -99,5 +96,6 @@
   #   enableSSHSupport = true;
   # };
 
+  nixpkgs.config.allowUnfree = true;
   system.stateVersion = "24.11";
 }

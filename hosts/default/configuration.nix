@@ -1,120 +1,54 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   imports = [
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.default
+      #Settings
+    ./../../modules/nixos/Settings/users
+    ./../../modules/nixos/Settings/time
+    ./../../modules/nixos/Settings/hardware
+    ./../../modules/nixos/Settings/keyboard-layout
+      #Services
+    ./../../modules/nixos/Services/bluetooth
+    ./../../modules/nixos/Services/networking
+    ./../../modules/nixos/Services/sound
     ];
 
-  time.timeZone = "Africa/Johannesburg";
-  i18n.defaultLocale = "en_US.UTF-8";
-  nixpkgs.config.allowUnfree = true;
-
-  users.users.dokkodo = {
-    description = "dokkodo";
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "gamemode" "video" "cpu" ];
-    packages = with pkgs; [
-      # ...
-    ];
-  };
+  networking.hostName = "kde";
 
   boot = {
-
     kernelPackages = pkgs.linuxPackages_latest;
-
-    kernel.sysctl = {
-      "vm.max_map_count" = 16777216;
-      "fs.file-max" = 524288;
-    };
-
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
+    };
+
+    # Star Citizen stuff
+    kernel.sysctl = {
+      "vm.max_map_count" = 16777216;
+      "fs.file-max" = 524288;
     };
   };
 
 
   systemd = {
-
     packages = with pkgs; [
       lact
     ];
-
     services = {
       lactd.wantedBy = ["multi-user.target"];
-    };
-
-  };
-
-  networking = {
-
-    hostName = "nix-kde";
-    networkmanager.enable = true;
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [
-
-      ];
     };
   };
 
   security = {
-    
     polkit = {
       enable = true;
       debug = true;
-
     };
-  };
-
-  services = {
-
-    xserver = {
-      enable = true;
-      videoDrivers = [ "modesetting" ];
-    };
-
-    displayManager = {
-      #defaultSession = "plasmax11"; # display server toggle. default is Wayland
-      sddm.enable = true;
-      sddm.wayland.enable = true;
-    };
-
-    desktopManager = {
-      plasma6.enable = true;
-    };
-
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
-
-  };
-
-  hardware = {
-    
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-      extraPackages = with pkgs; [
-        amdvlk
-      ];
-      extraPackages32 = with pkgs; [
-        driversi686Linux.amdvlk
-      ];
-    };
-
-    bluetooth = {
-      enable = true;
-    };
-
   };
 
   nix = {
-
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
@@ -122,21 +56,36 @@
       substituters = ["https://nix-citizen.cachix.org"];
       trusted-public-keys = ["nix-citizen.cachix.org-1:lPMkWc2X8XD4/7YPEEwXKKBg+SVbYTVrAaLA2wQTKCo="];
     };
-
     gc = {
       automatic = true;
       dates = "weekly";
     };
-
   };
 
-  home-manager = {
-    extraSpecialArgs = {inherit inputs;};
-    users = {
-      "dokkodo" = import ./home.nix;
+  services = {
+    xserver = {
+      enable = true;
+      videoDrivers = [ "modesetting" ];
+    };
+    displayManager = {
+      #defaultSession = "plasmax11"; # display server toggle. default is Wayland
+      sddm.enable = true;
+      sddm.wayland.enable = true;
+    };
+    desktopManager = {
+      plasma6.enable = true;
     };
   };
 
+  home-manager = {
+	  extraSpecialArgs = {inherit inputs; };
+	  users = {
+	    "dokkodo" = import ./home.nix;
+	  };
+    backupFileExtension = "backup";
+  };
+
+  
   programs = {
 
     vim = {
@@ -179,7 +128,6 @@
 
     # editors
     vscode
-    sublime
 
     # hardware/monitoring
     lact
@@ -206,7 +154,7 @@
     elisa
   ];
 
+  nixpkgs.config.allowUnfree = true;
   system.stateVersion = "24.11"; # DO NOT TOUCH <<<
-
 }
 

@@ -14,10 +14,5 @@
         driversi686Linux.amdvlk
       ];
     };
-
-    bluetooth = {
-      enable = true;
-    };
-
   };
 }
