@@ -50,9 +50,15 @@
     ];
     services = {
       lactd.wantedBy = ["multi-user.target"];
-    };
-  };
 
+      home-manager-dokkodo = {
+        enable = true;
+        wantedBy = [ "multi-user.target" ];
+      };
+    };
+
+
+  };
   security = {    
     polkit = {
       enable = true;
@@ -81,6 +87,8 @@
   services.xserver.enable = true;
 
   home-manager = {
+    #useGlobalPkgs = true;
+    #useUserPackages = true;
 	  extraSpecialArgs = {inherit inputs; };
 	  users = {
 	    "dokkodo" = import ./home.nix;
