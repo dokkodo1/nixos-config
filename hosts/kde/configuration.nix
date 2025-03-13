@@ -17,6 +17,22 @@
 
   networking.hostName = "kde";
 
+
+  fileSystems."/mnt/sata1" = {
+    device = "/dev/disk/by-uuid/3a472f59-0607-46f1-9885-4140a3314895";
+    fsType = "ext4";
+    options = [ "noatime" "lazytime" "x-systemd.automount" "nofail" ];
+  };  
+
+  systemd.tmpfiles.rules = [
+    "d /mnt/sata1 0775 dokkodo users - -"
+  ];
+
+  users.users.dokkodo = {
+    extraGroups = [ "users" ];
+  };
+
+
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
@@ -114,7 +130,7 @@
 
   environment.systemPackages = with pkgs; [
 
-    alacritty
+    parted
     bitwarden-desktop
     qbittorrent
 
@@ -142,7 +158,6 @@
     protonup-qt
     dxvk
     lutris
-    #wine
     wineWowPackages.waylandFull
     wineWowPackages.staging
     winetricks
