@@ -13,7 +13,8 @@
     ./../../modules/nixos/Services/bluetooth.nix
     ./../../modules/nixos/Services/networking.nix
     ./../../modules/nixos/Services/sound.nix
-    ];
+    ./../../modules/nixos/neovim.nix
+  ];
 
   networking.hostName = "kde";
 
@@ -130,9 +131,15 @@
 
   environment.systemPackages = with pkgs; [
 
+    konsave
     parted
     bitwarden-desktop
+    bottles
     qbittorrent
+    dropbox
+    syncthing
+    tree
+    appimage-run
 
     # comms
     discord
@@ -144,6 +151,9 @@
 
     # editors
     vscode
+    reaper
+    yabridge
+    yabridgectl
 
     # hardware/monitoring
     lact
