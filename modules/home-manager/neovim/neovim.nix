@@ -20,21 +20,40 @@
       xclip
       wl-clipboard
     ];
+
     extraConfig = ''
 
     '';
+
     plugins = with pkgs.vimPlugins; [
       
       {
         plugin = nvim-lspconfig;
-	config = toLuaFile ./neovim/plugins/lsp.lua
+	config = toLuaFile ./plugins/lsp.lua;
+      }
+
+      {
+        plugin = comment-nvim;
+	config = toLua "require(\"Comment\").setup()";
       }
 
       {
         plugin = telescope-nvim;
-	config = toLuaFile ./neovim/plugins/telescope.lua
+	config = toLuaFile ./plugins/telescope.lua;
       }
       telescope-fzf-native-nvim
+
+      
+      {
+        plugin = nvim-cmp;
+	config = toLuaFile ./plugins/cmp.lua;
+      }
+      cmp_luasnip
+      cmp-nvim-lsp
+      luasnip
+      friendly-snippets
+      lualine-nvim
+
 
       {
         plugin = (nvim-treesitter.withPlugins (p: [
@@ -45,7 +64,7 @@
 	  p.tree-sitter-python
 	  p.tree-sitter-json
 	]));
-	config = toLuaFile ./neovim/plugins/treesitter.lua;
+	config = toLuaFile ./plugins/treesitter.lua;
       }
       
       vim-nix
@@ -53,7 +72,7 @@
     ];
 
     extraLuaConfig = ''
-      ${builtins.readFile ./neovim/options.lua}
+      ${builtins.readFile ./options.lua}
     '';
 
   };
