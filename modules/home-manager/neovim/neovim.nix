@@ -15,8 +15,6 @@
     
     extraPackages = with pkgs; [
       lua-language-server
-      rnix-lsp
-
       xclip
       wl-clipboard
     ];
@@ -53,7 +51,8 @@
       luasnip
       friendly-snippets
       lualine-nvim
-
+      vim-nix
+      neodev-nvim
 
       {
         plugin = (nvim-treesitter.withPlugins (p: [
@@ -67,8 +66,7 @@
 	config = toLuaFile ./plugins/treesitter.lua;
       }
       
-      vim-nix
-
+      
     ];
 
     extraLuaConfig = ''
