@@ -13,7 +13,6 @@
     ./../../modules/nixos/Services/bluetooth.nix
     ./../../modules/nixos/Services/networking.nix
     ./../../modules/nixos/Services/sound.nix
-    ./../../modules/nixos/neovim.nix
   ];
 
   networking.hostName = "kde";
@@ -173,6 +172,10 @@
     winetricks
 
   ];
+  
+  environment.variables = {
+    EDITOR = "nvim";
+  };
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     plasma-browser-integration
