@@ -2,7 +2,6 @@
   description = "dokkodo main flake";
 
   inputs = {
-
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
 
@@ -17,33 +16,52 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs:
   let
+    systems = {
+      kde = "x86_64-linux";
+      hyprland = "x86_64-linux";
+      work-mac = "x86_64-darwin";
+    };
 
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-  
-  in 
-  {
+    filterInputs = system: if system == "x86_64-linux" then inputs else builtins.removeAttrs inputs [ "nix-gaming" "nix-citizen" ];
 
+  in {
     nixosConfigurations = {
 
       kde = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {inherit inputs;};
+        system = systems.kde;
+        specialArgs = { inherit (filterInputs systems.kde) inputs; };
+        modules = [ ./hosts/kde/configuration.nix ];
+      };
+
+      hyprland = nixpkgs.lib.nixosSystem {
+        system = systems.hyprland;
+        specialArgs = { inherit (filterInputs systems.hyprland) inputs; };
+        modules = [ ./hosts/hyprland/configuration.nix ];
+      };
+      
+    };
+
+    darwinConfigurations = {
+
+      work-mac = nix-darwin.lib.darwinSystem {
+        system = systems.work-mac;
+        specialArgs = { inherit (filterInputs systems.work-mac) inputs; };
         modules = [
-          ./hosts/kde/configuration.nix
+          home-manager.darwinModules.home-manager
+          ./hosts/work-mac/configuration.nix
+          
         ];
       };
 
-     hyprland = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        modules = [
-          ./hosts/hyprland/configuration.nix
-        ];
-      };
     };
   };
 }
