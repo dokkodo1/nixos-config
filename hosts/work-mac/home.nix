@@ -8,6 +8,9 @@
 	./../../modules/home-manager/neovim/neovim.nix
   ];
 
+  home.username = "callummcdonald";
+  home.homeDirectory = "/Users/callummcdonald";
+
   home.packages = with pkgs; [
 
   ];
@@ -20,5 +23,5 @@
 
   };
 
-  
+  home.stateVersion = "24.11";  
 }

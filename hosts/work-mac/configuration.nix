@@ -5,7 +5,6 @@
     home = "/Users/callummcdonald";
   };
 
-  services.nix-daemon.enable = true;
   nix.settings.experimental-features = "nix-command flakes";
 
   nixpkgs = {
@@ -14,7 +13,7 @@
     config.allowUnsupportedSystem = true;
   };
 
-  programs.zsh.enable = tue;
+  programs.zsh.enable = true;
 
   environment.systemPackages = with pkgs; [
     vim
@@ -22,4 +21,5 @@
     git
   ];
 
+  system.stateVersion = 6;
 }
