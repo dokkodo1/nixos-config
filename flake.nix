@@ -56,12 +56,17 @@
         system = systems.work-mac;
         specialArgs = { inherit (filterInputs systems.work-mac) inputs; };
         modules = [
-          home-manager.darwinModules.home-manager
-          ./hosts/work-mac/configuration.nix
           
+          ./hosts/work-mac/configuration.nix
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = false;
+            home-manager.useUserPkgs = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users."callummcdonald" = import ./hosts/work-mac/home.nix;
+          }
         ];
       };
-
     };
   };
 }

@@ -5,12 +5,21 @@
     home = "/Users/callummcdonald";
   };
 
-  nix.extraOptions = ''
-    auto-optimise-store = true
-    experimental-features = nix-command flakes
-    extra-platforms = x86_64-darwin aarch64-darwin
-  '';
-
   services.nix-daemon.enable = true;
-  nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = "nix-command flakes";
+
+  nixpkgs = {
+    hostPlatform = "x86_64-darwin";
+    config.allowUnfree = true;
+    config.allowUnsupportedSystem = true;
+  };
+
+  programs.zsh.enable = tue;
+
+  environment.systemPackages = with pkgs; [
+    vim
+    tree
+    git
+  ];
+
 }
