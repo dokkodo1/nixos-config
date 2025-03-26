@@ -19,8 +19,9 @@
 			update-hyprland = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#hyprland";
 
 			#Upgrade
-			upgrade-kde = "sudo nixos-rebuild switch --upgrade --flake /home/dokkodo/configurations/#kde";
-			upgrade-hyprland = "sudo nixos-rebuild switch --upgrade --flake /home/dokkodo/configurations/#hyprland";
+      upgrade-kde = "nix flake update /home/dokkodo/configurations/ && sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#kde && sudo nix-collect-garbage -d";
+      upgrade-hyprland = "nix flake update /home/dokkodo/configurations && sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#hyprland && sudo nix-collect-garbage -d";
+
 		};
 
 		oh-my-zsh = {

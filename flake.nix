@@ -23,7 +23,7 @@
 
   };
 
-  outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nix-gaming, nix-citizen, nix-darwin, ... }@inputs:
   let
     systems = {
       kde = "x86_64-linux";
@@ -31,20 +31,18 @@
       work-mac = "x86_64-darwin";
     };
 
-    filterInputs = system: if system == "x86_64-linux" then inputs else builtins.removeAttrs inputs [ "nix-gaming" "nix-citizen" ];
-
   in {
     nixosConfigurations = {
 
       kde = nixpkgs.lib.nixosSystem {
         system = systems.kde;
-        specialArgs = { inherit (filterInputs systems.kde) inputs; };
+        specialArgs = { inherit inputs; };
         modules = [ ./hosts/kde/configuration.nix ];
       };
 
       hyprland = nixpkgs.lib.nixosSystem {
         system = systems.hyprland;
-        specialArgs = { inherit (filterInputs systems.hyprland) inputs; };
+        specialArgs = { inherit inputs; };
         modules = [ ./hosts/hyprland/configuration.nix ];
       };
       
@@ -54,7 +52,7 @@
 
       work-mac = nix-darwin.lib.darwinSystem {
         system = systems.work-mac;
-        specialArgs = { inherit (filterInputs systems.work-mac) inputs; };
+        specialArgs = { inherit inputs; };
         modules = [
           
           ./hosts/work-mac/configuration.nix
