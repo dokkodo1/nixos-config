@@ -7,7 +7,7 @@
       #Settings
     ./../../modules/nixos/Settings/users.nix
     ./../../modules/nixos/Settings/time.nix
-    ./../../modules/nixos/Settings/hardware.nix
+    ./../../modules/nixos/Settings/hardware.nix # may need to be edited
     ./../../modules/nixos/Settings/keyboard-layout.nix
       #Services
     ./../../modules/nixos/Services/bluetooth.nix
@@ -17,33 +17,15 @@
 
   networking.hostName = "kde";
 
-
-  fileSystems."/mnt/sata1" = {
-    device = "/dev/disk/by-uuid/3a472f59-0607-46f1-9885-4140a3314895";
-    fsType = "ext4";
-    options = [ "noatime" "lazytime" "x-systemd.automount" "nofail" ];
-  };  
-
-  systemd.tmpfiles.rules = [
-    "d /mnt/sata1 0775 dokkodo users - -"
-  ];
-
-  users.users.dokkodo = {
+  users.users.evan = {
     extraGroups = [ "users" ];
   };
-
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
-    };
-
-    # Star Citizen stuff
-    kernel.sysctl = {
-      "vm.max_map_count" = 16777216;
-      "fs.file-max" = 524288;
     };
   };
 
@@ -69,8 +51,6 @@
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
       trusted-users = [ "@wheel" ];
-      substituters = ["https://nix-citizen.cachix.org"];
-      trusted-public-keys = ["nix-citizen.cachix.org-1:lPMkWc2X8XD4/7YPEEwXKKBg+SVbYTVrAaLA2wQTKCo="];
     };
     gc = {
       automatic = true;
@@ -96,7 +76,7 @@
   home-manager = {
 	  extraSpecialArgs = {inherit inputs; };
 	  users = {
-	    "dokkodo" = import ./home.nix;
+	    "evan" = import ./home.nix;
 	  };
     backupFileExtension = "backup";
   };
@@ -133,36 +113,26 @@
     konsave
     parted
     bitwarden-desktop
-    bottles
     qbittorrent
-    dropbox
-    syncthing
-    tree
-    appimage-run
+
 
     # comms
     discord
-    telegram-desktop
     whatsapp-for-linux
     vlc
     brave
     zoom-us
 
-    # editors
-    vscode
-    reaper
-    yabridge
-    yabridgectl
-
     # hardware/monitoring
     lact
     btop
+    tree
 
     # gaming
     mangohud
-    lug-helper
-    inputs.nix-citizen.packages."x86_64-linux".star-citizen
-    
+    bottles
+    appimage-run
+
     ### really just winging it here, huh?
     protonup-qt
     dxvk
@@ -174,7 +144,7 @@
   ];
   
   environment.variables = {
-    EDITOR = "nvim";
+    EDITOR = "kate";
   };
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [

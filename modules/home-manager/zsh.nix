@@ -9,18 +9,16 @@
 		history.size = 1000;
 
 		shellAliases = {
-			ll = "ls -l";
-			nixos = "cd /home/dokkodo/configurations/";
+			ll = "ls -lah";
+			nixos = "cd /home/evan/configurations/";
 			c = "clear";		
 
 
 			#Update
-			update-kde = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#kde";
-			update-hyprland = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#hyprland";
+			update-kde = "sudo nixos-rebuild switch --flake /home/evan/configurations/#kde";
 
 			#Upgrade
-      upgrade-kde = "nix flake update /home/dokkodo/configurations/ && sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#kde && sudo nix-collect-garbage -d";
-      upgrade-hyprland = "nix flake update /home/dokkodo/configurations && sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#hyprland && sudo nix-collect-garbage -d";
+      upgrade-kde = "nix flake update /home/evan/configurations/ && sudo nixos-rebuild switch --flake /home/evan/configurations/#kde && sudo nix-collect-garbage -d";
 
 		};
 
