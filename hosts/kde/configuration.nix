@@ -130,6 +130,9 @@
 
   environment.systemPackages = with pkgs; [
 
+    gparted
+    nh
+    ventoy-full
     konsave
     parted
     bitwarden-desktop
