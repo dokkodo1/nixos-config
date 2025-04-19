@@ -13,6 +13,7 @@
     ./../../modules/nixos/Services/bluetooth.nix
     ./../../modules/nixos/Services/networking.nix
     ./../../modules/nixos/Services/sound.nix
+    ./../../modules/nixos/llm.nix
   ];
 
   networking.hostName = "kde";
@@ -23,6 +24,7 @@
     fsType = "ext4";
     options = [ "noatime" "lazytime" "x-systemd.automount" "nofail" ];
   };  
+
 
   systemd.tmpfiles.rules = [
     "d /mnt/sata1 0775 dokkodo users - -"
@@ -130,6 +132,9 @@
 
   environment.systemPackages = with pkgs; [
 
+    sshfs
+    tmux
+    rpi-imager
     gparted
     nh
     ventoy-full
