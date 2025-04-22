@@ -6,7 +6,6 @@
 	./../../modules/home-manager/zsh.nix
 	./../../modules/home-manager/Terminals/kitty.nix
   ./../../modules/home-manager/fastfetch.nix
-	./../../modules/home-manager/neovim/neovim.nix
   ];
 
   home.username = "dokkodo";
@@ -17,13 +16,12 @@
   ];
 
   home.file = {
-
+    ".vimrc".source = ~/configurations/modules/home-manager/vim/.vimrc
   };
   
   home.sessionVariables = {
 
   };
-
 
   programs.home-manager.enable = true;
   home.stateVersion = "24.11";

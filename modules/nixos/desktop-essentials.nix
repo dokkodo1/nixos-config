@@ -1,15 +1,15 @@
 { config, pkgs, lib, ... }:
 
 {
+
   environment.systemPackages = with pkgs; [
-  	firefox
-		bitwarden-desktop
-		telegram-desktop
-		whatsapp-for-linux
-		qbittorrent
-		vlc
-		zoom-us
-		brave
-		vscode
-  ]; 
+    bitwarden-desktop
+    qbittorrent
+    dropbox
+    telegram-desktop
+    whatsapp-for-linux
+    zoom-us
+    vlc
+    ungoogled-chromium
+  ];
 }
