@@ -16,7 +16,7 @@
   ];
 
   home.file = {
-    ".vimrc".source = ~/configurations/modules/home-manager/vim/.vimrc
+    ".vimrc".source = ./../../modules/home-manager/vim/vimrc;
   };
   
   home.sessionVariables = {

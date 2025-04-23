@@ -18,7 +18,6 @@
   
   environment.systemPackages = with pkgs; [
 	  discord
-    mangohud
     lug-helper
     inputs.nix-citizen.packages."x86_64-linux".star-citizen
     protonup-qt
@@ -27,6 +26,7 @@
     wineWowPackages.waylandFull
     wineWowPackages.staging
     winetricks
+    mangohud
     lact
     btop
   ];

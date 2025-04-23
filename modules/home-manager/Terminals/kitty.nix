@@ -17,7 +17,7 @@
 
 			foreground = "#a9b1d6";
 			background = "#1a1b26";
-			background_opacity = 0.95;
+			background_opacity = 0.75;
 			background_blur = 1;
 			dynamic_background_opacity = true; 
 			wayland_enable_ime = true;

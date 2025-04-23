@@ -6,11 +6,11 @@
       #Overlay
     ./../../modules/nixos/kde.nix
       #System
-    #./../../modules/nixos/security.nix
-    #./../../modules/nixos/fonts.nix
+    ./../../modules/nixos/security.nix
       #Programs
     ./../../modules/nixos/gaming.nix
     ./../../modules/nixos/desktop-essentials.nix
+    ./../../modules/nixos/audio.nix
       #Settings
     ./../../modules/nixos/Settings/users.nix
     ./../../modules/nixos/Settings/time.nix
@@ -73,7 +73,7 @@
   };
 
   environment.variables = {
-    EDITOR = "vim";
+    EDITOR = "kate";
   };
 
   programs = {
@@ -90,7 +90,6 @@
     btop
     nh
     vscode
-    reaper
     bottles
   ];
 }

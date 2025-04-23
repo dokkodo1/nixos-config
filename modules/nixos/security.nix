@@ -2,6 +2,6 @@
 
 {
   security.pki.certificateFiles = [
-    /home/dokkodo/certs/rootCA.pem 
+    ./../../files/certs/rootCA.pem
   ];
 }
