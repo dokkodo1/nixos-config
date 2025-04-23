@@ -25,33 +25,81 @@
 
   outputs = { self, nixpkgs, home-manager, nix-gaming, nix-citizen, nix-darwin, ... }@inputs:
   let
-    systems = {
+
+    systemsMap = {
       kde = "x86_64-linux";
       hyprland = "x86_64-linux";
+      desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
     };
+
+    pkgsFor = system: import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+      # Add overlays if needed for HM pkgs, e.g.:
+      # overlays = [ inputs.some-overlay.overlays.default ];
+    };
+
 
   in {
     nixosConfigurations = {
 
       kde = nixpkgs.lib.nixosSystem {
-        system = systems.kde;
+        system = systemsMap.kde;
         specialArgs = { inherit inputs; };
         modules = [ ./hosts/kde/configuration.nix ];
       };
 
       hyprland = nixpkgs.lib.nixosSystem {
-        system = systems.hyprland;
+        system = systemsMap.hyprland;
         specialArgs = { inherit inputs; };
         modules = [ ./hosts/hyprland/configuration.nix ];
       };
+
+      desktop = nixpkgs.lib.nixosSystem {
+        system = systemsMap.desktop;
+        specialArgs = { inherit inputs; };
+        modules = [ ./hosts/desktop/configuration.nix ];
+      };      
       
     };
 
+# <<< Home-manager as standalone >>>
+    homeConfigurations = {
+
+      "dokkodo@kde" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor systemsMap.kde;
+        extraSpecialArgs = { inherit inputs; };
+        modules = [ ./hosts/kde/home.nix ];
+      };
+
+      "dokkodo@hyprland" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor systemsMap.hyprland;
+        extraSpecialArgs = { inherit inputs; };
+        modules = [ ./hosts/hyprland/home.nix ];
+      };
+
+      "dokkodo@desktop" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor systemsMap.desktop;
+        extraSpecialArgs = { inherit inputs; };
+        modules = [ ./hosts/desktop/home.nix ];
+      };
+
+      # Example for potential future work-mac standalone HM config
+      # "callummcdonald@work-mac" = home-manager.lib.homeManagerConfiguration {
+      #   pkgs = pkgsFor systemsMap.work-mac; # Using the same pkgs function
+      #   extraSpecialArgs = { inherit inputs; };
+      #   modules = [ ./hosts/work-mac/home.nix ];
+      # };
+
+    }; 
+# ^^^ Comment out if using hm as module ^^^
+
+# <<< nix darwin >>>
     darwinConfigurations = {
 
       work-mac = nix-darwin.lib.darwinSystem {
-        system = systems.work-mac;
+        system = systemsMap.work-mac;
         specialArgs = { inherit inputs; };
         modules = [
           
@@ -66,5 +114,7 @@
         ];
       };
     };
+#         ^^^   WIP   ^^^
+
   };
 }

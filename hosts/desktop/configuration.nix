@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix
       #Overlay
-    ./../../modules/nixos/kde.nix
+    ./../../modules/nixos/desktop.nix
       #System
     ./../../modules/nixos/security.nix
       #Programs
@@ -28,7 +28,7 @@
 #    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
   ];
 
-  networking.hostName = "kde";
+  networking.hostName = "desktop";
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "24.11"; # DO NOT TOUCH <<<
 

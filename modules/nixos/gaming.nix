@@ -3,7 +3,7 @@
 
 {
   imports = [
-    inputs.home-manager.nixosModules.default
+
   ];
 
   boot.kernel.sysctl = {
