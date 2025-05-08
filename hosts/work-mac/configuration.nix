@@ -13,12 +13,11 @@
     config.allowUnsupportedSystem = true;
   };
 
-  programs.zsh.enable = true;
-
   environment.systemPackages = with pkgs; [
     vim
     tree
     git
+    sshfs
   ];
 
   system.stateVersion = 6;

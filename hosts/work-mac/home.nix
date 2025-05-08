@@ -3,20 +3,20 @@
 {
   imports = [
 	./../../modules/home-manager/git.nix
-	./../../modules/home-manager/zsh.nix
-	./../../modules/home-manager/Terminals/kitty.nix
-	./../../modules/home-manager/neovim/neovim.nix
+	./../../modules/darwin/zsh.nix
   ];
 
   home.username = "callummcdonald";
   home.homeDirectory = "/Users/callummcdonald";
 
   home.packages = with pkgs; [
-
+    nerd-fonts.jetbrains-mono
   ];
 
-  home.file = {
+  fonts.fontconfig.enable = true;
 
+  home.file = {
+    ".vimrc".source = ./../../modules/home-manager/vim/vimrc;
   };
   
   home.sessionVariables = {
