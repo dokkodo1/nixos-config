@@ -4,7 +4,7 @@
   imports = [
 	./../../modules/home-manager/git.nix
 	./../../modules/home-manager/zsh.nix
-	./../../modules/home-manager/Terminals/kitty.nix
+	./../../modules/home-manager/terminals/kitty.nix
   ./../../modules/home-manager/fastfetch.nix
   ];
 

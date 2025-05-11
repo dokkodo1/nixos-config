@@ -8,22 +8,22 @@
       #System
     ./../../modules/nixos/security.nix
       #Programs
-    ./../../modules/nixos/gaming.nix
-    ./../../modules/nixos/desktop-essentials.nix
-    ./../../modules/nixos/audio.nix
+    ./../../modules/nixos/programs/gaming.nix
+    ./../../modules/nixos/programs/desktop-essentials.nix
+    ./../../modules/nixos/programs/audio.nix
       #Settings
-    ./../../modules/nixos/Settings/users.nix
-    ./../../modules/nixos/Settings/time.nix
-    ./../../modules/nixos/Settings/hardware.nix
-    ./../../modules/nixos/Settings/keyboard-layout.nix
+    ./../../modules/nixos/settings/users.nix
+    ./../../modules/nixos/settings/time.nix
+    ./../../modules/nixos/settings/hardware.nix
+    ./../../modules/nixos/settings/keyboard-layout.nix
       #Services
-    ./../../modules/nixos/Services/bluetooth.nix
-    ./../../modules/nixos/Services/networking.nix
-    ./../../modules/nixos/Services/sound.nix
-	  ./../../modules/nixos/Services/ssh.nix
+    ./../../modules/nixos/services/bluetooth.nix
+    ./../../modules/nixos/services/networking.nix
+    ./../../modules/nixos/services/sound.nix
+	  ./../../modules/nixos/services/ssh.nix
       #Development
-    ./../../modules/nixos/Development/llm.nix
-    ./../../modules/nixos/Development/tools.nix
+    ./../../modules/nixos/development/llm.nix
+    ./../../modules/nixos/development/tools.nix
     
 #    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
   ];
@@ -81,7 +81,7 @@
   };
 
   environment.variables = {
-    EDITOR = "kate";
+    EDITOR = "vim";
   };
 
   programs = {

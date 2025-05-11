@@ -36,7 +36,7 @@
 
   ];
 
-  programs.zsh.initExtra = ''
+  programs.zsh.initContent = ''
 
 	source ~/.p10k.zsh
 

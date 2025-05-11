@@ -28,7 +28,6 @@
 
     systemsMap = {
       kde = "x86_64-linux";
-      hyprland = "x86_64-linux";
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
     };
@@ -50,12 +49,6 @@
         modules = [ ./hosts/kde/configuration.nix ];
       };
 
-      hyprland = nixpkgs.lib.nixosSystem {
-        system = systemsMap.hyprland;
-        specialArgs = { inherit inputs; };
-        modules = [ ./hosts/hyprland/configuration.nix ];
-      };
-
       desktop = nixpkgs.lib.nixosSystem {
         system = systemsMap.desktop;
         specialArgs = { inherit inputs; };
@@ -71,12 +64,6 @@
         pkgs = pkgsFor systemsMap.kde;
         extraSpecialArgs = { inherit inputs; };
         modules = [ ./hosts/kde/home.nix ];
-      };
-
-      "dokkodo@hyprland" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor systemsMap.hyprland;
-        extraSpecialArgs = { inherit inputs; };
-        modules = [ ./hosts/hyprland/home.nix ];
       };
 
       "dokkodo@desktop" = home-manager.lib.homeManagerConfiguration {

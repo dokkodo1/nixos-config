@@ -4,7 +4,14 @@
   users.users.dokkodo = {
     description = "dokkodo";
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "gamemode" "video" "cpu" "users" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "gamemode"
+      "video"
+      "cpu"
+      "users"
+      ];
     packages = with pkgs; [
       
     ];

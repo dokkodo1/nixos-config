@@ -23,12 +23,12 @@
     protonup-qt
     dxvk
     lutris
-    wineWowPackages.waylandFull
-    wineWowPackages.staging
-    winetricks
     mangohud
-    lact
-    btop
+    
+    wineWowPackages.waylandFull   # wayland unstable
+    wineWowPackages.staging       # experimental
+    winetricks
+
   ];
 
   programs = {
