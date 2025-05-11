@@ -4,21 +4,21 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
-
-    nix-gaming.url = "github:fufexan/nix-gaming";
-    nix-citizen = {
-      url = "github:LovingMelody/nix-citizen";
-      inputs.nix-gaming.follows = "nix-gaming";
-    };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-gaming.url = "github:fufexan/nix-gaming";
+    nix-citizen = {
+      url = "github:LovingMelody/nix-citizen";
+      inputs.nix-gaming.follows = "nix-gaming";
     };
 
   };
@@ -27,7 +27,6 @@
   let
 
     systemsMap = {
-      kde = "x86_64-linux";
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
     };
@@ -42,12 +41,6 @@
 
   in {
     nixosConfigurations = {
-
-      kde = nixpkgs.lib.nixosSystem {
-        system = systemsMap.kde;
-        specialArgs = { inherit inputs; };
-        modules = [ ./hosts/kde/configuration.nix ];
-      };
 
       desktop = nixpkgs.lib.nixosSystem {
         system = systemsMap.desktop;
