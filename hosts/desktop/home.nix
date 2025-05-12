@@ -2,10 +2,10 @@
 
 {
   imports = [
-	./../../modules/home-manager/terminal/git.nix
-	./../../modules/home-manager/terminal/zsh.nix
-	./../../modules/home-manager/terminal/kitty.nix
-  ./../../modules/home-manager/terminal/fastfetch.nix
+	./../../modules/user/terminal/git.nix
+	./../../modules/user/terminal/zsh.nix
+	./../../modules/user/terminal/kitty.nix
+  ./../../modules/user/terminal/fastfetch.nix
   ];
 
   home.username = "dokkodo";
@@ -16,11 +16,19 @@
   ];
 
   home.file = {
-    ".vimrc".source = ./../../modules/home-manager/vim/vimrc;
+    ".vimrc".source = ./../../modules/user/vim/vimrc;
   };
   
   home.sessionVariables = {
 
+  };
+
+  xdg.enable = true;
+  xdg.userDirs = {
+    extraConfig = {
+      XDG_GAME_DIR = "${config.home.homeDirectory}/Media/Games";
+      XDG_GAME_SAVE_DIR = "${config.home.homeDirectory}/Media/Game Saves";
+    };
   };
 
   programs.home-manager.enable = true;

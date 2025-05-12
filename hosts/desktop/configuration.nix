@@ -4,26 +4,26 @@
   imports = [
     ./hardware-configuration.nix
       #Overlay
-    ./../../modules/nixos/kde.nix
+    ./../../modules/system/kde.nix
       #System
-    ./../../modules/nixos/security.nix
+    ./../../modules/system/security.nix
       #Programs
-    ./../../modules/nixos/programs/gaming.nix
-    ./../../modules/nixos/programs/desktop-essentials.nix
-    ./../../modules/nixos/programs/audio.nix
+    ./../../modules/system/programs/gaming.nix
+    ./../../modules/system/programs/desktop-essentials.nix
+    ./../../modules/system/programs/audio.nix
       #Settings
-    ./../../modules/nixos/settings/users.nix
-    ./../../modules/nixos/settings/time.nix
-    ./../../modules/nixos/settings/hardware.nix
-    ./../../modules/nixos/settings/keyboard-layout.nix
+    ./../../modules/system/settings/users.nix
+    ./../../modules/system/settings/time.nix
+    ./../../modules/system/settings/hardware.nix
+    ./../../modules/system/settings/keyboard-layout.nix
       #Services
-    ./../../modules/nixos/services/bluetooth.nix
-    ./../../modules/nixos/services/networking.nix
-    ./../../modules/nixos/services/sound.nix
-	  ./../../modules/nixos/services/ssh.nix
+    ./../../modules/system/services/bluetooth.nix
+    ./../../modules/system/services/networking.nix
+    ./../../modules/system/services/sound.nix
+	  ./../../modules/system/services/ssh.nix
       #Development
-    ./../../modules/nixos/development/llm.nix
-    ./../../modules/nixos/development/tools.nix
+    ./../../modules/system/development/llm.nix
+    ./../../modules/system/development/tools.nix
     
 #    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
   ];

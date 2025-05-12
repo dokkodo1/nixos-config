@@ -24,6 +24,7 @@
     dxvk
     lutris
     mangohud
+    gamemode
     
     wineWowPackages.waylandFull   # wayland unstable
     wineWowPackages.staging       # experimental

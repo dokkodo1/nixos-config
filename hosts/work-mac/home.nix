@@ -2,7 +2,7 @@
 
 {
   imports = [
-	./../../modules/home-manager/git.nix
+	./../../modules/user/git.nix
 	./../../modules/darwin/zsh.nix
   ];
 
@@ -16,7 +16,7 @@
   fonts.fontconfig.enable = true;
 
   home.file = {
-    ".vimrc".source = ./../../modules/home-manager/vim/vimrc;
+    ".vimrc".source = ./../../modules/user/vim/vimrc;
   };
   
   home.sessionVariables = {

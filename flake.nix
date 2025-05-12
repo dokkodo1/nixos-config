@@ -4,6 +4,18 @@
   outputs = inputs@{ self, ... }:
   let
 
+    # ----- USER SETTINGS ----- #
+    userSettings = {
+      username = "dokkodo";
+      terminal = "kitty";
+      theme = "io";
+      editor = "vim";
+      font = "jetbrains-mono";
+      fontPkg = pkgs.jetbrains-mono;
+    };
+
+
+    # ----- HELPERS ----- #
     systemsMap = {
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
