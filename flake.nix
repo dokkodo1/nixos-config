@@ -1,29 +1,7 @@
 {
   description = "dokkodo main flake";
 
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-gaming.url = "github:fufexan/nix-gaming";
-    nix-citizen = {
-      url = "github:LovingMelody/nix-citizen";
-      inputs.nix-gaming.follows = "nix-gaming";
-    };
-
-  };
-
-  outputs = { self, nixpkgs, home-manager, nix-gaming, nix-citizen, nix-darwin, ... }@inputs:
+  outputs = inputs@{ self, ... }:
   let
 
     systemsMap = {
@@ -53,12 +31,6 @@
 # <<< Home-manager as standalone >>>
     homeConfigurations = {
 
-      "dokkodo@kde" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor systemsMap.kde;
-        extraSpecialArgs = { inherit inputs; };
-        modules = [ ./hosts/kde/home.nix ];
-      };
-
       "dokkodo@desktop" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgsFor systemsMap.desktop;
         extraSpecialArgs = { inherit inputs; };
@@ -67,7 +39,7 @@
 
       # Example for potential future work-mac standalone HM config
       # "callummcdonald@work-mac" = home-manager.lib.homeManagerConfiguration {
-      #   pkgs = pkgsFor systemsMap.work-mac; # Using the same pkgs function
+      #   pkgs = pkgsFor systemsMap.work-mac;
       #   extraSpecialArgs = { inherit inputs; };
       #   modules = [ ./hosts/work-mac/home.nix ];
       # };
@@ -97,4 +69,28 @@
 #         ^^^   WIP   ^^^
 
   };
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-gaming.url = "github:fufexan/nix-gaming";
+    nix-citizen = {
+      url = "github:LovingMelody/nix-citizen";
+      inputs.nix-gaming.follows = "nix-gaming";
+    };
+
+    stylix.url = "github:danth/stylix";
+  };
+
 }

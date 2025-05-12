@@ -2,10 +2,10 @@
 
 {
   imports = [
-	./../../modules/home-manager/git.nix
-	./../../modules/home-manager/zsh.nix
-	./../../modules/home-manager/terminals/kitty.nix
-  ./../../modules/home-manager/fastfetch.nix
+	./../../modules/home-manager/terminal/git.nix
+	./../../modules/home-manager/terminal/zsh.nix
+	./../../modules/home-manager/terminal/kitty.nix
+  ./../../modules/home-manager/terminal/fastfetch.nix
   ];
 
   home.username = "dokkodo";

@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix
       #Overlay
-    ./../../modules/nixos/desktop.nix
+    ./../../modules/nixos/kde.nix
       #System
     ./../../modules/nixos/security.nix
       #Programs
