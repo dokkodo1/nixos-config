@@ -2,7 +2,10 @@
 
 {
   networking = {
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      dns = "none";
+    };
     firewall = {
       enable = true;
       allowedTCPPorts = [

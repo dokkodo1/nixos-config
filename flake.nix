@@ -1,7 +1,41 @@
 {
   description = "dokkodo main flake";
 
-  outputs = inputs@{ self, ... }:
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-gaming.url = "github:fufexan/nix-gaming";
+    nix-citizen = {
+      url = "github:LovingMelody/nix-citizen";
+      inputs.nix-gaming.follows = "nix-gaming";
+    };
+
+    stylix.url = "github:danth/stylix";
+  };
+
+  outputs = inputs@{
+    self,
+    nixpkgs,
+    nixpkgs-stable,
+    nixos-hardware,
+    home-manager,
+    nix-darwin,
+    nix-gaming,
+    nix-citizen,
+    stylix,
+    ...
+  }:
   let
 
     # ----- USER SETTINGS ----- #
@@ -11,7 +45,7 @@
       theme = "io";
       editor = "vim";
       font = "jetbrains-mono";
-      fontPkg = pkgs.jetbrains-mono;
+      #fontPkg = pkgs.nerd-fonts.jetbrains-mono;
     };
 
 
@@ -82,27 +116,5 @@
 
   };
 
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-gaming.url = "github:fufexan/nix-gaming";
-    nix-citizen = {
-      url = "github:LovingMelody/nix-citizen";
-      inputs.nix-gaming.follows = "nix-gaming";
-    };
-
-    stylix.url = "github:danth/stylix";
-  };
 
 }
