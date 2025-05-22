@@ -2,7 +2,7 @@
 
 {
   imports = [
-	./../../modules/user/git.nix
+	./../../modules/user/terminal/git.nix
 	./../../modules/darwin/zsh.nix
   ];
 
@@ -11,6 +11,8 @@
 
   home.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
+    youtube-tui
+    yt-dlp
   ];
 
   fonts.fontconfig.enable = true;
