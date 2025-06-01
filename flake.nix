@@ -41,11 +41,14 @@
     # ----- USER SETTINGS ----- #
     userSettings = {
       username = "dokkodo";
+      timezone = "America/Chicago"; # select timezone
+      locale = "en_US.UTF-8"; # select locale
       terminal = "kitty";
       theme = "io";
       editor = "vim";
       font = "jetbrains-mono";
       #fontPkg = pkgs.nerd-fonts.jetbrains-mono;
+
     };
 
 
@@ -115,6 +118,4 @@
 #         ^^^   WIP   ^^^
 
   };
-
-
 }

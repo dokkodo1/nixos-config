@@ -13,14 +13,14 @@
     ./../../modules/system/programs/audio.nix
       #Settings
     ./../../modules/system/settings/users.nix
-    ./../../modules/system/settings/time.nix
+    ./../../modules/system/settings/locale.nix
     ./../../modules/system/settings/hardware.nix
     ./../../modules/system/settings/keyboard-layout.nix
       #Services
     ./../../modules/system/services/bluetooth.nix
     ./../../modules/system/services/networking.nix
     ./../../modules/system/services/sound.nix
-	  ./../../modules/system/services/ssh.nix
+    ./../../modules/system/services/ssh.nix
       #Development
     ./../../modules/system/development/llm.nix
     ./../../modules/system/development/tools.nix
