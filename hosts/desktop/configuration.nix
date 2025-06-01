@@ -97,7 +97,6 @@
   environment.systemPackages = with pkgs; [
     btop
     nh
-    vscode
     bottles
     home-manager # <<< remove if using home-manager as module
 

@@ -4,7 +4,7 @@
   networking = {
     networkmanager = {
       enable = true;
-      dns = "none";
+      #dns = "none";
     };
     firewall = {
       enable = true;
@@ -13,18 +13,23 @@
       ];
       allowedUDPPorts = [
 
-      ];     
+      ];
     };
     # custom DNS server, apparently not the best solution
-    useDHCP = false;
-    dhcpcd.enable = false;
-    nameservers = [
-      "192.168.101.240"
+    #useDHCP = true;
+    #dhcpcd.enable = true;
+    #nameservers = [
+      #"192.168.101.240"
       #"1.1.1.1"
       #"8.8.8.8"
 
-    ];
+    #];
   };
+
+  # trying to troubleshoot some dns nonsense
+  #networking.resolvconf.enable = false;
+  #services.resolved.enable = false;
+
 
   # <<< SOME NETWORKING BOILERPLATE >>>
   #networking.networkmanager.enable = true;
