@@ -1,4 +1,4 @@
-{ userSettings, ... }:
+{ config, lib, pkgs, userSettings, ... }:
 
 {
 

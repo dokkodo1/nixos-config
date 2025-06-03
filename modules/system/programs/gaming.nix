@@ -24,6 +24,7 @@
     dxvk
     lutris
     mangohud
+    openrgb-with-all-plugins
     gamemode
     
     wineWowPackages.waylandFull   # wayland unstable

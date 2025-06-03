@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, userSettings, ... }:
 
 {
   imports = [
@@ -13,7 +13,7 @@
     ./../../modules/system/programs/audio.nix
       #Settings
     ./../../modules/system/settings/users.nix
-    ./../../modules/system/settings/locale.nix
+    #./../../modules/system/settings/locale.nix
     ./../../modules/system/settings/hardware.nix
     ./../../modules/system/settings/keyboard-layout.nix
       #Services

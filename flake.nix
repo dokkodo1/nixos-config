@@ -41,7 +41,7 @@
     # ----- USER SETTINGS ----- #
     userSettings = {
       username = "dokkodo";
-      timezone = "America/Chicago"; # select timezone
+      timezone = "Africa/Johannesburg"; # select timezone
       locale = "en_US.UTF-8"; # select locale
       terminal = "kitty";
       theme = "io";
