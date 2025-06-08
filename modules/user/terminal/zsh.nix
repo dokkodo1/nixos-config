@@ -15,11 +15,11 @@
 
 
 			#Update
-			update-kde = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#kde";
+			update-nixtop = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#nixtop";
 			update-desktop = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#desktop";
 
 			#Upgrade
-      upgrade-kde = "nix flake update /home/dokkodo/configurations/ && sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#kde && sudo nix-collect-garbage -d";
+      upgrade-nixtop = "nix flake update /home/dokkodo/configurations/ && sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#nixtop && sudo nix-collect-garbage -d";
       upgrade-desktop = "nix flake update /home/dokkodo/configurations && sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#desktop && sudo nix-collect-garbage -d";
 
 		};

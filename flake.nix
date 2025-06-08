@@ -90,7 +90,12 @@
         extraSpecialArgs = { inherit inputs; };
         modules = [ ./hosts/desktop/home.nix ];
       };
-
+      
+      "dokkodo@nixtop" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor systemsMap.desktop;
+        extraSpecialArgs = { inherit inputs; };
+        modules = [ ./hosts/nixtop/home.nix ];
+      };
       # Example for potential future work-mac standalone HM config
       # "callummcdonald@work-mac" = home-manager.lib.homeManagerConfiguration {
       #   pkgs = pkgsFor systemsMap.work-mac;
