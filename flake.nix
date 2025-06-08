@@ -56,6 +56,7 @@
     systemsMap = {
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
+      nixtop = "x86_64-linux";
     };
 
     pkgsFor = system: import nixpkgs {
@@ -74,7 +75,11 @@
         specialArgs = { inherit inputs; };
         modules = [ ./hosts/desktop/configuration.nix ];
       };      
-      
+      nixtop = nixpkgs.lib.nixosSystem {
+        system = systemsMap.nixtop;
+        specialArgs = { inherit inputs; };
+        modules = [ ./hosts/nixtop/configuration.nix ];
+      };       
     };
 
 # <<< Home-manager as standalone >>>
