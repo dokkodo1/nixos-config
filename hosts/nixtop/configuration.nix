@@ -34,10 +34,10 @@
 
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    #kernelPackages = pkgs.linuxPackages_latest;
     loader = {
       grub.enable = true;
-      device = "/dev/sda"
+      grub.device = "/dev/disk/by-id/wwn-0x50014ee6b030602b";
     };
   };
 

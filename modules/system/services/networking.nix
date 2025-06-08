@@ -27,15 +27,15 @@
   };
 
   # <<< SET UP WAP VIA ETHERNET >>>
-  services.create_ap = {
-    enable = true;
-    settings = {
-      INTERNET_IFACE = "eno2";
-      WIFI_IFACE = "wlan0";
-      SSID = "totally secure network trust me";
-      PASSPHRASE = "5450642c!";
-    };
-  };
+  #services.create_ap = {
+    #enable = true;
+    #settings = {
+      #INTERNET_IFACE = "eno2";
+      #WIFI_IFACE = "wlan0";
+      #SSID = "totally secure network trust me";
+      #PASSPHRASE = "5450642c!";
+    #};
+  #};
   #             ^^^     ^^^
 
   # trying to troubleshoot some dns nonsense

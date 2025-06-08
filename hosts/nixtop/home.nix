@@ -4,7 +4,6 @@
   imports = [
 	  ./../../modules/user/terminal/git.nix
     ./../../modules/user/terminal/fastfetch.nix
-    ./../../modules/user/userPrograms
   ];
 
   home.username = "dokkodo";
