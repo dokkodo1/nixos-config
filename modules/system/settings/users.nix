@@ -12,10 +12,6 @@
       "video"
       "cpu"
     ];
-    packages = with pkgs; [
-      
-    ];
-
   };
 
   programs.zsh.enable = true;

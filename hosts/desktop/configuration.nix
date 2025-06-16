@@ -8,14 +8,16 @@
       #System
     ./../../modules/system/security.nix
       #Programs
+    ./../../modules/system/programs/systemPackages.nix
     ./../../modules/system/programs/gaming.nix
-    ./../../modules/system/programs/desktop-essentials.nix
+    ./../../modules/system/programs/desktopEssentials.nix
     ./../../modules/system/programs/audio.nix
       #Settings
     ./../../modules/system/settings/users.nix
     #./../../modules/system/settings/locale.nix
     ./../../modules/system/settings/hardware.nix
-    ./../../modules/system/settings/keyboard-layout.nix
+    ./../../modules/system/settings/keyboardLayout.nix
+    ./../../modules/system/settings/nixSettings.nix
       #Services
     ./../../modules/system/services/bluetooth.nix
     ./../../modules/system/services/networking.nix
@@ -61,18 +63,6 @@
     };
   };
 
-  nix = {
-    settings = {
-      auto-optimise-store = true;
-      experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = [ "@wheel" ];
-    };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-    };
-  };
-
   services = {
     xserver = {
       enable = true;
@@ -93,13 +83,5 @@
       enable = true;
     };
   };
-
-  environment.systemPackages = with pkgs; [
-    btop
-    nh
-    bottles
-    home-manager # <<< remove if using home-manager as module
-
-  ];
 }
 

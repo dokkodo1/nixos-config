@@ -5,12 +5,14 @@
     ./hardware-configuration.nix
       #System
     ./../../modules/system/security.nix
+      #Programs
+    ./../../modules/system/programs/systemPackages.nix
       #Settings
     ./../../modules/system/settings/users.nix
+    ./../../modules/system/settings/nixSettings.nix
       #Services
     ./../../modules/system/services/networking.nix
     ./../../modules/system/services/ssh.nix
-
     
 #    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
   ];
@@ -48,56 +50,10 @@
     };
   };
 
-  nix = {
-    settings = {
-      auto-optimise-store = true;
-      experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = [ "@wheel" ];
-    };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-    };
-  };
-
-  users.users.dokkodo = {
-    description = "dokkodo";
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "users"
-      "networkmanager"
-    ];
-  };
-
   environment.variables = {
     EDITOR = "vim";
   };
 
-  programs = {
-    vim = {
-      enable = true;
-    };
-  };
 
-  environment.systemPackages = with pkgs; [
-    tmux
-    btop
-    nh
-    home-manager # <<< remove if using home-manager as module
-  ];
-
-  networking = {
-    networkmanager = {
-      enable = true;
-    };
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [
-      ];
-      allowedUDPPorts = [
-      ];
-    };
-  };
 }
 
