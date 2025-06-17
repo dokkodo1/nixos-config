@@ -24,13 +24,13 @@
 
   };
 
-  xdg.enable = true;
-  xdg.userDirs = {
-    extraConfig = {
-      XDG_GAME_DIR = "${config.home.homeDirectory}/Games";
-      XDG_GAME_SAVE_DIR = "${config.home.homeDirectory}/Games/Saves";
-    };
-  };
+  #xdg.enable = true;
+  #xdg.userDirs = {
+  #  extraConfig = {
+  #    XDG_GAME_DIR = "${config.home.homeDirectory}/Games";
+  #    XDG_GAME_SAVE_DIR = "${config.home.homeDirectory}/Games/Saves";
+  #  };
+  #};
 
   programs.home-manager.enable = true;
   home.stateVersion = "24.11";
