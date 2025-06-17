@@ -13,6 +13,8 @@
       #Services
     ./../../modules/system/services/networking.nix
     ./../../modules/system/services/ssh.nix
+    ./../../modules/system/services/sound.nix
+    ./../../modules/system/services/bluetooth.nix
     
 #    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
   ];

@@ -2,22 +2,20 @@
 
 {
   imports = [
-	  ./../../modules/user/terminal/git.nix
-    ./../../modules/user/terminal/fastfetch.nix
-    ./../../modules/user/terminal/zsh.nix
+    ./../../modules/user
   ];
 
   home.username = "dokkodo";
   home.homeDirectory = "/home/dokkodo";
   nixpkgs.config.allowUnfree = true;
   
-  home.packages = [
+#  home.packages = [
+#
+#  ];
 
-  ];
-
-  home.file = {
-    ".vimrc".source = ./../../modules/user/vim/vimrc;
-  };
+#  home.file = {
+#    ".vimrc".source = ./../../modules/user/vim/vimrc;
+#  };
   
   home.sessionVariables = {
 
