@@ -14,10 +14,10 @@
     ./../../modules/system/programs/audio.nix
       #Settings
     ./../../modules/system/settings/users.nix
-    #./../../modules/system/settings/locale.nix
     ./../../modules/system/settings/hardware.nix
     ./../../modules/system/settings/keyboardLayout.nix
     ./../../modules/system/settings/nixSettings.nix
+    ./../../modules/system/settings/locale.nix
       #Services
     ./../../modules/system/services/bluetooth.nix
     ./../../modules/system/services/networking.nix
@@ -48,40 +48,28 @@
 # ^^^ Comment out if using hm standalone ^^^
 
 
-  boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
   };
 
- security = {
-    polkit = {
-      enable = true;
-      debug = true;
-    };
+ security.polkit = {
+    enable = true;
+    debug = true;
   };
 
-  services = {
-    xserver = {
-      enable = true;
-      videoDrivers = [ "modesetting" ];
-    };
+  services.xserver = {
+    enable = true;
+    videoDrivers = [ "modesetting" ];
   };
 
   environment.variables = {
     EDITOR = "vim";
   };
 
-  programs = {
-    vim = {
-      enable = true;
-    };
+  programs.vim.enable = true;
+  programs.firefox.enable = true;
 
-    firefox = {
-      enable = true;
-    };
-  };
 }
 

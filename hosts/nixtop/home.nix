@@ -9,14 +9,6 @@
   home.homeDirectory = "/home/dokkodo";
   nixpkgs.config.allowUnfree = true;
   
-#  home.packages = [
-#
-#  ];
-
-#  home.file = {
-#    ".vimrc".source = ./../../modules/user/vim/vimrc;
-#  };
-  
   home.sessionVariables = {
 
   };

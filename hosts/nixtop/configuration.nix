@@ -37,12 +37,11 @@
 # ^^^ Comment out if using hm standalone ^^^
 
 
-  boot = {
-    #kernelPackages = pkgs.linuxPackages_latest;
-    loader = {
-      grub.enable = true;
-      grub.device = "/dev/disk/by-id/wwn-0x50014ee6b030602b";
-    };
+  
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.loader = {
+    grub.enable = true;
+    grub.device = "/dev/disk/by-id/wwn-0x50014ee6b030602b";
   };
 
  security = {

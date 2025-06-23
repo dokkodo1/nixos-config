@@ -15,11 +15,8 @@
   #Grapics card
   
   environment.systemPackages = [ pkgs.lact ];
-  systemd = {
-    packages = [ pkgs.lact ];
-    services.lactd.wantedBy = [ "multi-user.target" ];
-  };
-
+  systemd.packages = [ pkgs.lact ];
+  systemd.services.lactd.wantedBy = [ "multi-user.target" ];
   hardware.graphics = {
     # NixOS enables Vulkan through Mesa RADV by default
     # https://nixos.org/manual/nixos/unstable/index.html#sec-gpu-accel-vulkan
