@@ -15,6 +15,7 @@
     lug-helper
     inputs.nix-citizen.packages."x86_64-linux".star-citizen
     lutris
+    heroic-unwrapped
     mangohud
     openrgb-with-all-plugins
     gamemode

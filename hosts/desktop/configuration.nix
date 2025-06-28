@@ -17,7 +17,7 @@
     ./../../modules/system/settings/hardware.nix
     ./../../modules/system/settings/keyboardLayout.nix
     ./../../modules/system/settings/nixSettings.nix
-    ./../../modules/system/settings/locale.nix
+    #./../../modules/system/settings/locale.nix
       #Services
     ./../../modules/system/services/bluetooth.nix
     ./../../modules/system/services/networking.nix
