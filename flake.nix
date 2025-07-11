@@ -90,7 +90,10 @@
           inherit userSettings;
           inherit inputs;
         };
-        modules = [ ./hosts/raspberrypi4/configuration.nix ];
+        modules = [
+        disko.nixosModules.disko
+        ./hosts/raspberrypi4/configuration.nix
+        ];
       };       
     };
 
