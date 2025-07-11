@@ -11,6 +11,7 @@
     gparted
     tmux
     btop
+    rar
     nh
     home-manager # <<< remove if using home-manager as module
   ];

@@ -53,6 +53,7 @@
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
       nixtop = "x86_64-linux";
+      raspberrypi4 = "aarch_64-linux";
     };
 
     pkgsFor = system: import nixpkgs {
@@ -82,6 +83,15 @@
         };
         modules = [ ./hosts/nixtop/configuration.nix ];
       };       
+      
+      raspberrypi4 = nixpkgs.lib.nixosSystem {
+        system = systemsMap.raspberrypi4;
+        specialArgs = {
+          inherit userSettings;
+          inherit inputs;
+        };
+        modules = [ ./hosts/raspberrypi4/configuration.nix ];
+      };       
     };
 
 # <<< Home-manager as standalone >>>
@@ -105,6 +115,15 @@
         modules = [ ./hosts/nixtop/home.nix ];
       };
       
+      "dokkodo@raspberrypi4" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor systemsMap.raspberrypi4;
+        extraSpecialArgs = {
+          inherit userSettings;
+          inherit inputs;
+        };
+        modules = [ ./hosts/raspberrypi4/home.nix ];
+      };
+
       # Example for potential future work-mac standalone HM config
       # "callummcdonald@work-mac" = home-manager.lib.homeManagerConfiguration {
       #   pkgs = pkgsFor systemsMap.work-mac;

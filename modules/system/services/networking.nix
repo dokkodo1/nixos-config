@@ -12,7 +12,7 @@
 
       ];
       allowedUDPPorts = [
-        67 68 # << for WAP via eth
+    #    67 68 # << for WAP via eth
       ];
     };
     # custom DNS server, apparently not the best solution
