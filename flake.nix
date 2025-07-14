@@ -91,7 +91,6 @@
           inherit inputs;
         };
         modules = [
-        disko.nixosModules.disko
         ./hosts/raspberrypi4/configuration.nix
         ];
       };       
