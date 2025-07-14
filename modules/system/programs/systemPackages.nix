@@ -8,9 +8,12 @@
 
   environment.systemPackages = with pkgs; [
     tree
-    gparted
+    git
+    bitwarden-cli
+    w3m-nox
     tmux
     btop
+    parted
     rar
     nh
     home-manager # <<< remove if using home-manager as module
