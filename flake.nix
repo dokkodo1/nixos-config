@@ -16,8 +16,6 @@
 
     nix-citizen.url = "github:LovingMelody/nix-citizen";
     nix-citizen.inputs.nix-gaming.follows = "nix-gaming";
-
-    stylix.url = "github:danth/stylix";
   };
 
   outputs = inputs@{
@@ -29,31 +27,17 @@
     nix-darwin,
     nix-gaming,
     nix-citizen,
-    stylix,
     ...
   }:
   let
-
-    # ----- USER SETTINGS ----- #
-    userSettings = {
-      username = "dokkodo";
-      timezone = "Africa/Johannesburg"; # select timezone
-      locale = "en_US.UTF-8"; # select locale
-      terminal = "kitty";
-      theme = "io";
-      editor = "vim";
-      font = "jetbrains-mono";
-      #fontPkg = pkgs.nerd-fonts.jetbrains-mono;
-
-    };
-
 
     # ----- HELPERS ----- #
     systemsMap = {
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
       nixtop = "x86_64-linux";
-      raspberrypi4 = "aarch_64-linux";
+      rpi4 = "aarch_64-linux";
+      defaultHost = "aarch_64-linux";
     };
 
     pkgsFor = system: import nixpkgs {
@@ -73,29 +57,44 @@
           inherit userSettings;
           inherit inputs;
         };
-        modules = [ ./hosts/desktop/configuration.nix ];
-      };      
+        modules = [
+          ./hosts/desktop/configuration.nix
+        ];
+      };
+
       nixtop = nixpkgs.lib.nixosSystem {
         system = systemsMap.nixtop;
         specialArgs = {
           inherit userSettings;
           inherit inputs;
         };
-        modules = [ ./hosts/nixtop/configuration.nix ];
+        modules = [
+          ./hosts/nixtop/configuration.nix
+        ];
       };       
       
-      raspberrypi4 = nixpkgs.lib.nixosSystem {
-        system = systemsMap.raspberrypi4;
+      rpi4 = nixpkgs.lib.nixosSystem {
+        system = systemsMap.rpi4;
         specialArgs = {
           inherit userSettings;
           inherit inputs;
         };
         modules = [
-        ./hosts/raspberrypi4/configuration.nix
+          ./hosts/rpi4/configuration.nix
+        ];
+      };       
+
+      defaultHost = nixpkgs.lib.nixosSystem {
+        system = systemsMap.defaultHost;
+        specialArgs = {
+          inherit userSettings;
+          inherit inputs;
+        };
+        modules = [
+          ./hosts/defaultHost/configuration.nix
         ];
       };       
     };
-
 # <<< Home-manager as standalone >>>
     homeConfigurations = {
 
@@ -105,7 +104,9 @@
           inherit userSettings;
           inherit inputs;
         };
-        modules = [ ./hosts/desktop/home.nix ];
+        modules = [
+          ./hosts/desktop/home.nix
+        ];
       };
       
       "dokkodo@nixtop" = home-manager.lib.homeManagerConfiguration {
@@ -114,18 +115,32 @@
           inherit userSettings;
           inherit inputs;
         };
-        modules = [ ./hosts/nixtop/home.nix ];
+        modules = [
+          ./hosts/nixtop/home.nix
+        ];
       };
       
-      "dokkodo@raspberrypi4" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor systemsMap.raspberrypi4;
+      "dokkodo@rpi4" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor systemsMap.rpi4;
         extraSpecialArgs = {
           inherit userSettings;
           inherit inputs;
         };
-        modules = [ ./hosts/raspberrypi4/home.nix ];
+        modules = [
+          ./hosts/rpi4/home.nix
+        ];
       };
 
+      "dokkodo@defaultHost" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsFor systemsMap.defaultHost;
+        extraSpecialArgs = {
+          inherit userSettings;
+          inherit inputs;
+        };
+        modules = [
+          ./hosts/defaultHost/home.nix
+        ];
+      };
       # Example for potential future work-mac standalone HM config
       # "callummcdonald@work-mac" = home-manager.lib.homeManagerConfiguration {
       #   pkgs = pkgsFor systemsMap.work-mac;
@@ -146,7 +161,6 @@
           inherit inputs;
         };
         modules = [
-          
           ./hosts/work-mac/configuration.nix
           home-manager.darwinModules.home-manager
           {

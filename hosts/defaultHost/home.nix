@@ -2,15 +2,13 @@
 
 {
   imports = [
-    ./../../modules/user
-	  ./../../modules/user/terminal/kitty.nix
-    ./../../modules/user/userPrograms
+    ./../../defaultModules/user/common
   ];
 
   home.username = "dokkodo";
   home.homeDirectory = "/home/dokkodo";
   nixpkgs.config.allowUnfree = true;
-
+  
   home.sessionVariables = {
 
   };

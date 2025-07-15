@@ -18,6 +18,7 @@
     tree
     git
     sshfs
+    fuse
   ];
 
   system.stateVersion = 6;

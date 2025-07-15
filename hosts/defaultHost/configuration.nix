@@ -3,21 +3,12 @@
 {
   imports = [
     ./hardware-configuration.nix
-      #Programs
-    ./../../modules/system/programs/systemPackages.nix
-      #Settings
-    ./../../modules/system/settings/users.nix
-    ./../../modules/system/settings/nixSettings.nix
-      #Services
-    ./../../modules/system/services/networking.nix
-    ./../../modules/system/services/ssh.nix
-    ./../../modules/system/services/sound.nix
-    ./../../modules/system/services/bluetooth.nix
-    
+    ./../../defaultModules/system/common
+
 #    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
   ];
 
-  networking.hostName = "nixtop";
+  networking.hostName = "defaultHost";
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "24.11"; # DO NOT TOUCH <<<
 

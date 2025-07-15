@@ -11,8 +11,7 @@
 
   home.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
-    youtube-tui
-    yt-dlp
+    yewtube
   ];
 
   fonts.fontconfig.enable = true;

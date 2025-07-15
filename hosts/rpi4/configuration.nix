@@ -3,31 +3,21 @@
 {
   imports = [
     ./hardware-configuration.nix
-      #Display
-    ./../../modules/system/display/kde.nix
       #Programs
     ./../../modules/system/programs/systemPackages.nix
-    ./../../modules/system/programs/gaming.nix
-    ./../../modules/system/programs/desktopEssentials.nix
-    ./../../modules/system/programs/audio.nix
       #Settings
     ./../../modules/system/settings/users.nix
-    ./../../modules/system/settings/hardware.nix
-    ./../../modules/system/settings/keyboardLayout.nix
     ./../../modules/system/settings/nixSettings.nix
       #Services
-    ./../../modules/system/services/bluetooth.nix
     ./../../modules/system/services/networking.nix
-    ./../../modules/system/services/sound.nix
     ./../../modules/system/services/ssh.nix
-      #Development
-    ./../../modules/system/development/llm.nix
-    ./../../modules/system/development/tools.nix
+    ./../../modules/system/services/sound.nix
+    ./../../modules/system/services/bluetooth.nix
     
 #    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
   ];
 
-  networking.hostName = "desktop";
+  networking.hostName = "rpi4";
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "24.11"; # DO NOT TOUCH <<<
 
@@ -45,28 +35,24 @@
 # ^^^ Comment out if using hm standalone ^^^
 
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+    grub.enable = true;
+    grub.device = "/dev/disk/by-id/wwn-0x50014ee6b030602b";
   };
 
- security.polkit = {
-    enable = true;
-    debug = true;
-  };
-
-  services.xserver = {
-    enable = true;
-    videoDrivers = [ "modesetting" ];
+ security = {
+    polkit = {
+      enable = true;
+      debug = true;
+    };
   };
 
   environment.variables = {
     EDITOR = "vim";
   };
 
-  programs.vim.enable = true;
-  programs.firefox.enable = true;
 
 }
 
