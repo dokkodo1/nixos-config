@@ -54,7 +54,6 @@
       desktop = nixpkgs.lib.nixosSystem {
         system = systemsMap.desktop;
         specialArgs = {
-          inherit userSettings;
           inherit inputs;
         };
         modules = [
@@ -65,7 +64,6 @@
       nixtop = nixpkgs.lib.nixosSystem {
         system = systemsMap.nixtop;
         specialArgs = {
-          inherit userSettings;
           inherit inputs;
         };
         modules = [
@@ -76,7 +74,6 @@
       rpi4 = nixpkgs.lib.nixosSystem {
         system = systemsMap.rpi4;
         specialArgs = {
-          inherit userSettings;
           inherit inputs;
         };
         modules = [
@@ -87,7 +84,6 @@
       defaultHost = nixpkgs.lib.nixosSystem {
         system = systemsMap.defaultHost;
         specialArgs = {
-          inherit userSettings;
           inherit inputs;
         };
         modules = [
@@ -101,7 +97,6 @@
       "dokkodo@desktop" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgsFor systemsMap.desktop;
         extraSpecialArgs = {
-          inherit userSettings;
           inherit inputs;
         };
         modules = [
@@ -112,7 +107,6 @@
       "dokkodo@nixtop" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgsFor systemsMap.nixtop;
         extraSpecialArgs = {
-          inherit userSettings;
           inherit inputs;
         };
         modules = [
@@ -123,7 +117,6 @@
       "dokkodo@rpi4" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgsFor systemsMap.rpi4;
         extraSpecialArgs = {
-          inherit userSettings;
           inherit inputs;
         };
         modules = [
@@ -134,7 +127,6 @@
       "dokkodo@defaultHost" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgsFor systemsMap.defaultHost;
         extraSpecialArgs = {
-          inherit userSettings;
           inherit inputs;
         };
         modules = [
@@ -157,7 +149,6 @@
       work-mac = nix-darwin.lib.darwinSystem {
         system = systemsMap.work-mac;
         specialArgs = {
-          inherit userSettings;
           inherit inputs;
         };
         modules = [

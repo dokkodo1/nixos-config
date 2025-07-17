@@ -11,5 +11,6 @@
     zoom-us
     vlc
     ungoogled-chromium
+    gimp3
   ];
 }
