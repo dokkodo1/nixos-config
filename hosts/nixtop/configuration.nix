@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
       #Programs
     ./../../modules/system/programs/systemPackages.nix
+    ./../../modules/system/programs/minimalX.nix
       #Settings
     ./../../modules/system/settings/users.nix
     ./../../modules/system/settings/nixSettings.nix
@@ -52,9 +53,6 @@
   environment.variables = {
     EDITOR = "vim";
   };
-
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
 
 }
 

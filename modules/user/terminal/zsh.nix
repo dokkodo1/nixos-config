@@ -1,6 +1,9 @@
 { config, pkgs, lib, ... }:
 
 {
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
+
   programs.zsh = {
 		enable = true;
 		enableCompletion = true;
@@ -30,6 +33,7 @@
   programs.zsh.initContent = ''
 
 	source ~/.p10k.zsh
+        eval "$(direnv hook zsh)"
 
 	''; 
   
