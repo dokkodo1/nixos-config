@@ -13,15 +13,6 @@
 			nixos = "cd /home/dokkodo/configurations/";
 			c = "clear";		
 
-
-			#Update
-			update-nixtop = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#nixtop";
-			update-desktop = "sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#desktop";
-
-			#Upgrade
-      upgrade-nixtop = "nix flake update /home/dokkodo/configurations/ && sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#nixtop && sudo nix-collect-garbage -d";
-      upgrade-desktop = "nix flake update /home/dokkodo/configurations && sudo nixos-rebuild switch --flake /home/dokkodo/configurations/#desktop && sudo nix-collect-garbage -d";
-
 		};
 
 		oh-my-zsh = {
