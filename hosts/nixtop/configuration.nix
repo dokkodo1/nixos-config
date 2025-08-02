@@ -36,8 +36,18 @@
 # ^^^ Comment out if using hm standalone ^^^
 
 
-  
-  #boot.kernelPackages = pkgs.linuxPackages_latest;
+  let
+    pkgsKernel161237 = import inputs.nixpkgs-kernel161237 {
+      system = "x86_64-linux";
+      config = {
+        allowUnfree = true;
+
+    }
+  in {
+    boot.kernelPackages = pkgsKernel161237.linuxPackages_6_12;
+  }
+
+  #boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;
   boot.loader = {
     grub.enable = true;
     grub.device = "/dev/disk/by-id/wwn-0x50014ee6b030602b";
