@@ -163,3 +163,83 @@ map Y y$
 nnoremap <C-L> :nohl<CR><C-L>
 
 "------------------------------------------------------------
+" ============================================================================
+" ADDITIONAL SETTINGS FOR NIX/C/PYTHON DEVELOPMENT
+" ============================================================================
+
+" Better search behavior
+set incsearch           " Incremental search (search as you type)
+
+" File handling
+set encoding=utf-8      " Use UTF-8 encoding
+set fileencoding=utf-8
+
+" Better tab completion for commands
+set wildmode=longest:full,full
+
+" Show matching brackets/parentheses
+set showmatch
+
+" Keep cursor context (lines above/below cursor)
+set scrolloff=3
+set sidescrolloff=5
+
+" Persistent undo (survives vim restarts)
+if has('persistent_undo')
+    set undofile
+    set undodir=~/.vim/undo
+    " Create undo directory if it doesn't exist
+    if !isdirectory(&undodir)
+        call mkdir(&undodir, 'p')
+    endif
+endif
+
+" ============================================================================
+" LANGUAGE-SPECIFIC SETTINGS
+" ============================================================================
+
+" Nix files - 2 space indentation is conventional
+autocmd FileType nix setlocal shiftwidth=2 softtabstop=2
+
+" Python - follow PEP 8 (4 spaces, which you already have as default)
+autocmd FileType python setlocal textwidth=79
+
+" C - kernel style is often 8-space tabs, but many prefer 4 spaces
+" Your current 4-space setting is fine for most C code
+
+" ============================================================================
+" USEFUL MAPPINGS (no plugins needed)
+" ============================================================================
+
+" Better window navigation (works great with tmux)
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Quick save
+nnoremap <leader>w :w<CR>
+
+" Edit vimrc quickly
+nnoremap <leader>ev :edit $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+
+" Toggle line numbers (useful for copying text)
+nnoremap <leader>n :set number!<CR>:set relativenumber!<CR>
+
+" Clear search highlighting with Escape in normal mode
+nnoremap <silent> <Esc> :nohlsearch<CR>
+
+" ============================================================================
+" TMUX INTEGRATION
+" ============================================================================
+
+" Fix colors in tmux
+if &term == "screen-256color" || &term == "tmux-256color"
+    set t_Co=256
+endif
+
+" Enable true color support if available
+if has('termguicolors')
+    set termguicolors
+endif

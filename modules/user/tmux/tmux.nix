@@ -1,9 +1,12 @@
-{ pkgs, lib, config, ...}: {
+{ pkgs, lib, config, ... }: {
   programs.tmux = {
     enable = true;
-    baseIndex = 1;
-    keyMode = "vi";
-    shortcut = "a";
-
+    extraConfig = ''
+      source-file ${./tmux.conf}
+    '';
   };
+
+  home.packages = with pkgs; lib.optionals (config.networking.hostName != "nixtop") [
+    wl-clipboard
+  ];
 }
