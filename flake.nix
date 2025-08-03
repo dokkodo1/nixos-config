@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs-kernel161237.url = "github:NixOS/nixpkgs/82b5cc6cd7fbbc3d8ff9cf7f42d28c08dc420346";
+#    nixpkgs-kernel161237.url = "github:NixOS/nixpkgs/82b5cc6cd7fbbc3d8ff9cf7f42d28c08dc420346";
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -24,7 +24,7 @@
     nixpkgs,
     nixpkgs-stable,
     nixos-hardware,
-    nixpkgs-kernel161237,
+#    nixpkgs-kernel161237,
     home-manager,
     nix-darwin,
     nix-gaming,

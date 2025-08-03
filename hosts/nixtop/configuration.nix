@@ -22,6 +22,10 @@
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "24.11"; # DO NOT TOUCH <<<
 
+  nixpkgs.config.permittedInsecurePackages = [
+#    "broadcom-sta-6.30.223.271-57-6.12.40"
+  ];
+  hardware.enableRedistributableFirmware = true;
 
 # <<< Home-manager as module >>>
 
@@ -36,18 +40,17 @@
 # ^^^ Comment out if using hm standalone ^^^
 
 
-  let
-    pkgsKernel161237 = import inputs.nixpkgs-kernel161237 {
-      system = "x86_64-linux";
-      config = {
-        allowUnfree = true;
+#  let
+#    pkgsKernel161237 = import inputs.nixpkgs-kernel161237 {
+#      system = "x86_64-linux";
+#      config = {
+#        allowUnfree = true;
+#
+#    }
+#  in {
+#    boot.kernelPackages = pkgsKernel161237.linuxPackages_6_12;
+#  }
 
-    }
-  in {
-    boot.kernelPackages = pkgsKernel161237.linuxPackages_6_12;
-  }
-
-  #boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;
   boot.loader = {
     grub.enable = true;
     grub.device = "/dev/disk/by-id/wwn-0x50014ee6b030602b";
