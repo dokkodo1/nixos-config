@@ -1,13 +1,12 @@
-{ config, pkgs, ... }:
+{ config, pkgs, modPath, ... }:
 
 {
   imports = [
-    ./../../modules/user
+    (modPath + "/user")
   ];
 
   home.username = "dokkodo";
   home.homeDirectory = "/home/dokkodo";
-  nixpkgs.config.allowUnfree = true;
   
   home.sessionVariables = {
 

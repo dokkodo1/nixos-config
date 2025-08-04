@@ -1,25 +1,13 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, modPath, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
-      #Programs
-    ./../../modules/system/programs/systemPackages.nix
-    ./../../modules/system/programs/minimalX.nix
-      #Settings
-    ./../../modules/system/settings/users.nix
-    ./../../modules/system/settings/nixSettings.nix
-      #Services
-    ./../../modules/system/services/networking.nix
-    ./../../modules/system/services/ssh.nix
-    ./../../modules/system/services/sound.nix
-    ./../../modules/system/services/bluetooth.nix
-    
+    (modPath + "/system")
 #    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
   ];
 
   networking.hostName = "nixtop";
-  nixpkgs.config.allowUnfree = true;
   system.stateVersion = "24.11"; # DO NOT TOUCH <<<
 
   nixpkgs.config.permittedInsecurePackages = [

@@ -7,7 +7,6 @@
 
   home.username = "dokkodo";
   home.homeDirectory = "/home/dokkodo";
-  nixpkgs.config.allowUnfree = true;
   
   home.sessionVariables = {
 

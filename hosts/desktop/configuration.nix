@@ -1,34 +1,21 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, modPath, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
-      #Display
-    ./../../modules/system/display/kde.nix
-      #Programs
-    ./../../modules/system/programs/systemPackages.nix
-    ./../../modules/system/programs/gaming.nix
-    ./../../modules/system/programs/desktopEssentials.nix
-    ./../../modules/system/programs/audio.nix
-      #Settings
-    ./../../modules/system/settings/users.nix
-    ./../../modules/system/settings/hardware.nix
-    ./../../modules/system/settings/keyboardLayout.nix
-    ./../../modules/system/settings/nixSettings.nix
-      #Services
-    ./../../modules/system/services/bluetooth.nix
-    ./../../modules/system/services/networking.nix
-    ./../../modules/system/services/sound.nix
-    ./../../modules/system/services/ssh.nix
-      #Development
-    ./../../modules/system/development/llm.nix
-    ./../../modules/system/development/tools.nix
-    
+    (modPath + "/system")
+    (modPath + "/system/display/kde.nix")
+    (modPath + "/system/programs/gaming.nix")
+    (modPath + "/system/programs/desktopEssentials.nix")
+    (modPath + "/system/programs/audio.nix")
+    (modPath + "/system/settings/hardware.nix")
+    (modPath + "/system/settings/keyboardLayout.nix")
+    (modPath + "/system/development/llm.nix")
+    (modPath + "/system/development/tools.nix")
 #    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
   ];
 
   networking.hostName = "desktop";
-  nixpkgs.config.allowUnfree = true;
   system.stateVersion = "24.11"; # DO NOT TOUCH <<<
 
 

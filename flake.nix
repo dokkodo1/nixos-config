@@ -5,167 +5,189 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-#    nixpkgs-kernel161237.url = "github:NixOS/nixpkgs/82b5cc6cd7fbbc3d8ff9cf7f42d28c08dc420346";
 
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nix-gaming.url = "github:fufexan/nix-gaming";
+    nix-citizen = {
+      url = "github:LovingMelody/nix-citizen";
+      inputs.nix-gaming.follows = "nix-gaming";
+    };
 
-    nix-citizen.url = "github:LovingMelody/nix-citizen";
-    nix-citizen.inputs.nix-gaming.follows = "nix-gaming";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = inputs@{
+  outputs = {
     self,
     nixpkgs,
     nixpkgs-stable,
     nixos-hardware,
-#    nixpkgs-kernel161237,
     home-manager,
     nix-darwin,
     nix-gaming,
     nix-citizen,
+    neovim-nightly-overlay,
     ...
-  }:
+  }@inputs:
   let
 
-    # ----- HELPERS ----- #
-    systemsMap = {
+    systems = {
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
       nixtop = "x86_64-linux";
-      rpi4 = "aarch_64-linux";
-      defaultHost = "aarch_64-linux";
+      rpi4 = "aarch64-linux";
     };
 
-    pkgsFor = system: import nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-      # Add overlays if needed for HM pkgs, e.g.:
-      # overlays = [ inputs.some-overlay.overlays.default ];
+    overlays = [
+      inputs.neovim-nightly-overlay.overlays.default
+      # Custom packages overlay
+      (final: prev: {
+        doxpkgs = prev.callPackage ./pkgs { }; # can be called through pkgs.dokpkgs.testScript
+        
+        # Example custom package - add your own derivations here
+        # my-custom-tool = final.callPackage ./pkgs/my-custom-tool { };
+        
+        # Example: override existing package
+        # vim = prev.vim.override { ... };
+      })
+    ];
+
+    sharedNixOSModules = [
+      ({ config, pkgs, ... }: {
+        nixpkgs.overlays = overlays;
+        nixpkgs.config.allowUnfree = true;
+        # Make stable packages available as pkgs.stable
+        nixpkgs.config.packageOverrides = pkgs: {
+          stable = import nixpkgs-stable {
+            system = pkgs.system;
+            config.allowUnfree = true;
+          };
+        };
+      })
+    ];
+
+    mkNixOSSystem = { system, hostPath, extraModules ? [] }: 
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs;
+          modPath = ./modules;
+        };
+        modules = sharedNixOSModules ++ [ hostPath ] ++ extraModules;
+      };
+
+    mkPkgs = system: import nixpkgs {
+      inherit system overlays;
+      config = {
+        allowUnfree = true;
+        # Make stable packages available in Home Manager too
+        packageOverrides = pkgs: {
+          stable = import nixpkgs-stable {
+            system = pkgs.system;
+            config.allowUnfree = true;
+          };
+        };
+      };
     };
 
+    mkHomeConfig = { system, user, hostPath }:
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = mkPkgs system;
+        extraSpecialArgs = {
+          inherit inputs;
+          modPath = ./modules;
+        };
+        modules = [ hostPath ];
+      };
 
   in {
     nixosConfigurations = {
-
-      desktop = nixpkgs.lib.nixosSystem {
-        system = systemsMap.desktop;
-        specialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          ./hosts/desktop/configuration.nix
-        ];
+      desktop = mkNixOSSystem {
+        system = systems.desktop;
+        hostPath = ./hosts/desktop/configuration.nix;
       };
 
-      nixtop = nixpkgs.lib.nixosSystem {
-        system = systemsMap.nixtop;
-        specialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          ./hosts/nixtop/configuration.nix
-        ];
-      };       
-      
-      rpi4 = nixpkgs.lib.nixosSystem {
-        system = systemsMap.rpi4;
-        specialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          ./hosts/rpi4/configuration.nix
-        ];
-      };       
+      nixtop = mkNixOSSystem {
+        system = systems.nixtop;
+        hostPath = ./hosts/nixtop/configuration.nix;
+      };
 
-      defaultHost = nixpkgs.lib.nixosSystem {
-        system = systemsMap.defaultHost;
-        specialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          ./hosts/defaultHost/configuration.nix
+      rpi4 = mkNixOSSystem {
+        system = systems.rpi4;
+        hostPath = ./hosts/rpi4/configuration.nix;
+        extraModules = [
         ];
-      };       
+      };
     };
-# <<< Home-manager as standalone >>>
+
     homeConfigurations = {
-
-      "dokkodo@desktop" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor systemsMap.desktop;
-        extraSpecialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          ./hosts/desktop/home.nix
-        ];
-      };
-      
-      "dokkodo@nixtop" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor systemsMap.nixtop;
-        extraSpecialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          ./hosts/nixtop/home.nix
-        ];
-      };
-      
-      "dokkodo@rpi4" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor systemsMap.rpi4;
-        extraSpecialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          ./hosts/rpi4/home.nix
-        ];
+      "dokkodo@desktop" = mkHomeConfig {
+        system = systems.desktop;
+        user = "dokkodo";
+        hostPath = ./hosts/desktop/home.nix;
       };
 
-      "dokkodo@defaultHost" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor systemsMap.defaultHost;
-        extraSpecialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          ./hosts/defaultHost/home.nix
-        ];
+      "dokkodo@nixtop" = mkHomeConfig {
+        system = systems.nixtop;
+        user = "dokkodo";
+        hostPath = ./hosts/nixtop/home.nix;
       };
-      # Example for potential future work-mac standalone HM config
-      # "callummcdonald@work-mac" = home-manager.lib.homeManagerConfiguration {
-      #   pkgs = pkgsFor systemsMap.work-mac;
-      #   extraSpecialArgs = { inherit inputs; };
-      #   modules = [ ./hosts/work-mac/home.nix ];
-      # };
 
-    }; 
-# ^^^ Comment out if using hm as module ^^^
+      "dokkodo@rpi4" = mkHomeConfig {
+        system = systems.rpi4;
+        user = "dokkodo";
+        hostPath = ./hosts/rpi4/home.nix;
+      };
+    };
 
-# <<< nix darwin >>>
     darwinConfigurations = {
-
       work-mac = nix-darwin.lib.darwinSystem {
-        system = systemsMap.work-mac;
-        specialArgs = {
-          inherit inputs;
-        };
+        system = systems.work-mac;
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/work-mac/configuration.nix
           home-manager.darwinModules.home-manager
           {
-            #home-manager.useGlobalPkgs = false;
-            #home-manager.useUserPkgs = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users."callummcdonald" = import ./hosts/work-mac/home.nix;
+            nixpkgs.overlays = overlays;
+            nixpkgs.config.allowUnfree = true;
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              modPath = ./modules;
+            };
+            home-manager.users.callummcdonald = import ./hosts/work-mac/home.nix;
           }
         ];
       };
     };
-#         ^^^   WIP   ^^^
 
+    devShells = nixpkgs.lib.genAttrs 
+      (nixpkgs.lib.attrValues systems)
+      (system: 
+        let pkgs = mkPkgs system;
+        in pkgs.mkShell {
+          buildInputs = with pkgs; [
+            nixos-rebuild
+            home-manager
+            git
+          ];
+          shellHook = ''
+            echo "Nix development environment loaded"
+            echo "Available commands: nixos-rebuild, home-manager"
+          '';
+        });
+
+    formatter = nixpkgs.lib.genAttrs 
+      (nixpkgs.lib.attrValues systems)
+      (system: (mkPkgs system).nixpkgs-fmt);
   };
 }
