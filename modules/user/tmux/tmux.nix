@@ -5,8 +5,4 @@
       source-file ${./tmux.conf}
     '';
   };
-
-  home.packages = with pkgs; lib.optionals (config.networking.hostName != "nixtop") [
-    wl-clipboard
-  ];
 }
