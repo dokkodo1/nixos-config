@@ -6,7 +6,12 @@
     ./disk-config.nix
     inputs.disko.nixosModules.disko
     inputs.impermanence.nixosModules.impermanence
-    (modPath + "/system")
+  ] ++ map (file: modPath + "/system/" + file) [
+    "programs/systemPackages.nix"
+    "services/networking.nix"
+    "services/ssh.nix"
+    "settings/nixSettings.nix"
+    "settings/users.nix"
   ];
 
   networking.hostName = "rpi4";
@@ -20,15 +25,26 @@
       generic-extlinux-compatible.enable = true;
     };
     
-    # Enable GPU acceleration
     kernelParams = [
       "8250.nr_uarts=1"
       "console=ttyAMA0,115200"
       "console=tty1"
-      # Reduce GPU memory for headless setup
       "cma=64M"
     ];
+    
+    # Use tmpfs for tmp to reduce SD writes
+    tmp.useTmpfs = true;
   };
+
+  # Disable X11 for headless setup (conflicts with your minimalX.nix)
+  services.xserver.enable = lib.mkForce false;
+  
+  # Override sound config for headless (conflicts with your sound.nix)
+  hardware.pulseaudio.enable = lib.mkForce false;
+  services.pipewire.enable = lib.mkForce false;
+  
+  # Disable bluetooth for headless (conflicts with your bluetooth.nix)  
+  hardware.bluetooth.enable = lib.mkForce false;
 
   environment.persistence."/persist" = {
     hideMounts = true;
@@ -67,9 +83,7 @@
     mkdir -p /persist
   '';
 
-  # ===== Hardware Configuration =====
   hardware = {
-    # Enable GPU
     raspberry-pi."4" = {
       apply-overlays-dtmerge.enable = true;
       dt-overlays = {
@@ -79,18 +93,21 @@
         };
       };
     };
-    #pulseaudio.enable = lib.mkForce false;
     i2c.enable = true;
   };
   
-  #services = {
-  #  xserver.enable = lib.mkForce false;
-  #  timesyncd.enable = true;
-  #};
-
-  services.openssh.settings = {
-    PermitRootLogin = "no";
-    PasswordAuthentication = false;
+  services = {
+    timesyncd.enable = true;
+    openssh.settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+    };
+    
+    # Reduce journal writes to SD card
+    journald.extraConfig = ''
+      Storage=volatile
+      RuntimeMaxUse=64M
+    '';
   };
 
   system.autoUpgrade = {
@@ -99,18 +116,9 @@
     flags = [
       "--update-input"
       "nixpkgs"
-      "-L" # print build logs
+      "-L"
     ];
     dates = "02:00";
     randomizedDelaySec = "45min";
   };
-  
-  # Reduce writes to SD card
-  services.journald.extraConfig = ''
-    Storage=volatile
-    RuntimeMaxUse=64M
-  '';
-
-  # Mount tmpfs for tmp
-  boot.tmp.useTmpfs = true;
-}  
+}

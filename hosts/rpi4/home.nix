@@ -2,7 +2,7 @@
 
 {
   imports = [
-    (modulesPath + "/user")
+    (modPath + "/user")
   ];
 
   home.username = "dokkodo";

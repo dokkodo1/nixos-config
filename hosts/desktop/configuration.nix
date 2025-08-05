@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     (modPath + "/system")
+#    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
   ] ++ map (file: modPath + "/system/" + file) [
     "display/kde.nix"
     "programs/gaming.nix"
@@ -13,7 +14,7 @@
     "settings/keyboardLayout.nix"
     "development/llm.nix"
     "development/tools.nix"
-#    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
+
   ];
 
   networking.hostName = "desktop";
