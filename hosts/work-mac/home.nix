@@ -1,9 +1,12 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, modPath, ... }:
 
 {
   imports = [
-	./../../modules/user/terminal/git.nix
-	./../../modules/darwin/zsh.nix
+	  ./../../modules/user/terminal/zsh.nix
+    ./../../modules/user/terminal/git.nix
+    ./../../modules/user/nvim/nvim.nix
+    ./../../modules/user/vim/vim.nix
+    ./../../modules/user/tmux/tmux.nix
   ];
 
   home.username = "callummcdonald";
@@ -15,10 +18,6 @@
   ];
 
   fonts.fontconfig.enable = true;
-
-  home.file = {
-    ".vimrc".source = ./../../modules/user/vim/vimrc;
-  };
   
   home.sessionVariables = {
 

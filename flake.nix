@@ -16,6 +16,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    
+    impermanence.url = "github:nix-community/impermanence";
+    
+    nixos-anywhere = {
+      url = "github:nix-community/nixos-anywhere";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.disko.follows = "disko";
+    };
+
     nix-gaming.url = "github:fufexan/nix-gaming";
     nix-citizen = {
       url = "github:LovingMelody/nix-citizen";
@@ -32,6 +45,9 @@
     nixos-hardware,
     home-manager,
     nix-darwin,
+    disko,
+    impermanence,
+    nixos-anywhere,
     nix-gaming,
     nix-citizen,
     neovim-nightly-overlay,
@@ -124,6 +140,8 @@
         system = systems.rpi4;
         hostPath = ./hosts/rpi4/configuration.nix;
         extraModules = [
+          inputs.disko.nixosModules.disko
+          inputs.impermanence.nixosModules.impermanence
         ];
       };
     };
@@ -151,7 +169,10 @@
     darwinConfigurations = {
       work-mac = nix-darwin.lib.darwinSystem {
         system = systems.work-mac;
-        specialArgs = { inherit inputs; };
+        specialArgs = {
+          inherit inputs;
+          modPath = ./modules;
+        };
         modules = [
           ./hosts/work-mac/configuration.nix
           home-manager.darwinModules.home-manager

@@ -1,8 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, modPath, ... }:
 
 {
   imports = [
-    ./../../modules/user
+    (modulesPath + "/user")
   ];
 
   home.username = "dokkodo";

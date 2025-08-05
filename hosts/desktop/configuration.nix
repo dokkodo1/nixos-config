@@ -4,14 +4,15 @@
   imports = [
     ./hardware-configuration.nix
     (modPath + "/system")
-    (modPath + "/system/display/kde.nix")
-    (modPath + "/system/programs/gaming.nix")
-    (modPath + "/system/programs/desktopEssentials.nix")
-    (modPath + "/system/programs/audio.nix")
-    (modPath + "/system/settings/hardware.nix")
-    (modPath + "/system/settings/keyboardLayout.nix")
-    (modPath + "/system/development/llm.nix")
-    (modPath + "/system/development/tools.nix")
+  ] ++ map (file: modPath + "/system/" + file) [
+    "display/kde.nix"
+    "programs/gaming.nix"
+    "programs/desktopEssentials.nix"
+    "programs/audio.nix"
+    "settings/hardware.nix"
+    "settings/keyboardLayout.nix"
+    "development/llm.nix"
+    "development/tools.nix"
 #    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
   ];
 

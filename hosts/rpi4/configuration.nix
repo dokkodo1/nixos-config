@@ -1,57 +1,116 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, modPath, ... }:
 
 {
   imports = [
-    ./hardware-configuration.nix
-      #Programs
-    ./../../modules/system/programs/systemPackages.nix
-      #Settings
-    ./../../modules/system/settings/users.nix
-    ./../../modules/system/settings/nixSettings.nix
-      #Services
-    ./../../modules/system/services/networking.nix
-    ./../../modules/system/services/ssh.nix
-    ./../../modules/system/services/sound.nix
-    ./../../modules/system/services/bluetooth.nix
-    
-#    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
+    inputs.nixos-hardware.nixosModules.raspberry-pi-4
+    ./disk-config.nix
+    inputs.disko.nixosModules.disko
+    inputs.impermanence.nixosModules.impermanence
+    (modPath + "/system")
   ];
 
   networking.hostName = "rpi4";
-  system.stateVersion = "24.11"; # DO NOT TOUCH <<<
+  system.stateVersion = "24.11";
 
-
-# <<< Home-manager as module >>>
-
-#  home-manager = {
-#	  extraSpecialArgs = {inherit inputs; };
-#	  users = {
-#	    "dokkodo" = import ./home.nix;
-#	  };
-#    backupFileExtension = "backup";
-#  };
-
-# ^^^ Comment out if using hm standalone ^^^
-
-
-  
-  #boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.loader = {
-    grub.enable = true;
-    grub.device = "/dev/disk/by-id/wwn-0x50014ee6b030602b";
+  boot = {
+    kernelPackages = pkgs.linuxPackages_rpi4;
+    
+    loader = {
+      grub.enable = false;
+      generic-extlinux-compatible.enable = true;
+    };
+    
+    # Enable GPU acceleration
+    kernelParams = [
+      "8250.nr_uarts=1"
+      "console=ttyAMA0,115200"
+      "console=tty1"
+      # Reduce GPU memory for headless setup
+      "cma=64M"
+    ];
   };
 
- security = {
-    polkit = {
-      enable = true;
-      debug = true;
+  environment.persistence."/persist" = {
+    hideMounts = true;
+    directories = [
+      "/var/log"
+      "/var/lib/nixos"
+      "/var/lib/systemd/coredump"
+      "/etc/NetworkManager/system-connections"
+      "/etc/ssh"
+    ];
+    files = [
+      "/etc/machine-id"
+      "/etc/ssh/ssh_host_ed25519_key"
+      "/etc/ssh/ssh_host_ed25519_key.pub"
+      "/etc/ssh/ssh_host_rsa_key"
+      "/etc/ssh/ssh_host_rsa_key.pub"
+    ];
+    users.dokkodo = {
+      directories = [
+        "configurations"
+        "Documents"
+        "Downloads"
+        ".local/share"
+        ".config"
+        ".cache"
+        ".ssh"
+      ];
+      files = [
+        ".zsh_history"
+      ];
     };
   };
 
-  environment.variables = {
-    EDITOR = "vim";
+  # Create persist directory on first boot
+  system.activationScripts.createPersistDir = ''
+    mkdir -p /persist
+  '';
+
+  # ===== Hardware Configuration =====
+  hardware = {
+    # Enable GPU
+    raspberry-pi."4" = {
+      apply-overlays-dtmerge.enable = true;
+      dt-overlays = {
+        disable-wifi = {
+          enable = false;
+          params = {};
+        };
+      };
+    };
+    #pulseaudio.enable = lib.mkForce false;
+    i2c.enable = true;
+  };
+  
+  #services = {
+  #  xserver.enable = lib.mkForce false;
+  #  timesyncd.enable = true;
+  #};
+
+  services.openssh.settings = {
+    PermitRootLogin = "no";
+    PasswordAuthentication = false;
   };
 
+  system.autoUpgrade = {
+    enable = true;
+    flake = inputs.self.outPath;
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L" # print build logs
+    ];
+    dates = "02:00";
+    randomizedDelaySec = "45min";
+  };
+  
+  # Reduce writes to SD card
+  services.journald.extraConfig = ''
+    Storage=volatile
+    RuntimeMaxUse=64M
+  '';
 
-}
-
+  # Mount tmpfs for tmp
+  boot.tmp.useTmpfs = true;
+}  
