@@ -16,6 +16,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -45,6 +50,7 @@
     nixos-hardware,
     home-manager,
     nix-darwin,
+    sops-nix,
     disko,
     impermanence,
     nixos-anywhere,
@@ -77,6 +83,7 @@
     ];
 
     sharedNixOSModules = [
+      sops-nix.nixosModules.sops
       ({ config, pkgs, ... }: {
         nixpkgs.overlays = overlays;
         nixpkgs.config.allowUnfree = true;
@@ -176,6 +183,9 @@
         modules = [
           ./hosts/work-mac/configuration.nix
           home-manager.darwinModules.home-manager
+          # When using nix-darwin save the age key to $HOME/Library/Application Support/sops/age/keys.txt
+          # or set a custom configuration directory (https://github.com/getsops/sops#23encrypting-using-age)
+          sops-nix.darwinModules.sops
           {
             nixpkgs.overlays = overlays;
             nixpkgs.config.allowUnfree = true;

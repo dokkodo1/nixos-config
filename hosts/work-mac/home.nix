@@ -1,12 +1,12 @@
 { config, lib, pkgs, modPath, ... }:
 
 {
-  imports = [
-	  ./../../modules/user/terminal/zsh.nix
-    ./../../modules/user/terminal/git.nix
-    ./../../modules/user/nvim/nvim.nix
-    ./../../modules/user/vim/vim.nix
-    ./../../modules/user/tmux/tmux.nix
+  imports = map (file: modPath + "/user/" + file) [
+	  "terminal/zsh.nix"
+    "terminal/git.nix"
+    "nvim/nvim.nix"
+    "vim/vim.nix"
+    "tmux/tmux.nix"
   ];
 
   home.username = "callummcdonald";
