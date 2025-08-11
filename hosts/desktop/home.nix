@@ -3,9 +3,8 @@
 {
   imports = [
     (modPath + "/user")
-  ] ++ map (file: modPath + "/user/" + file) [
-	  "terminal/kitty.nix"
-    "userPrograms"
+    (modPath + "/user/terminal/kitty.nix")
+    (modPath + "/user/userPrograms")
   ];
 
   home.username = "dokkodo";

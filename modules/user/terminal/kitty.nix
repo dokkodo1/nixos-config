@@ -8,6 +8,9 @@
 			font_size = 12;
 
 			cursor_shape = "underline";
+			cursor_blink_interval = 0;
+			copy_on_select = true;
+			strip_trailing_spaces = "smart";
 
 			enable_audio_bell = false;
 

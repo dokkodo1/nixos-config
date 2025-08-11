@@ -6,12 +6,7 @@
     ./disk-config.nix
     inputs.disko.nixosModules.disko
     inputs.impermanence.nixosModules.impermanence
-  ] ++ map (file: modPath + "/system/" + file) [
-    "programs/systemPackages.nix"
-    "services/networking.nix"
-    "services/ssh.nix"
-    "settings/nixSettings.nix"
-    "settings/users.nix"
+    (modPath + "/system")
   ];
 
   networking.hostName = "rpi4";

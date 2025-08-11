@@ -5,6 +5,20 @@
       enable = true;
     };
   };
+	
+	fonts.packages = with pkgs; [
+		nerd-fonts.jetbrains-mono
+	];
+
+	console = {
+    font = "ter-v22n";
+    colors = [
+      "414868" "f7768e" "73daca" "e0af69" 
+      "7aa2f7" "bb9af7" "7dcfff" "c0caf5"
+      "414868" "f7768e" "73daca" "e0af69"
+      "7aa2f7" "bb9af7" "7dcfff" "c0caf5"
+    ];
+  };
 
   environment.systemPackages = with pkgs; [
     tree

@@ -1,19 +1,15 @@
 { config, lib, pkgs, modPath, ... }:
 
 {
-  imports = map (file: modPath + "/user/" + file) [
-	  "terminal/zsh.nix"
-    "terminal/git.nix"
-    "nvim/nvim.nix"
-    "vim/vim.nix"
-    "tmux/tmux.nix"
+  imports = [
+    (modPath + "/user")
   ];
 
   home.username = "callummcdonald";
   home.homeDirectory = "/Users/callummcdonald";
 
   home.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
+    #nerd-fonts.jetbrains-mono
     yewtube
   ];
 

@@ -74,6 +74,11 @@ map Y y$
 nnoremap <C-L> :nohl<CR><C-L>
 nnoremap <silent> <Esc> :nohlsearch<CR>
 
+" Match tmux prefix key behavior
+nnoremap <C-a> <Nop>
+" Add consistent quit behavior
+nnoremap <leader>q :q<CR>
+
 " Window navigation
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -95,3 +100,20 @@ endif
 if has('termguicolors')
     set termguicolors
 endif
+
+" Tokyo Night color scheme (works in TTY)
+set background=dark
+hi Normal ctermfg=15 ctermbg=0 guifg=#a9b1d6 guibg=#1a1b26
+hi Comment ctermfg=8 guifg=#565f89
+hi Constant ctermfg=1 guifg=#f7768e
+hi String ctermfg=2 guifg=#73daca
+hi Function ctermfg=4 guifg=#7aa2f7
+hi Keyword ctermfg=5 guifg=#bb9af7
+hi Type ctermfg=3 guifg=#e0af69
+hi Special ctermfg=6 guifg=#7dcfff
+hi LineNr ctermfg=8 guifg=#565f89
+hi CursorLineNr ctermfg=3 guifg=#e0af69
+hi Visual ctermbg=8 guibg=#414868
+hi Search ctermbg=3 ctermfg=0 guibg=#e0af69 guifg=#1a1b26
+hi StatusLine ctermfg=15 ctermbg=8 guifg=#a9b1d6 guibg=#414868
+hi StatusLineNC ctermfg=8 ctermbg=0 guifg=#565f89 guibg=#1a1b26
