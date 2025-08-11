@@ -1,4 +1,5 @@
 { pkgs , ... }:
+
 {
 # https://wiki.nixos.org/wiki/Ollama
 environment.systemPackages = [
@@ -6,5 +7,4 @@ environment.systemPackages = [
       acceleration = "rocm";
     })
   ];
-
 }

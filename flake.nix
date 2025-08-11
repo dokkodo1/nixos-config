@@ -65,6 +65,7 @@
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
       nixtop = "x86_64-linux";
+      hpls1 = "x86_64-linux";
       rpi4 = "aarch64-linux";
     };
 
@@ -97,7 +98,7 @@
       })
     ];
 
-    mkNixOSSystem = { system, hostPath, extraModules ? [] }: 
+    mkNixOSSystem = { system, hostPath, extraModules ? [] }:
       nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
@@ -143,6 +144,11 @@
         hostPath = ./hosts/nixtop/configuration.nix;
       };
 
+      hpls1 = mkNixOSSystem {
+        system = systems.hpls1;
+        hostPath = ./hosts/hpls1/configuration.nix;
+      };
+
       rpi4 = mkNixOSSystem {
         system = systems.rpi4;
         hostPath = ./hosts/rpi4/configuration.nix;
@@ -164,6 +170,12 @@
         system = systems.nixtop;
         user = "dokkodo";
         hostPath = ./hosts/nixtop/home.nix;
+      };
+
+      "dokkodo@hpls1" = mkHomeConfig {
+        system = systems.hpls1;
+        user = "dokkodo";
+        hostPath = ./hosts/hpls1/home.nix;
       };
 
       "dokkodo@rpi4" = mkHomeConfig {
