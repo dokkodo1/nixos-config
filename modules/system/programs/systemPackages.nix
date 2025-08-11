@@ -21,9 +21,9 @@
   };
 
   environment.systemPackages = with pkgs; [
-    tree
+    tree bat
     pciutils iw
-    git
+    git gh
     bitwarden-cli
     w3m-nox
     tmux
