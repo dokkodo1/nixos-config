@@ -22,6 +22,7 @@
 
   environment.systemPackages = with pkgs; [
     tree
+    pciutils iw
     git
     bitwarden-cli
     w3m-nox

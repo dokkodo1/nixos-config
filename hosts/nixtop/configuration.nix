@@ -7,13 +7,16 @@
 #    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
   ];
 
+  boot.kernelModules = [ "b43" ];
+
   networking.hostName = "nixtop";
   system.stateVersion = "24.11"; # DO NOT TOUCH <<<
 
-  nixpkgs.config.permittedInsecurePackages = [
-#    "broadcom-sta-6.30.223.271-57-6.12.40"
-  ];
-  hardware.enableRedistributableFirmware = true;
+#  nixpkgs.config.permittedInsecurePackages = [
+#    "broadcom-sta-6.30.223.271-57-6.12.41"
+#  ];
+#  hardware.enableRedistributableFirmware = true;
+  hardware.enableAllFirmware = true;
 
 # <<< Home-manager as module >>>
 
