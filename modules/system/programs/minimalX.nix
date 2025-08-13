@@ -13,7 +13,7 @@
           
     };
 
-    environment.systemPackages = with pkgs; [ firefox i3status xterm ];
+    environment.systemPackages = with pkgs; [ firefox xterm ];
     environment.etc."X11/xresources".text = ''
       ! Tokyo night theme
       xterm*background: #1a1b266
@@ -41,7 +41,7 @@
       xterm*font: -*-fixed-medium-r-*-*-14-*-*-*-*-*-*-*
       xterm*boldFont: -*-fixed-bold-r-*-*-14-*-*-*-*-*-*-*
       xterm*scrollBar: false
-      zterm*rightScrollBar: false
+      xterm*rightScrollBar: false
       xterm*jumpScroll: true
       xterm*multiScroll: true
       xterm*toolBar: false
@@ -65,7 +65,7 @@
     
     bindsym $mod+Return exec xterm -e tmux
     bindsym $mod+d exec firefox
-    bindsym $mod+Shit+q kill
+    bindsym $mod+Shift+q kill
     bindsym $mod+f fullscreen toggle
     bindsym $mod+Shift+c reload
     bindsym $mod+Shift+r restart
