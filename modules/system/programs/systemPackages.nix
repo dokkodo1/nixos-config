@@ -26,11 +26,8 @@
     git gh
     bitwarden-cli
     w3m-nox
-    tmux
-    btop
-    parted
-    rar
-    nh
-    home-manager # <<< remove if using home-manager as module
+    tmux btop
+    parted rar
+    home-manager nh rnix # <<< remove if using home-manager as module
   ];
 }
