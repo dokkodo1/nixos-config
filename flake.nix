@@ -65,8 +65,8 @@
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
       nixtop = "x86_64-linux";
-      hpls1 = "x86_64-linux";
-      rpi4 = "aarch64-linux";
+      #hpls1 = "x86_64-linux";
+#      rpi4 = "aarch64-linux";
     };
 
     overlays = [
@@ -144,19 +144,19 @@
         hostPath = ./hosts/nixtop/configuration.nix;
       };
 
-      hpls1 = mkNixOSSystem {
-        system = systems.hpls1;
-        hostPath = ./hosts/hpls1/configuration.nix;
-      };
+#      hpls1 = mkNixOSSystem {
+#        system = systems.hpls1;
+#        hostPath = ./hosts/hpls1/configuration.nix;
+#      };
 
-      rpi4 = mkNixOSSystem {
-        system = systems.rpi4;
-        hostPath = ./hosts/rpi4/configuration.nix;
-        extraModules = [
-          inputs.disko.nixosModules.disko
-          inputs.impermanence.nixosModules.impermanence
-        ];
-      };
+#      rpi4 = mkNixOSSystem {
+#        system = systems.rpi4;
+#        hostPath = ./hosts/rpi4/configuration.nix;
+#        extraModules = [
+#          inputs.disko.nixosModules.disko
+#          inputs.impermanence.nixosModules.impermanence
+#        ];
+#      };
     };
 
     homeConfigurations = {
@@ -172,17 +172,17 @@
         hostPath = ./hosts/nixtop/home.nix;
       };
 
-      "dokkodo@hpls1" = mkHomeConfig {
-        system = systems.hpls1;
-        user = "dokkodo";
-        hostPath = ./hosts/hpls1/home.nix;
-      };
+#      "dokkodo@hpls1" = mkHomeConfig {
+#        system = systems.hpls1;
+#        user = "dokkodo";
+#        hostPath = ./hosts/hpls1/home.nix;
+#      };
 
-      "dokkodo@rpi4" = mkHomeConfig {
-        system = systems.rpi4;
-        user = "dokkodo";
-        hostPath = ./hosts/rpi4/home.nix;
-      };
+#      "dokkodo@rpi4" = mkHomeConfig {
+#        system = systems.rpi4;
+#        user = "dokkodo";
+#        hostPath = ./hosts/rpi4/home.nix;
+#      };
     };
 
     darwinConfigurations = {

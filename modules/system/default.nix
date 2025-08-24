@@ -1,7 +1,7 @@
 {
   imports = [
     ./programs/systemPackages.nix
-    ./programs/qbt.nix
+#    ./programs/qbt.nix
     ./programs/minimalX.nix
     ./settings/users.nix
     ./settings/nixSettings.nix

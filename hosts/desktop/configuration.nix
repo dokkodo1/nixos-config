@@ -12,6 +12,7 @@
     (modPath + "/system/settings/keyboardLayout.nix")
     (modPath + "/system/development/llm.nix")
     (modPath + "/system/development/tools.nix")
+    (modPath + "/system/development/podman.nix")
   ];
 
   networking.hostName = "desktop";

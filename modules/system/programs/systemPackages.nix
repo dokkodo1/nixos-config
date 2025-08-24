@@ -28,6 +28,6 @@
     w3m-nox
     tmux btop
     parted rar
-    home-manager nh rnix # <<< remove if using home-manager as module
+    home-manager nh #rnix # <<< remove if using home-manager as module
   ];
 }
