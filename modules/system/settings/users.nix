@@ -13,6 +13,9 @@
       "cpu"
     ];
   };
+  # Mandatory
+  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.extraLocaleSettings.LC_ALL = "en_US.UTF-8"; 
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;

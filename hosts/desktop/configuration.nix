@@ -8,7 +8,7 @@
     (modPath + "/system/programs/gaming.nix")
     (modPath + "/system/programs/desktopEssentials.nix")
     (modPath + "/system/programs/audio.nix")
-    (modPath + "/system/settings/hardware.nix")
+    (modPath + "/system/settings/amdgpu.nix")
     (modPath + "/system/settings/keyboardLayout.nix")
     (modPath + "/system/development/llm.nix")
     (modPath + "/system/development/tools.nix")
@@ -37,6 +37,17 @@
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
   };
+
+  #Hard drives
+
+  fileSystems."/mnt/sata1" = {
+    device = "/dev/disk/by-uuid/3a472f59-0607-46f1-9885-4140a3314895";
+    fsType = "ext4";
+    options = [ "noatime" "lazytime" "x-systemd.automount" "nofail" ];
+  };  
+  systemd.tmpfiles.rules = [
+    "d /mnt/sata1 0775 dokkodo users - -"
+  ];
 
  security.polkit = {
     enable = true;

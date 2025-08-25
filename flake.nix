@@ -213,22 +213,6 @@
       };
     };
 
-    devShells = nixpkgs.lib.genAttrs 
-      (nixpkgs.lib.attrValues systems)
-      (system: 
-        let pkgs = mkPkgs system;
-        in pkgs.mkShell {
-          buildInputs = with pkgs; [
-            nixos-rebuild
-            home-manager
-            git
-          ];
-          shellHook = ''
-            echo "Nix development environment loaded"
-            echo "Available commands: nixos-rebuild, home-manager"
-          '';
-        });
-
     formatter = nixpkgs.lib.genAttrs 
       (nixpkgs.lib.attrValues systems)
       (system: (mkPkgs system).nixpkgs-fmt);

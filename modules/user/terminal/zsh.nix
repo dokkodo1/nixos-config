@@ -32,7 +32,7 @@
       }
     ];
 
-    initExtra = ''
+    initContent = ''
       # Only source p10k config if it exists
       [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
       eval "$(direnv hook zsh)"

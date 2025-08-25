@@ -5,7 +5,7 @@
 	  enable = true;
 	  #userName = "Name";
 	  #userEmail = "name@mail.com";
-	  #extraConfig = {
+	  #config = {
 	  #	init.defaultBranch = "main";
 	  #	safe.directory = "/etc/nixos";	
     #};

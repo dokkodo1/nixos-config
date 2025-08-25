@@ -1,20 +1,10 @@
 { config, pkgs, lib, ... }:
 
 {
-  #Hard drives
-
-  fileSystems."/mnt/sata1" = {
-    device = "/dev/disk/by-uuid/3a472f59-0607-46f1-9885-4140a3314895";
-    fsType = "ext4";
-    options = [ "noatime" "lazytime" "x-systemd.automount" "nofail" ];
-  };  
-  systemd.tmpfiles.rules = [
-    "d /mnt/sata1 0775 dokkodo users - -"
-  ];
 
   #Grapics card
-  
   environment.systemPackages = [ pkgs.lact ];
+  environment.variables.AMD_VULKAN_ICD = "RADV"; # forces RADV, defaults to amdvlk if provided in hardware.graphics.extraPackages
   systemd.packages = [ pkgs.lact ];
   systemd.services.lactd.wantedBy = [ "multi-user.target" ];
   hardware.graphics = {
@@ -29,4 +19,5 @@
     extraPackages = [ pkgs.amdvlk ];
     extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
   };
+   # Force radv
 }
