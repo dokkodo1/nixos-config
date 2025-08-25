@@ -1,5 +1,3 @@
-{ config, pkgs, lib, ... }:
-
 {
 
   # Configure keymap in X11

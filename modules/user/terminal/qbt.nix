@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   home.packages = with pkgs; [
     qbittorrent-cli
@@ -16,3 +16,4 @@
     enable = true
     max_active_downloads = 2
   '';
+}

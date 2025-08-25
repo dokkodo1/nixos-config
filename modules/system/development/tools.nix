@@ -1,5 +1,4 @@
-{ config, pkgs, lib, ... }:
-
+{ pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
     sshfs
