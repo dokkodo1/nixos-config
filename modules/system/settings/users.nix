@@ -4,6 +4,7 @@
   users.users.dokkodo = {
     description = "dokkodo";
     isNormalUser = true;
+		shell = pkgs.zsh;
     extraGroups = [
       "wheel"
       "users"
@@ -19,4 +20,13 @@
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
+
+
+	#XDG stuff
+	environment.sessionVariables = rec {
+    XDG_CONFIG_HOME = "$HOME/.config";
+    XDG_CACHE_HOME = "$HOME/.cache";
+    XDG_DATA_HOME = "$HOME/.local/share";
+    XDG_STATE_HOME = "$HOME/.local/state";
+	};
 }
