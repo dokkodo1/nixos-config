@@ -5,8 +5,8 @@
     ./hardware-configuration.nix
     (modPath + "/system")
     (modPath + "/system/display/kde.nix")
-    (modPath + "/system/programs/desktopEssentials.nix")
-    (modPath + "/system/programs/audio.nix")
+    (modPath + "/system/programs/desktopApps.nix")
+    (modPath + "/system/programs/proAudio.nix")
     (modPath + "/system/programs/musnix.nix")
     (modPath + "/system/settings/keyboardLayout.nix")
 #    inputs.home-manager.nixosModules.default <<< Home-manager as a module. Comment out if using standalone
@@ -21,6 +21,12 @@
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
   };
+
+	zramSwap = {
+    enable = true;
+		algorithm = "zstd";
+		memoryPercent = 20;
+	};
 
   security.polkit = {
     enable = true;

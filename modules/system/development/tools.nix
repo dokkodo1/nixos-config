@@ -6,7 +6,6 @@
     #ventoy-full
     syncthing
     appimage-run
-    
   ];
 
     # ventoy bandaid

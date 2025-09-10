@@ -10,6 +10,7 @@
       "users"
       "networkmanager"
       "gamemode"
+			"audio"
       "video"
       "cpu"
     ];
@@ -20,7 +21,6 @@
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
-
 
 	#XDG stuff
 	environment.sessionVariables = rec {

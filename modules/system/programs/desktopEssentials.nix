@@ -4,6 +4,7 @@
 
   environment.systemPackages = with pkgs; [
     vscode
+		bottles
     bitwarden-desktop
     qbittorrent
     dropbox

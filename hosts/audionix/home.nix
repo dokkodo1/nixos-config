@@ -3,6 +3,7 @@
 {
   imports = [
     (modPath + "/user")
+    (modPath + "/user/terminal/kitty.nix")
   ];
 
   home.username = "dokkodo";

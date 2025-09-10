@@ -7,8 +7,7 @@
   	alsa.enable = true;
   	alsa.support32Bit = true;
   	pulse.enable = true;
-  	# If you want to use JACK applications, uncomment this
-  	#jack.enable = true;
+  	jack.enable = true;
   };
 
   services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {

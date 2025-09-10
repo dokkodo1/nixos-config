@@ -24,7 +24,6 @@
     wineWowPackages.waylandFull   # wayland unstable
     wineWowPackages.staging       # experimental
     winetricks
-    bottles
   ];
 
   programs = {
