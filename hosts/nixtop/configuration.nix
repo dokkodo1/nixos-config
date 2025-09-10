@@ -42,9 +42,10 @@
 #    boot.kernelPackages = pkgsKernel161237.linuxPackages_6_12;
 #  }
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader = {
-    grub.enable = true;
-    grub.device = "/dev/disk/by-id/wwn-0x50014ee6b030602b";
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
   };
 
  security = {

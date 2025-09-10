@@ -14,6 +14,12 @@ vim.keymap.set('n', '<leader>o', function()
 end, { desc = 'Reload config from repo' })
 vim.keymap.set('n', '<leader>w', ':write<CR>')
 vim.keymap.set('n', '<leader>q', ':quit<CR>')
+-- buffers
+vim.keymap.set('n', '<leader>n', ':bn<CR>')
+vim.keymap.set('n', '<leader>p', ':bp<CR>')
+vim.keymap.set('n', '<leader>d', ':bd<CR>')
+vim.keymap.set('n', '<leader>ls', ':buffers<CR>')
+
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 
 vim.keymap.set('n', '<leader>f', ":Pick files<CR>")
@@ -36,6 +42,7 @@ vim.pack.add({
   {src = "https://github.com/stevearc/oil.nvim"},
 	{src = "https://github.com/neovim/nvim-lspconfig"},
 	{src = "https://github.com/echasnovski/mini.pick"},
+	{src = "https://github.com/nvim-treesitter/nvim-treesitter"},
 })
 
 require "mini.pick".setup()

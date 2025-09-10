@@ -32,5 +32,8 @@
     steam.gamescopeSession.enable = true;
     gamemode.enable = true;
     gamescope.enable = true;
+		appimage.enable = true;
+		appimage.binfmt = true;
+		appimage.package = pkgs.appimage-run.override { extraPkgs = pkgs: [ ]; };
   };
 }

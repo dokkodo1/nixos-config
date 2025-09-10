@@ -40,6 +40,8 @@
       inputs.nix-gaming.follows = "nix-gaming";
     };
 
+		musnix.url = "github:musnix/musnix";
+
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
@@ -56,6 +58,7 @@
     nixos-anywhere,
     nix-gaming,
     nix-citizen,
+		musnix,
     neovim-nightly-overlay,
     ...
   }@inputs:
@@ -65,6 +68,7 @@
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
       nixtop = "x86_64-linux";
+			audionix = "x86_64-linux";
       #hpls1 = "x86_64-linux";
 #      rpi4 = "aarch64-linux";
     };
@@ -144,6 +148,14 @@
         hostPath = ./hosts/nixtop/configuration.nix;
       };
 
+       audionix = mkNixOSSystem {
+        system = systems.audionix;
+        hostPath = ./hosts/audionix/configuration.nix;
+				extraModules = [
+				  inputs.musnix.nixosModules.musnix
+				];
+      };
+
 #      hpls1 = mkNixOSSystem {
 #        system = systems.hpls1;
 #        hostPath = ./hosts/hpls1/configuration.nix;
@@ -170,6 +182,12 @@
         system = systems.nixtop;
         user = "dokkodo";
         hostPath = ./hosts/nixtop/home.nix;
+      };
+
+      "dokkodo@audionix" = mkHomeConfig {
+        system = systems.audionix;
+        user = "dokkodo";
+        hostPath = ./hosts/audionix/home.nix;
       };
 
 #      "dokkodo@hpls1" = mkHomeConfig {

@@ -37,5 +37,6 @@
     home-manager # <<< remove if using home-manager as module
     nh
 		nixd 
+		gcc
   ];
 }
