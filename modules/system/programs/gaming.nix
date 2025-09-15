@@ -2,13 +2,21 @@
 
 
 {
+  boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;#pkgs.linuxPackages_latest
   boot.kernel.sysctl = {
     "vm.max_map_count" = 16777216;
     "fs.file-max" = 524288;
   };
-
-  nix.settings.substituters = ["https://nix-citizen.cachix.org"];
-  nix.settings.trusted-public-keys = ["nix-citizen.cachix.org-1:lPMkWc2X8XD4/7YPEEwXKKBg+SVbYTVrAaLA2wQTKCo="];
+  nix.settings = {
+    substituters = [
+		  "https://nix-citizen.cachix.org"
+		  "https://drakon64-nixos-cachyos-kernel.cachix.org"
+    ];
+    trusted-public-keys = [
+		  "nix-citizen.cachix.org-1:lPMkWc2X8XD4/7YPEEwXKKBg+SVbYTVrAaLA2wQTKCo="
+		  "drakon64-nixos-cachyos-kernel.cachix.org-1:J3gjZ9N6S05pyLA/P0M5y7jXpSxO/i0rshrieQJi5D0="
+    ];
+  };
   
   environment.systemPackages = with pkgs; [
 	  discord

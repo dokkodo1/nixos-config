@@ -34,6 +34,7 @@
       inputs.disko.follows = "disko";
     };
 
+    nixos-cachyos-kernel.url = "github:drakon64/nixos-cachyos-kernel";
     nix-gaming.url = "github:fufexan/nix-gaming";
     nix-citizen = {
       url = "github:LovingMelody/nix-citizen";
@@ -41,6 +42,10 @@
     };
 
 		musnix.url = "github:musnix/musnix";
+		native-access-nix = {
+			url = "github:yusefnapora/native-access-nix";
+			inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
@@ -56,9 +61,11 @@
     disko,
     impermanence,
     nixos-anywhere,
+		nixos-cachyos-kernel,
     nix-gaming,
     nix-citizen,
 		musnix,
+		native-access-nix,
     neovim-nightly-overlay,
     ...
   }@inputs:
@@ -141,6 +148,9 @@
       desktop = mkNixOSSystem {
         system = systems.desktop;
         hostPath = ./hosts/desktop/configuration.nix;
+				extraModules = [
+				  nixos-cachyos-kernel.nixosModules.default
+				];
       };
 
       nixtop = mkNixOSSystem {

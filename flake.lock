@@ -274,6 +274,26 @@
         "type": "github"
       }
     },
+    "native-access-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1699232275,
+        "narHash": "sha256-zxjAqqPauRPx6blwhhE4eBrITYru32QTKNquRXL5EBs=",
+        "owner": "yusefnapora",
+        "repo": "native-access-nix",
+        "rev": "b93f71b5865ce3fd9e4cd9008c696441f70797ed",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yusefnapora",
+        "repo": "native-access-nix",
+        "type": "github"
+      }
+    },
     "neovim-nightly-overlay": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -445,6 +465,21 @@
       "original": {
         "owner": "nix-community",
         "repo": "nixos-anywhere",
+        "type": "github"
+      }
+    },
+    "nixos-cachyos-kernel": {
+      "locked": {
+        "lastModified": 1743535541,
+        "narHash": "sha256-OlBtXY26w9OcAmpqrTvxaG4/rfDdavauQF2eRxb+ySs=",
+        "owner": "drakon64",
+        "repo": "nixos-cachyos-kernel",
+        "rev": "8516d89c4e0c4a25cea1be8431db3963359ee81b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "drakon64",
+        "repo": "nixos-cachyos-kernel",
         "type": "github"
       }
     },
@@ -622,11 +657,13 @@
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "musnix": "musnix",
+        "native-access-nix": "native-access-nix",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-citizen": "nix-citizen",
         "nix-darwin": "nix-darwin",
         "nix-gaming": "nix-gaming",
         "nixos-anywhere": "nixos-anywhere",
+        "nixos-cachyos-kernel": "nixos-cachyos-kernel",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_5",
         "nixpkgs-stable": "nixpkgs-stable",

@@ -19,7 +19,6 @@
   networking.hostName = "desktop";
   system.stateVersion = "24.11"; # DO NOT TOUCH <<<
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;

@@ -1,8 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
 
   environment.systemPackages = with pkgs; [
+	  inputs.native-access-nix.packages.x86_64-linux.native-access
 	  wineWowPackages.yabridge
 		yabridge
 		yabridgectl
@@ -15,6 +16,7 @@
     musescore
   ];
 
+	services.udisks2.enable = true;
   # https://wiki.nixos.org/wiki/PipeWire#AirPlay/RAOP_configuration
   services.avahi.enable = true;
   services.pipewire = {
