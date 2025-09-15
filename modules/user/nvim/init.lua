@@ -46,17 +46,11 @@ vim.pack.add({
 })
 
 require "mini.pick".setup()
-require "oil".setup()
+require "oil".setup({
+  view_options = {
+    show_hidden = true,
+  }
+})
 
 vim.lsp.enable({"lua_ls", "rust-analyzer", "clangd", "nixd"})
 vim.cmd(":hi statusline guibg=NONE")
--- Tokyo Night colors for Neovim
---   hi Normal guifg=#a9b1d6 guibg=#1a1b26 ctermfg=15 ctermbg=0
---   hi Comment guifg=#565f89 ctermfg=8
---   hi Constant guifg=#f7768e ctermfg=1
---   hi String guifg=#73daca ctermfg=2
---   hi Function guifg=#7aa2f7 ctermfg=4
---   hi Keyword guifg=#bb9af7 ctermfg=5
---   hi Type guifg=#e0af69 ctermfg=3
---   hi Special guifg=#7dcfff ctermfg=6
--- ]])
