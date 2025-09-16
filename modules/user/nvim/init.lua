@@ -14,6 +14,7 @@ vim.keymap.set('n', '<leader>o', function()
 end, { desc = 'Reload config from repo' })
 vim.keymap.set('n', '<leader>w', ':write<CR>')
 vim.keymap.set('n', '<leader>q', ':quit<CR>')
+vim.keymap.set('n', '<leader>i', ':edit ~/configurations/modules/user/nvim/init.lua<CR>')
 -- buffers
 vim.keymap.set('n', '<leader>n', ':bn<CR>')
 vim.keymap.set('n', '<leader>p', ':bp<CR>')

@@ -34,7 +34,7 @@
       inputs.disko.follows = "disko";
     };
 
-    nixos-cachyos-kernel.url = "github:drakon64/nixos-cachyos-kernel";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nix-gaming.url = "github:fufexan/nix-gaming";
     nix-citizen = {
       url = "github:LovingMelody/nix-citizen";
@@ -61,7 +61,7 @@
     disko,
     impermanence,
     nixos-anywhere,
-		nixos-cachyos-kernel,
+		chaotic,
     nix-gaming,
     nix-citizen,
 		musnix,
@@ -149,7 +149,7 @@
         system = systems.desktop;
         hostPath = ./hosts/desktop/configuration.nix;
 				extraModules = [
-				  nixos-cachyos-kernel.nixosModules.default
+				  inputs.chaotic.nixosModules.default
 				];
       };
 
