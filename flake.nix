@@ -22,19 +22,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    
-    impermanence.url = "github:nix-community/impermanence";
-    
-    nixos-anywhere = {
-      url = "github:nix-community/nixos-anywhere";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.disko.follows = "disko";
-    };
-
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nix-gaming.url = "github:fufexan/nix-gaming";
     nix-citizen = {
@@ -59,9 +46,6 @@
     home-manager,
     nix-darwin,
     sops-nix,
-    disko,
-    impermanence,
-    nixos-anywhere,
 		chaotic,
     nix-gaming,
     nix-citizen,
@@ -73,12 +57,8 @@
   let
 
     systems = {
-      desktop = "x86_64-linux";
+      default = "x86_64-linux";
       work-mac = "x86_64-darwin";
-      nixtop = "x86_64-linux";
-			audionix = "x86_64-linux";
-      #hpls1 = "x86_64-linux";
-#      rpi4 = "aarch64-linux";
     };
 
     overlays = [
@@ -96,6 +76,8 @@
     ];
 
     sharedNixOSModules = [
+			inputs.chaotic.nixosModules.default
+			inputs.native-access-nix.nixosModules.default
       sops-nix.nixosModules.sops
       ({ config, pkgs, ... }: {
         nixpkgs.overlays = overlays;
@@ -146,72 +128,19 @@
 
   in {
     nixosConfigurations = {
-      desktop = mkNixOSSystem {
-        system = systems.desktop;
-        hostPath = ./hosts/desktop/configuration.nix;
+      default = mkNixOSSystem {
+        system = systems.default;
+        hostPath = ./hosts/default/configuration.nix;
 				extraModules = [
-				  inputs.chaotic.nixosModules.default
 				];
       };
-
-      nixtop = mkNixOSSystem {
-        system = systems.nixtop;
-        hostPath = ./hosts/nixtop/configuration.nix;
-      };
-
-       audionix = mkNixOSSystem {
-        system = systems.audionix;
-        hostPath = ./hosts/audionix/configuration.nix;
-				extraModules = [
-				  inputs.musnix.nixosModules.musnix
-				];
-      };
-
-#      hpls1 = mkNixOSSystem {
-#        system = systems.hpls1;
-#        hostPath = ./hosts/hpls1/configuration.nix;
-#      };
-
-#      rpi4 = mkNixOSSystem {
-#        system = systems.rpi4;
-#        hostPath = ./hosts/rpi4/configuration.nix;
-#        extraModules = [
-#          inputs.disko.nixosModules.disko
-#          inputs.impermanence.nixosModules.impermanence
-#        ];
-#      };
-    };
 
     homeConfigurations = {
-      "dokkodo@desktop" = mkHomeConfig {
-        system = systems.desktop;
+      "dokkodo@default" = mkHomeConfig {
+        system = systems.default;
         user = "dokkodo";
-        hostPath = ./hosts/desktop/home.nix;
+        hostPath = ./hosts/default/home.nix;
       };
-
-      "dokkodo@nixtop" = mkHomeConfig {
-        system = systems.nixtop;
-        user = "dokkodo";
-        hostPath = ./hosts/nixtop/home.nix;
-      };
-
-      "dokkodo@audionix" = mkHomeConfig {
-        system = systems.audionix;
-        user = "dokkodo";
-        hostPath = ./hosts/audionix/home.nix;
-      };
-
-#      "dokkodo@hpls1" = mkHomeConfig {
-#        system = systems.hpls1;
-#        user = "dokkodo";
-#        hostPath = ./hosts/hpls1/home.nix;
-#      };
-
-#      "dokkodo@rpi4" = mkHomeConfig {
-#        system = systems.rpi4;
-#        user = "dokkodo";
-#        hostPath = ./hosts/rpi4/home.nix;
-#      };
     };
 
     darwinConfigurations = {
@@ -245,5 +174,6 @@
     formatter = nixpkgs.lib.genAttrs 
       (nixpkgs.lib.attrValues systems)
       (system: (mkPkgs system).nixpkgs-fmt);
+    };
   };
 }
