@@ -4,8 +4,8 @@
   imports = [
   ];
 
-	darwin.installApps = true;
-	darwin.fullCopies = true;
+#	darwin.installApps = true;
+#	darwin.fullCopies = true;
   users.users.callummcdonald = {
     home = "/Users/callummcdonald";
   };
@@ -15,6 +15,7 @@
   environment.systemPackages = with pkgs; [
     tree
     git
+		gh
     tmux
     btop
     rar
