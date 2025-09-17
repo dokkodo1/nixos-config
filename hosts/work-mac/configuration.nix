@@ -4,6 +4,8 @@
   imports = [
   ];
 
+	darwin.installApps = true;
+	darwin.fullCopies = true;
   users.users.callummcdonald = {
     home = "/Users/callummcdonald";
   };
@@ -19,6 +21,7 @@
     nh 
     sshfs
     fuse
+		iterm2
   ];
 
   system.stateVersion = 6;
