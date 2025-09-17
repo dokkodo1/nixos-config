@@ -89,6 +89,8 @@
             config.allowUnfree = true;
           };
         };
+        documentation.man.enable = true;
+        documentation.nixos.enable = true;
       })
     ];
 
