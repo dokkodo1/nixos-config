@@ -13,6 +13,7 @@
   environment.systemPackages = with pkgs; [
     tree
     git
+		gh
     tmux
     btop
     rar
