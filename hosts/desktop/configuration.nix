@@ -24,6 +24,9 @@
     efi.canTouchEfiVariables = true;
   };
 
+#  boot.kernelModules = [ "iwlwifi" ];
+	hardware.firmware = [ pkgs.linux-firmware ];
+
   #Hard drives
   fileSystems."/mnt/sata1" = {
     device = "/dev/disk/by-uuid/3a472f59-0607-46f1-9885-4140a3314895";
@@ -34,7 +37,7 @@
     "d /mnt/sata1 0775 dokkodo users - -"
   ];
 
- security.polkit = {
+  security.polkit = {
     enable = true;
     debug = true;
   };
