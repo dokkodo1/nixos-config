@@ -14,6 +14,7 @@
     shellAliases = {
       ll = "ls -l";
       c = "clear";
+			gpull = "cd ~/configurations && git pull && cd ~/proj && git pull";
       nixos = if pkgs.stdenv.isDarwin 
         then "cd /Users/callummcdonald/configurations/"
         else "cd /home/dokkodo/configurations/";
