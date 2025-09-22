@@ -3,6 +3,12 @@
 with lib;
 let
   cfg = config.dokkodo.gaming;
+
+	mkBoolOpt = desc: mkOption {
+    type = types.bool;
+    default = true;
+		description = desc;
+	};
   
   gamingPackages = with pkgs; [
     gamemode
@@ -19,9 +25,7 @@ let
   (optional cfg.dxvk.enable dxvk) ++
   (optional cfg.protonup.enable protonup-qt);
 
-  finalPackages = builtins.filter 
-    (pkg: !(builtins.elem pkg cfg.excludedPackages)) 
-    gamingPackages;
+  finalPackages = lib.subtractLists cfg.excludedPackages gamingPackages; 
 
 in {
   options.dokkodo.gaming = {
@@ -33,103 +37,19 @@ in {
       description = "List of packages to exclude from the default gaming package set";
       example = literalExpression "[ pkgs.discord pkgs.openrgb-with-all-plugins ]";
     };
-
-    discord = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable Discord";
-      };
-    };
-
-    openrgb = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable OpenRGB for RGB lighting control";
-      };
-    };
-
-    heroic = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable Heroic Games Launcher";
-      };
-    };
-
-    mangohud = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable MangoHud for performance overlay";
-      };
-    };
-
-    wine = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable Wine packages";
-      };
-    };
-
-    dxvk = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable DXVK";
-      };
-    };
-
-    protonup = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable ProtonUp-Qt";
-      };
-    };
-
-    steam = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable Steam";
-      };
-      gamescopeSession = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable Steam Gamescope session";
-      };
-    };
-
-    gamescope = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable Gamescope";
-      };
-    };
-
-    gamemode = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable Gamemode";
-      };
-    };
-
-    appimage = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable AppImage support";
-      };
-    };
-
-    starCitizen = {
-      enable = lib.mkEnableOption "Enable Star Citizen, LUG-helper, and Lutris";
-    };
+    discord.enable = mkBoolOpt "Enable Discord";
+    openrgb.enable = mkBoolOpt "Enable OpenRGB for RGB lighting control";
+    heroic.enable = mkBoolOpt "Enable Heroic Games Launcher";
+    mangohud.enable = mkBoolOpt "Enable MangoHud for performance overlay";
+    wine.enable = mkBoolOpt "Enable Wine packages";
+    dxvk.enable = mkBoolOpt "Enable DXVK";
+    protonup.enable = mkBoolOpt "Enable ProtonUp-Qt";
+    steam.enable = mkBoolOpt "Enable Steam";
+    steam.gamescopeSession = mkBoolOpt "Enable Steam Gamescope session";
+    gamescope.enable = mkBoolOpt "Enable Gamescope";
+    gamemode.enable = mkBoolOpt "Enable Gamemode";
+    appimage.enable = mkBoolOpt "Enable AppImage support";
+    starCitizen.enable = lib.mkEnableOption "Enable Star Citizen, LUG-helper, and Lutris";
   };
 
   config = lib.mkMerge [
