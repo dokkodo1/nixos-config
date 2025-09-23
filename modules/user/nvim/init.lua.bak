@@ -79,15 +79,13 @@ vim.keymap.set('n', '<C-j>', '<C-w>j')
 vim.keymap.set('n', '<C-k>', '<C-w>k')
 vim.keymap.set('n', '<C-l>', '<C-w>l')
 
--- Add all plugins via vim.pack - fully portable!
 vim.pack.add({
   {src = "https://github.com/stevearc/oil.nvim"},
-  {src = "https://github.com/neovim/nvim-lspconfig"},
-  {src = "https://github.com/echasnovski/mini.pick"},
-  {src = "https://github.com/nvim-treesitter/nvim-treesitter"},
+	{src = "https://github.com/neovim/nvim-lspconfig"},
+	{src = "https://github.com/echasnovski/mini.pick"},
+	{src = "https://github.com/nvim-treesitter/nvim-treesitter"},
 })
 
--- Setup plugins
 require "mini.pick".setup()
 require "oil".setup({
   view_options = {
@@ -95,106 +93,4 @@ require "oil".setup({
   }
 })
 
--- Configure Treesitter with auto-install for portability
-local treesitter_status, treesitter_configs = pcall(require, 'nvim-treesitter.configs')
-if not treesitter_status then
-  print("Treesitter not found - run ':TSUpdate' manually after first install")
-  return
-end
-
-treesitter_configs.setup {
-  -- Auto-install parsers when entering new filetypes
-  auto_install = true,
-  
-  -- Install these parsers immediately if missing
-  ensure_installed = {
-    "lua", "python", "rust", "c", "cpp", "javascript", "typescript", 
-    "html", "css", "json", "yaml", "bash", "nix", "go", "java"
-  },
-  
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-  
-  indent = {
-    enable = true,
-  },
-  
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "gnn",
-      node_incremental = "grn", 
-      scope_incremental = "grc",
-      node_decremental = "grm",
-    },
-  },
-}
-
--- Configure LSP servers properly
-local lspconfig = require('lspconfig')
-
--- Helper function to check if an LSP server is available
-local function setup_lsp(server_name, config)
-  if vim.fn.executable(server_name) == 1 or vim.fn.executable(server_name:gsub('_', '-')) == 1 then
-    lspconfig[server_name].setup(config or {})
-  else
-    print("LSP server '" .. server_name .. "' not found in PATH")
-  end
-end
-
--- Setup LSP servers (only if available on system)
-setup_lsp('lua_ls', {
-  settings = {
-    Lua = {
-      runtime = { version = 'LuaJIT' },
-      diagnostics = { globals = {'vim'} },
-      workspace = { 
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false,
-      },
-      telemetry = { enable = false },
-    },
-  },
-})
-
-setup_lsp('rust_analyzer', {
-  settings = {
-    ['rust-analyzer'] = {
-      checkOnSave = {
-        command = 'cargo check'
-      }
-    }
-  }
-})
-
-setup_lsp('clangd', {
-  cmd = { "clangd", "--background-index" }
-})
-
-setup_lsp('nixd')
-setup_lsp('pyright') -- Python LSP
-setup_lsp('tsserver') -- TypeScript/JavaScript LSP
-
--- Enable format on save for supported files (only if LSP is attached)
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.lua", "*.rs", "*.c", "*.cpp", "*.h", "*.hpp", "*.nix", "*.py", "*.js", "*.ts" },
-  callback = function()
-    -- Only format if LSP client is attached
-    if #vim.lsp.get_clients({ bufnr = 0 }) > 0 then
-      vim.lsp.buf.format({ timeout_ms = 2000 })
-    end
-  end,
-})
-
--- Command to install missing LSP servers (manual)
-vim.api.nvim_create_user_command("LspInstallHelp", function()
-  print("Install LSP servers manually:")
-  print("Lua: lua-language-server")
-  print("Rust: rustup component add rust-analyzer")
-  print("C/C++: clangd") 
-  print("Nix: nixd")
-  print("Python: pip install pyright")
-  print("JS/TS: npm install -g typescript-language-server")
-end, { desc = "Show LSP installation help" })
+vim.lsp.enable({"lua_ls", "rust-analyzer", "clangd", "nixd"})
