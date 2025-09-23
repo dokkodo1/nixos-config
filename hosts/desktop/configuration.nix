@@ -25,7 +25,7 @@
   };
 
 #  boot.kernelModules = [ "iwlwifi" ];
-	hardware.firmware = [ pkgs.linux-firmware ];
+  hardware.firmware = [ pkgs.linux-firmware ];
 
   #Hard drives
   fileSystems."/mnt/sata1" = {
@@ -50,8 +50,9 @@
   environment.variables = {
     EDITOR = "nvim";
   };
-
+        
   programs.vim.enable = true;
+  programs.nvim.enable = true;
   programs.firefox.enable = true;
 
 # <<< Home-manager as module >>>

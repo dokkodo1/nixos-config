@@ -2,9 +2,19 @@
 {
   programs.neovim = {
     enable = true;
-		plugins = [
-      pkgs.vimPlugins.nvim-treesitter.withAllGrammars
-		];
     extraLuaConfig = builtins.readFile ./init.lua;
   };
+  
+  home.packages = with pkgs; [
+    lua-language-server
+    rust-analyzer
+    llvm
+    clang-tools
+    nixd
+    basedpyright
+    git
+    nodejs
+    tree-sitter  
+    ripgrep
+  ];
 }
