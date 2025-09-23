@@ -1,200 +1,173 @@
-vim.o.number = true
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.o.hlsearch = true
-vim.o.incsearch = true
-vim.o.scrolloff = 3
-vim.o.sidescrolloff = 4
-vim.o.relativenumber = true
-vim.o.signcolumn = "yes"
-vim.o.wrap = false
-vim.o.swapfile = false
-vim.o.winborder = "rounded"
-vim.cmd(":hi statusline guibg=NONE")
+-- General options
+local opt = vim.opt
 
--- Tabs 
-vim.o.expandtab = true
-vim.o.shiftwidth = 4
-vim.o.tabstop = 4
+opt.number = true
+opt.relativenumber = true
+opt.signcolumn = "yes"
 
+opt.ignorecase = true
+opt.smartcase = true
+opt.hlsearch = true
+opt.incsearch = true
+
+opt.scrolloff = 3
+opt.sidescrolloff = 4
+opt.wrap = false
+
+opt.swapfile = false
+opt.winborder = "rounded"
+
+-- Transparent statusline
+vim.api.nvim_set_hl(0, "StatusLine", { bg = "NONE" })
+vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "NONE" })
+
+-- Tabs (global defaults)
+opt.expandtab = true
+opt.shiftwidth = 4
+opt.tabstop = 4
+
+-- Per-language indentation
 local function set_indent(filetypes, size, use_tabs)
   vim.api.nvim_create_autocmd("FileType", {
     pattern = filetypes,
     callback = function()
       vim.opt_local.shiftwidth = size
       vim.opt_local.tabstop = size
-      if use_tabs then
-        vim.opt_local.expandtab = false
-      end
+      vim.opt_local.expandtab = not use_tabs
     end,
   })
 end
-set_indent({ "lua", "javascript", "typescript", "html", "css", "yaml", "json", "nix" }, 2)
+set_indent({ "lua", "javascript", "html", "css", "yaml", "json", "nix" }, 2)
 set_indent({ "python", "c", "cpp", "java", "go", "rust", "sh", "bash", "zsh" }, 4)
 set_indent({ "make" }, 8, true)
 
--- BINDS
+-- Leader
 vim.g.mapleader = " "
-vim.keymap.set('n', '<leader>w', ':write<CR>')
-vim.keymap.set('n', '<leader>q', ':quit<CR>')
-vim.keymap.set('n', '<leader>i', ':edit ~/configurations/modules/user/nvim/init.lua<CR>')
 
-vim.keymap.set('n', '<leader>o', function()
-  vim.cmd('source ~/configurations/modules/user/nvim/init.lua')
-  print('Config reloaded from repo!')
-end, { desc = 'Reload config from repo' })
+-- Keymaps
+local map = vim.keymap.set
 
--- buffers
-vim.keymap.set('n', '<leader>n', ':bn<CR>')
-vim.keymap.set('n', '<leader>p', ':bp<CR>')
-vim.keymap.set('n', '<leader>d', ':bd<CR>')
-vim.keymap.set('n', '<leader>ls', ':buffers<CR>')
+map("n", "<leader>w", vim.cmd.write, { desc = "Save buffer" })
+map("n", "<leader>q", vim.cmd.quit, { desc = "Quit" })
+map("n", "<leader>i", function() vim.cmd.edit("~/configurations/modules/user/nvim/init.lua") end,
+  { desc = "Edit init.lua" })
 
--- LSP
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
-vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = 'Go to declaration' })
-vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'Find references' })
-vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { desc = 'Go to implementation' })
-vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Show hover documentation' })
-vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { desc = 'Show signature help' })
-vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code actions' })
-vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol' })
-vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
+map("n", "<leader>o", function()
+  vim.cmd.source("~/configurations/modules/user/nvim/init.lua")
+  vim.notify("Config reloaded from repo!")
+end, { desc = "Reload config" })
 
--- Diagnostic navigation
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
-vim.keymap.set('n', '<leader>dl', vim.diagnostic.open_float, { desc = 'Show diagnostic details' })
-vim.keymap.set('n', '<leader>dq', vim.diagnostic.setloclist, { desc = 'Diagnostics to location list' })
+-- Buffers
+map("n", "<leader>n", vim.cmd.bnext, { desc = "Next buffer" })
+map("n", "<leader>p", vim.cmd.bprevious, { desc = "Previous buffer" })
+map("n", "<leader>d", vim.cmd.bdelete, { desc = "Delete buffer" })
+map("n", "<leader>ls", vim.cmd.buffers, { desc = "List buffers" })
 
--- pick oil
-vim.keymap.set('n', '<leader>f', ":Pick files<CR>")
-vim.keymap.set('n', '<leader>b', ":Pick buffers<CR>")
-vim.keymap.set('n', '<leader>h', ":Pick help<CR>")
-vim.keymap.set('n', '<leader>e', ":Oil<CR>")
+-- LSP core keymaps
+map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+map("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
+map("n", "gr", vim.lsp.buf.references, { desc = "Find references" })
+map("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
+map("n", "K", vim.lsp.buf.hover, { desc = "Hover docs" })
+map("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature help" })
+map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code actions" })
+map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
+map("n", "<leader>lf", vim.lsp.buf.format, { desc = "Format buffer" })
 
-vim.keymap.set('n', '<Esc>', ':nohlsearch<CR>', { silent = true })
-vim.keymap.set('n', '<C-h>', '<C-w>h')
-vim.keymap.set('n', '<C-j>', '<C-w>j')
-vim.keymap.set('n', '<C-k>', '<C-w>k')
-vim.keymap.set('n', '<C-l>', '<C-w>l')
+-- Diagnostics
+map("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
+map("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+map("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Show diagnostic" })
+map("n", "<leader>dq", vim.diagnostic.setloclist, { desc = "Diagnostics list" })
 
--- Add all plugins via vim.pack - fully portable!
+-- Plugins (mini.pick, oil)
+map("n", "<leader>f", ":Pick files<CR>", { desc = "Pick files" })
+map("n", "<leader>b", ":Pick buffers<CR>", { desc = "Pick buffers" })
+map("n", "<leader>h", ":Pick help<CR>", { desc = "Pick help" })
+map("n", "<leader>e", ":Oil<CR>", { desc = "Open Oil explorer" })
+
+-- Navigation
+map("n", "<Esc>", ":nohlsearch<CR>", { silent = true, desc = "Clear highlights" })
+map("n", "<C-h>", "<C-w>h")
+map("n", "<C-j>", "<C-w>j")
+map("n", "<C-k>", "<C-w>k")
+map("n", "<C-l>", "<C-w>l")
+
+-- Add plugins via vim.pack
+vim.notify("Loading plugins…")
 vim.pack.add({
-  {src = "https://github.com/stevearc/oil.nvim"},
-  {src = "https://github.com/neovim/nvim-lspconfig"},
-  {src = "https://github.com/echasnovski/mini.pick"},
-  {src = "https://github.com/nvim-treesitter/nvim-treesitter"},
+  { src = "https://github.com/stevearc/oil.nvim" },
+  { src = "https://github.com/neovim/nvim-lspconfig" },
+  { src = "https://github.com/echasnovski/mini.pick" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 })
 
--- Setup plugins
-require "mini.pick".setup()
-require "oil".setup({
-  view_options = {
-    show_hidden = true,
-  }
-})
+-- Plugin setup
+local ok, pick = pcall(require, "mini.pick")
+if ok then pick.setup() end
 
--- Configure Treesitter with auto-install for portability
-local treesitter_status, treesitter_configs = pcall(require, 'nvim-treesitter.configs')
-if not treesitter_status then
-  print("Treesitter not found - run ':TSUpdate' manually after first install")
-  return
+ok, oil = pcall(require, "oil")
+if ok then
+  oil.setup({ view_options = { show_hidden = true } })
 end
 
-treesitter_configs.setup {
-  -- Auto-install parsers when entering new filetypes
-  auto_install = true,
-  
-  -- Install these parsers immediately if missing
-  ensure_installed = {
-    "lua", "python", "rust", "c", "cpp", "javascript", "typescript", 
-    "html", "css", "json", "yaml", "bash", "nix", "go", "java"
-  },
-  
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-  
-  indent = {
-    enable = true,
-  },
-  
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "gnn",
-      node_incremental = "grn", 
-      scope_incremental = "grc",
-      node_decremental = "grm",
+-- Treesitter
+opt.runtimepath:prepend(vim.fn.stdpath("data") .. "/treesitter")
+
+local ts_ok, ts = pcall(require, "nvim-treesitter.configs")
+if ts_ok then
+  ts.setup {
+    parser_install_dir = vim.fn.stdpath("data") .. "/treesitter",
+    sync_install = false,
+    auto_install = false, -- safer in offline environments
+    ensure_installed = {
+      "lua", "python", "rust", "c", "cpp", "javascript",
+      "html", "css", "json", "yaml", "bash", "nix", "go", "java"
     },
-  },
-}
-
--- Configure LSP servers properly
-local lspconfig = require('lspconfig')
-
--- Helper function to check if an LSP server is available
-local function setup_lsp(server_name, config)
-  if vim.fn.executable(server_name) == 1 or vim.fn.executable(server_name:gsub('_', '-')) == 1 then
-    lspconfig[server_name].setup(config or {})
-  else
-    print("LSP server '" .. server_name .. "' not found in PATH")
-  end
-end
-
--- Setup LSP servers (only if available on system)
-setup_lsp('lua_ls', {
-  settings = {
-    Lua = {
-      runtime = { version = 'LuaJIT' },
-      diagnostics = { globals = {'vim'} },
-      workspace = { 
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false,
+    highlight = { enable = true },
+    indent = { enable = true },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "gnn",
+        node_incremental = "grn",
+        scope_incremental = "grc",
+        node_decremental = "grm",
       },
-      telemetry = { enable = false },
     },
-  },
-})
-
-setup_lsp('rust_analyzer', {
-  settings = {
-    ['rust-analyzer'] = {
-      checkOnSave = {
-        command = 'cargo check'
-      }
-    }
   }
-})
+end
 
-setup_lsp('clangd', {
-  cmd = { "clangd", "--background-index" }
-})
+-- Treesitter helper commands
+vim.api.nvim_create_user_command("TSClean", function()
+  local parser_dir = vim.fn.stdpath("data") .. "/treesitter"
+  vim.fn.delete(parser_dir, "rf")
+  vim.notify("Cleaned Treesitter parsers. Run :TSInstall to reinstall.")
+end, { desc = "Clean treesitter parsers" })
 
-setup_lsp('nixd')
-setup_lsp('pyright') -- Python LSP
-setup_lsp('tsserver') -- TypeScript/JavaScript LSP
-
--- Enable format on save for supported files (only if LSP is attached)
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.lua", "*.rs", "*.c", "*.cpp", "*.h", "*.hpp", "*.nix", "*.py", "*.js", "*.ts" },
-  callback = function()
-    -- Only format if LSP client is attached
-    if #vim.lsp.get_clients({ bufnr = 0 }) > 0 then
-      vim.lsp.buf.format({ timeout_ms = 2000 })
+-- LSP setup
+local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
+if lspconfig_ok then
+  local function setup_lsp(server_name, executable, config)
+    if vim.fn.executable(executable) == 1 then
+      lspconfig[server_name].setup(config or {})
+      vim.notify("✓ LSP server loaded: " .. server_name)
     end
-  end,
-})
+  end
 
--- Command to install missing LSP servers (manual)
-vim.api.nvim_create_user_command("LspInstallHelp", function()
-  print("Install LSP servers manually:")
-  print("Lua: lua-language-server")
-  print("Rust: rustup component add rust-analyzer")
-  print("C/C++: clangd") 
-  print("Nix: nixd")
-  print("Python: pip install pyright")
-  print("JS/TS: npm install -g typescript-language-server")
-end, { desc = "Show LSP installation help" })
+  setup_lsp("lua_ls", "lua-language-server", {
+    settings = {
+      Lua = {
+        runtime = { version = "LuaJIT" },
+        diagnostics = { globals = { "vim" } },
+        workspace = { checkThirdParty = false },
+        telemetry = { enable = false },
+      },
+    },
+  })
+
+  setup_lsp("rust_analyzer", "rust-analyzer", {})
+  setup_lsp("clangd", "clangd", { cmd = { "clangd", "--background-index" } })
+  setup_lsp("nixd", "nixd")
+  setup_lsp("basedpyright", "basedpyright")
+end
