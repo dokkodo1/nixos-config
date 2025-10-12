@@ -16,8 +16,8 @@
     enable32Bit = true;
 
     # AMDVLK  
-    extraPackages = [ pkgs.amdvlk ];
-    extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
+    #    extraPackages = [ pkgs.amdvlk ];
+    #    extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
   };
    # Force radv
 }

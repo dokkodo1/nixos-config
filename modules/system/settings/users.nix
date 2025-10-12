@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, username, config, ... }:
 
 {
-  users.users.dokkodo = {
-    description = "dokkodo";
+  users.users.${username} = {
+    description = "${username}";
     isNormalUser = true;
 		shell = pkgs.zsh;
     extraGroups = [
@@ -10,7 +10,7 @@
       "users"
       "networkmanager"
       "gamemode"
-			"audio"
+      "audio"
       "video"
       "cpu"
     ];
@@ -23,7 +23,7 @@
   users.defaultUserShell = pkgs.zsh;
 
 	#XDG stuff
-	environment.sessionVariables = rec {
+	environment.sessionVariables = {
     XDG_CONFIG_HOME = "$HOME/.config";
     XDG_CACHE_HOME = "$HOME/.cache";
     XDG_DATA_HOME = "$HOME/.local/share";

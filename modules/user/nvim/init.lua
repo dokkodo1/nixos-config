@@ -17,6 +17,12 @@ opt.wrap = false
 opt.swapfile = false
 opt.winborder = "rounded"
 
+vim.api.nvim_create_autocmd('UIEnter', {
+  callback = function()
+    vim.o.clipboard = 'unnamedplus'
+  end,
+})
+
 -- Transparent statusline
 vim.api.nvim_set_hl(0, "StatusLine", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "NONE" })

@@ -43,4 +43,7 @@
 		appimage.binfmt = true;
 		appimage.package = pkgs.appimage-run.override { extraPkgs = pkgs: [ ]; };
   };
+
+  services.ratbagd.enable = true; # for gaming mice https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/services/hardware/ratbagd.nix
+
 }

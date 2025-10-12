@@ -12,6 +12,7 @@
     history.size = 1000;
 
     shellAliases = {
+      btw = "echo i user nix, btw";
       ll = "ls -l";
       c = "clear";
 			gpull = "cd ~/configurations && git pull && cd ~/proj && git pull";

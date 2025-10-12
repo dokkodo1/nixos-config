@@ -5,6 +5,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -55,6 +59,7 @@
     nixpkgs,
     nixpkgs-stable,
     nixos-hardware,
+    nur,
     home-manager,
     nix-darwin,
     sops-nix,
@@ -71,13 +76,14 @@
   }@inputs:
   let
 
+    username = "dokkodo";
+
     systems = {
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
       nixtop = "x86_64-linux";
 			audionix = "x86_64-linux";
-      #hpls1 = "x86_64-linux";
-#      rpi4 = "aarch64-linux";
+      gaming = "x86_64-linux";
     };
 
     overlays = [
@@ -96,6 +102,7 @@
 
     sharedNixOSModules = [
       sops-nix.nixosModules.sops
+      nur.modules.nixos.default
       ({ config, pkgs, ... }: {
         nixpkgs.overlays = overlays;
         nixpkgs.config.allowUnfree = true;
@@ -115,7 +122,7 @@
       nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs;
+          inherit inputs username;
           modPath = ./modules;
         };
         modules = sharedNixOSModules ++ [ hostPath ] ++ extraModules;
@@ -168,51 +175,38 @@
 				];
       };
 
-#      hpls1 = mkNixOSSystem {
-#        system = systems.hpls1;
-#        hostPath = ./hosts/hpls1/configuration.nix;
-#      };
+      gaming = mkNixOSSystem {
+        system = systems.gaming;
+        hostPath = ./hosts/gaming/configuration.nix;
+				extraModules = [
+				  inputs.chaotic.nixosModules.default
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.users.${username} = import ./hosts/gaming/home.nix;
+          }
+				];
+      };
 
-#      rpi4 = mkNixOSSystem {
-#        system = systems.rpi4;
-#        hostPath = ./hosts/rpi4/configuration.nix;
-#        extraModules = [
-#          inputs.disko.nixosModules.disko
-#          inputs.impermanence.nixosModules.impermanence
-#        ];
-#      };
     };
 
     homeConfigurations = {
-      "dokkodo@desktop" = mkHomeConfig {
+      "${username}@desktop" = mkHomeConfig {
         system = systems.desktop;
-        user = "dokkodo";
+        user = username;
         hostPath = ./hosts/desktop/home.nix;
       };
 
-      "dokkodo@nixtop" = mkHomeConfig {
+      "${username}@nixtop" = mkHomeConfig {
         system = systems.nixtop;
         user = "dokkodo";
         hostPath = ./hosts/nixtop/home.nix;
       };
 
-      "dokkodo@audionix" = mkHomeConfig {
+      "${username}@audionix" = mkHomeConfig {
         system = systems.audionix;
         user = "dokkodo";
         hostPath = ./hosts/audionix/home.nix;
       };
-
-#      "dokkodo@hpls1" = mkHomeConfig {
-#        system = systems.hpls1;
-#        user = "dokkodo";
-#        hostPath = ./hosts/hpls1/home.nix;
-#      };
-
-#      "dokkodo@rpi4" = mkHomeConfig {
-#        system = systems.rpi4;
-#        user = "dokkodo";
-#        hostPath = ./hosts/rpi4/home.nix;
-#      };
     };
 
     darwinConfigurations = {
