@@ -165,6 +165,12 @@
       nixtop = mkNixOSSystem {
         system = systems.nixtop;
         hostPath = ./hosts/nixtop/configuration.nix;
+				extraModules = [
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.users.${username} = import ./hosts/nixtop/home.nix;
+          }
+				];
       };
 
        audionix = mkNixOSSystem {
@@ -194,12 +200,6 @@
         system = systems.desktop;
         user = username;
         hostPath = ./hosts/desktop/home.nix;
-      };
-
-      "${username}@nixtop" = mkHomeConfig {
-        system = systems.nixtop;
-        user = "dokkodo";
-        hostPath = ./hosts/nixtop/home.nix;
       };
 
       "${username}@audionix" = mkHomeConfig {

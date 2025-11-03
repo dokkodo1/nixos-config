@@ -1,4 +1,4 @@
-{ pkgs, username, config, ... }:
+{ pkgs, username, ... }:
 
 {
   users.users.${username} = {
@@ -12,6 +12,7 @@
       "gamemode"
       "audio"
       "video"
+      "input"
       "cpu"
     ];
   };

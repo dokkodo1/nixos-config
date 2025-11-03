@@ -1,4 +1,4 @@
-{ username, config, lib, pkgs, ... }:
+{ username, ... }:
 
 {
   imports = [

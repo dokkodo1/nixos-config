@@ -1,17 +1,12 @@
-{ modPath, ... }:
+{ username, ... }:
 
 {
   imports = [
-    (modPath + "/user")
+    ../../modules/user
   ];
 
-  home.username = "dokkodo";
-  home.homeDirectory = "/home/dokkodo";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
   
-  home.sessionVariables = {
-
-  };
-
-  programs.home-manager.enable = true;
   home.stateVersion = "24.11";
 }
