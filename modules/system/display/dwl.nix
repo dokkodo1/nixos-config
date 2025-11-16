@@ -8,12 +8,13 @@
     options = "";
   };
   services.libinput.enable = true;
-  services.xwayland.enable = true;
+  programs.xwayland.enable = true;
   environment.systemPackages = with pkgs; [
     foot
     dwl
     bemenu
     waybar
+    wl-clipboard
   ];
   programs.dwl = {
     enable = true;

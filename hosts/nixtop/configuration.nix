@@ -43,9 +43,7 @@
 
   environment.systemPackages = with pkgs; [
     dwarf-fortress-packages.dwarf-fortress-full
-    qutebrowser
     discord
-    discordo
     bitwarden
     mesa
     glxinfo

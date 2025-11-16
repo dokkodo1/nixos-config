@@ -1,0 +1,15 @@
+HISTSIZE=1000
+SAVEHIST=1000
+HISTFILE=~/.zsh_history
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt SHARE_HISTORY
+
+setopt AUTO_CD
+setopt CORRECT
+setopt MENU_COMPLETE
+
+alias ll="ls -l"
+alias c="clear"
+alias gpull="cd ~/configurations && git pull && cd ~/learning && git pull"
+alias yo="echo wassup"

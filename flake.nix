@@ -90,7 +90,7 @@
       inputs.neovim-nightly-overlay.overlays.default
       # Custom packages overlay
       (final: prev: {
-        doxpkgs = prev.callPackage ./pkgs { }; # can be called through pkgs.dokpkgs.testScript
+        doxpkgs = prev.callPackage ./pkgs { }; # can be called through pkgs.doxpkgs.testScript
         
         # Example custom package - add your own derivations here
         # my-custom-tool = final.callPackage ./pkgs/my-custom-tool { };
@@ -173,7 +173,7 @@
 				];
       };
 
-       audionix = mkNixOSSystem {
+      audionix = mkNixOSSystem {
         system = systems.audionix;
         hostPath = ./hosts/audionix/configuration.nix;
 				extraModules = [

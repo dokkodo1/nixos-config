@@ -44,6 +44,22 @@
       # Only source p10k config if it exists
       [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
       eval "$(direnv hook zsh)"
+
+      launch() {
+          "$@" &disown
+          exit
+      }
+
+      reload_zsh() {
+      local repo_zshrc=$HOME/configurations/modules/user/terminal/zshrc
+      if [[ -f "$repo_zshrc" ]]; then
+          source "repo_zshrc"
+          echo "zshrc loaded from repo!"
+      else
+          echo "Error: zshrc not found at $repo_zshrc"
+      fi
+      }
+      alias zreload="reload_zsh"
     '';
   };
 }

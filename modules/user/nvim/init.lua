@@ -43,7 +43,7 @@ local function set_indent(filetypes, size, use_tabs)
     end,
   })
 end
-set_indent({ "lua", "javascript", "html", "css", "yaml", "json", "nix" }, 2)
+set_indent({ "lua", "javascript", "html", "css", "yaml", "json", "nix", "haskell" }, 2)
 set_indent({ "python", "c", "cpp", "java", "go", "rust", "sh", "bash", "zsh" }, 4)
 set_indent({ "make" }, 8, true)
 
@@ -68,6 +68,12 @@ map("n", "<leader>n", vim.cmd.bnext, { desc = "Next buffer" })
 map("n", "<leader>p", vim.cmd.bprevious, { desc = "Previous buffer" })
 map("n", "<leader>d", vim.cmd.bdelete, { desc = "Delete buffer" })
 map("n", "<leader>ls", vim.cmd.buffers, { desc = "List buffers" })
+
+-- Tabs
+map("n", "<leader>tn", vim.cmd.tabnext, { desc = "Next tab" })
+map("n", "<leader>tp", vim.cmd.tabprevious, { desc = "Previous tab" })
+map("n", "<leader>tc", vim.cmd.tabnew, { desc = "New tab" })
+map("n", "<leader>td", vim.cmd.tabclose, { desc = "Delete tab" })
 
 -- LSP core keymaps
 map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })

@@ -3,6 +3,7 @@
 {
   imports = [
     ../../modules/user
+    ../../modules/user/programs/qutebrowser
   ];
 
   home.username = username;
