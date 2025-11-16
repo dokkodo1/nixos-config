@@ -63,7 +63,7 @@
 					contentPath = "absolute/path/to/NI/content";
 					tempPath = "absolute/path/to/NI/temp";
 				};
-        
+      };
 		};
   };
 
