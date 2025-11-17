@@ -76,7 +76,7 @@
   }@inputs:
   let
 
-    username = "dokkodo";
+    username = "dokkodo"; # change me
 
     systems = {
       desktop = "x86_64-linux";

@@ -3,11 +3,11 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./control.nix
     (modPath + "/system")
     (modPath + "/system/display/kde.nix")
     (modPath + "/system/programs/gaming.nix")
     (modPath + "/system/programs/desktopApps.nix")
-    (modPath + "/system/settings/amdgpu.nix") # or /nvidiagpu.nix
     (modPath + "/system/services/flatpak.nix")
     (modPath + "/system/settings/keyboardLayout.nix")
   ];
@@ -27,13 +27,21 @@
     debug = true;
   };
 
+  users.users.${username}.extraGroups = [
+    "gamemode"
+    "audio"
+    "video"
+    "input"
+    "cpu"
+  ];
+
   services.xserver = {
     enable = true;
     videoDrivers = [ "modesetting" ];
   };
 
   environment.variables = {
-    EDITOR = "nvim";
+    EDITOR = "kate";
   };
         
   programs.neovim.enable = true;

@@ -3,6 +3,7 @@
     ./programs/systemPackages.nix
     ./programs/minimalX.nix
     ./settings/users.nix
+    ./settings/gpu.nix
     ./settings/nixSettings.nix
     ./services/networking.nix
     ./services/ssh.nix

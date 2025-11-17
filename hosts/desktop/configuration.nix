@@ -1,4 +1,4 @@
-{ pkgs, modPath, ... }:
+{ pkgs, modPath, username, ... }:
 
 {
   imports = [
@@ -24,7 +24,6 @@
     efi.canTouchEfiVariables = true;
   };
 
-#  boot.kernelModules = [ "iwlwifi" ];
   hardware.firmware = [ pkgs.linux-firmware ];
 
   #Hard drives
@@ -42,6 +41,14 @@
     debug = true;
   };
 
+  users.users.${username}.extraGroups = [
+    "gamemode"
+    "audio"
+    "video"
+    "input"
+    "cpu"
+  ];
+
   services.xserver = {
     enable = true;
     videoDrivers = [ "modesetting" ];
@@ -51,7 +58,6 @@
     EDITOR = "nvim";
   };
         
-  programs.vim.enable = true;
   programs.neovim.enable = true;
   programs.firefox.enable = true;
 
