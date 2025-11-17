@@ -14,7 +14,7 @@
       "Preferences\\WebUI\\CSRFProtection" = true;      
       "Preferences\\WebUI\\HostHeaderValidation" = true;
 
-      "Preferences\\Downloads\\SavePath" = "/srv/torrents/completed/"
+      "Preferences\\Downloads\\SavePath" = "/srv/torrents/completed/";
       "Preferences\\Downloads\\TempPathEnabled" = true;
       "Preferences\\Downloads\\TempPath" = "/srv/torrents/incomplete/";
 
@@ -24,7 +24,7 @@
       "Preferences\\Downloads\\RunExternalProgramEnabled" = false;
 
       "Preferences\\WubUI\\Username" = "admin";
-      "Preferences\\WebUI\\Password_PBKDF2 = "fRUvEZMeV";
+      "Preferences\\WebUI\\Password_PBKDF2" = "fRUvEZMeV";
       };
     };
   systemd.tmpfiles.rules = [

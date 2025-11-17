@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     (modPath + "/system")
+    (modPath + "/system/display/dwl.nix")
   ];
 
 

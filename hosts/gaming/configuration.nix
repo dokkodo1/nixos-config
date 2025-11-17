@@ -7,7 +7,7 @@
     (modPath + "/system/display/kde.nix")
     (modPath + "/system/programs/gaming.nix")
     (modPath + "/system/programs/desktopApps.nix")
-    (modPath + "/system/settings/amdgpu.nix")
+    (modPath + "/system/settings/amdgpu.nix") # or /nvidiagpu.nix
     (modPath + "/system/services/flatpak.nix")
     (modPath + "/system/settings/keyboardLayout.nix")
   ];
@@ -20,7 +20,6 @@
     efi.canTouchEfiVariables = true;
   };
 
-#  boot.kernelModules = [ "iwlwifi" ];
   hardware.firmware = [ pkgs.linux-firmware ];
 
   security.polkit = {
@@ -37,7 +36,6 @@
     EDITOR = "nvim";
   };
         
-  programs.vim.enable = true;
   programs.neovim.enable = true;
   programs.firefox.enable = true;
 
