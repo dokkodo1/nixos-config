@@ -1,6 +1,8 @@
 -- General options
 local opt = vim.opt
 
+opt.guifont = "JetBrainsMono Nerd Font:h12"
+vim.cmd('colorscheme retrobox')
 opt.number = true
 opt.relativenumber = true
 opt.signcolumn = "yes"
@@ -112,6 +114,10 @@ vim.pack.add({
   { src = "https://github.com/neovim/nvim-lspconfig" },
   { src = "https://github.com/echasnovski/mini.pick" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+  { src = "https://github.com/nvim-lualine/lualine.nvim" },
+  { src = "https://github.com/folke/tokyonight.nvim" },
+  { src = "https://github.com/catppuccin/nvim" },
+  { src = "https://github.com/morhetz/gruvbox" },
 })
 
 -- Plugin setup
@@ -183,3 +189,11 @@ if lspconfig_ok then
   setup_lsp("nixd", "nixd")
   setup_lsp("basedpyright", "basedpyright")
 end
+require('lualine').setup {
+  options = {
+    icons_enabled = false,  -- No icons at all
+    theme = 'auto',
+    component_separators = '',
+    section_separators = '',
+  },
+}

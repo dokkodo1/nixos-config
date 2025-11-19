@@ -48,6 +48,7 @@
     bitwarden
     mesa
     glxinfo
+    mpv
   ];
 
   hardware.graphics = {
