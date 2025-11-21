@@ -76,7 +76,7 @@
   }@inputs:
   let
 
-    hostname = "hostTest"; # change me
+    hostname = "default"; # change me
     username = "dokkodo"; # change me
 
     systems = {
@@ -123,7 +123,7 @@
       nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs username hostname;
+          inherit inputs username;
           modPath = ./modules;
         };
         modules = sharedNixOSModules ++ [ hostPath ] ++ extraModules;
@@ -160,7 +160,6 @@
         hostPath = ./hosts/desktop/configuration.nix;
 				extraModules = [
 				  inputs.chaotic.nixosModules.default
-          inputs.musnix.nixosModules.musnix
 				];
       };
 
@@ -175,15 +174,22 @@
 				];
       };
 
+      audionix = mkNixOSSystem {
+        system = systems.audionix;
+        hostPath = ./hosts/audionix/configuration.nix;
+				extraModules = [
+				  inputs.musnix.nixosModules.musnix
+				];
+      };
+
       ${hostname} = mkNixOSSystem {
         system = systems.${hostname};
         hostPath = ./hosts/${hostname}/configuration.nix;
 				extraModules = [
 				  inputs.chaotic.nixosModules.default
-          inputs.musnix.nixosModules.musnix
           home-manager.nixosModules.home-manager
           {
-            home-manager.users.${username} = import ./hosts/${hostname}/home.nix;
+            home-manager.users.${username} = import ./hosts/default/home.nix;
           }
 				];
       };
@@ -195,6 +201,12 @@
         system = systems.desktop;
         user = username;
         hostPath = ./hosts/desktop/home.nix;
+      };
+
+      "${username}@audionix" = mkHomeConfig {
+        system = systems.audionix;
+        user = "dokkodo";
+        hostPath = ./hosts/audionix/home.nix;
       };
     };
 

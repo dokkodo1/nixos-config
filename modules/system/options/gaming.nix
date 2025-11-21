@@ -9,7 +9,7 @@ in {
     
     launchers = {
       heroic.enable = mkEnableOption "Enable Heroic Games Launcher" // { default = true; };
-      lutris.enable = mkEnableOption "Enable Lutris" // { default = false; };
+      lutris.enable = mkEnableOption "Enable Lutris";
     };
     
     extras = {

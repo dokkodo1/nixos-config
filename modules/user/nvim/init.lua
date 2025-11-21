@@ -115,18 +115,27 @@ vim.pack.add({
   { src = "https://github.com/echasnovski/mini.pick" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
+  { src = "https://github.com/nvimdev/indentmini.nvim" },
   { src = "https://github.com/folke/tokyonight.nvim" },
   { src = "https://github.com/catppuccin/nvim" },
   { src = "https://github.com/morhetz/gruvbox" },
 })
 
 -- Plugin setup
-local ok, pick = pcall(require, "mini.pick")
-if ok then pick.setup() end
+local pick_ok, pick = pcall(require, "mini.pick")
+if pick_ok then pick.setup() end
 
-ok, oil = pcall(require, "oil")
-if ok then
+local oil_ok, oil = pcall(require, "oil")
+if oil_ok then
   oil.setup({ view_options = { show_hidden = true } })
+end
+
+local indentmini_ok, indentmini = pcall(require, "indentmini")
+if indentmini_ok then indentmini.setup{
+  exclude = { "markdown"  },
+  only_current = 1,
+  min_level = 4
+  }
 end
 
 -- Treesitter

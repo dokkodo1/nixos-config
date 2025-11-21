@@ -39,7 +39,7 @@ in {
     };
     
     lookingGlass = {
-      enable = mkEnableOption "Enable Looking Glass for seamless VM display" // { default = false; };
+      enable = mkEnableOption "Enable Looking Glass for seamless VM display";
       
       sharedMemorySize = mkOption {
         type = types.int;
