@@ -16,6 +16,7 @@
     w3m-nox
     tmux
     yazi
+    fastfetch
 		btop
     parted
 		rar

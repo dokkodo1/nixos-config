@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, username, ... }:
 
 with lib;
 let
@@ -22,6 +22,16 @@ in {
   };
 
   config = mkIf cfg.enable {
+
+    users.users.${username} = {
+      extraGroups = [
+        "gamemode"
+        "audio"
+        "video"
+        "cpu"
+      ];
+    };
+
     environment.systemPackages = with pkgs; [
       # Performance and compatibility layers
       gamemode

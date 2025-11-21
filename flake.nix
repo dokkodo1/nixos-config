@@ -76,6 +76,7 @@
   }@inputs:
   let
 
+    hostname = "default"; # change me
     username = "dokkodo"; # change me
 
     systems = {
@@ -83,7 +84,7 @@
       work-mac = "x86_64-darwin";
       nixtop = "x86_64-linux";
 			audionix = "x86_64-linux";
-      gaming = "x86_64-linux";
+      ${hostname} = "x86_64-linux";
     };
 
     overlays = [
@@ -181,14 +182,14 @@
 				];
       };
 
-      gaming = mkNixOSSystem {
-        system = systems.gaming;
-        hostPath = ./hosts/gaming/configuration.nix;
+      ${hostname} = mkNixOSSystem {
+        system = systems.${hostname};
+        hostPath = ./hosts/${hostname}/configuration.nix;
 				extraModules = [
 				  inputs.chaotic.nixosModules.default
           home-manager.nixosModules.home-manager
           {
-            home-manager.users.${username} = import ./hosts/gaming/home.nix;
+            home-manager.users.${username} = import ./hosts/default/home.nix;
           }
 				];
       };

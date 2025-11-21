@@ -4,7 +4,6 @@
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
 
-  users.defaultUserShell = pkgs.zsh;
   programs.zsh = {
     enable = true;
     enableCompletion = true;

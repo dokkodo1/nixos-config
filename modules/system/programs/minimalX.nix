@@ -12,7 +12,7 @@
           
     };
 
-    environment.systemPackages = with pkgs; [ firefox xterm ];
+    environment.systemPackages = with pkgs; [ xterm ];
     environment.etc."X11/xresources".text = ''
       ! Tokyo night theme
       xterm*background: #1a1b266

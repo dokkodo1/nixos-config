@@ -24,7 +24,7 @@
     grub.efiSupport = false;
   };
 
- security = {
+  security = {
     polkit = {
       enable = true;
       debug = true;
