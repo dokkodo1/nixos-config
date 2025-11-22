@@ -30,6 +30,7 @@ in {
     })
 
     (mkIf (cfg.kde.enable) {
+      users.users.${username}.extraGroups = [ "input" "video" ];
       services.displayManager.sddm.enable = true;
       services.displayManager.sddm.wayland.enable = true;
       services.desktopManager.plasma6.enable = true;
@@ -38,6 +39,7 @@ in {
     })
 
     (mkIf (cfg.i3wm.enable) {
+      users.users.${username}.extraGroups = [ "input" "video" ];
       services.xserver = {
         enable = true;
         displayManager.startx.enable = true;

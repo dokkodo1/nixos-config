@@ -168,6 +168,7 @@
         system = systems.nixtop;
         hostPath = ./hosts/nixtop/configuration.nix;
 				extraModules = [
+          inputs.musnix.nixosModules.musnix
           home-manager.nixosModules.home-manager
           {
             home-manager.users.${username} = import ./hosts/nixtop/home.nix;

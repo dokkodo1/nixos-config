@@ -91,12 +91,25 @@
   networking.hostName = hostname; # if you change this, make the same change in flake.nix
   system.stateVersion = "24.11"; # ESPECIALLY DO NOT TOUCH <<<
 
-  # if you're going to change out your bootloader, i heard it's safer to `rebuild boot` rather than `rebuild switch` but i've never had a problem with switching
+  # # if you're going to change out your bootloader, i heard it's safer to `rebuild boot` rather than `rebuild switch` but i've never had a problem with switching
+  # boot.loader = {
+  #   systemd-boot.enable = true;
+  #   efi.canTouchEfiVariables = true;
+  # };
+
   boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+    grub.enable = true;
+    grub.device = "/dev/sda";
+    grub.configurationLimit = 6;
+    grub.efiSupport = false;
   };
 
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="input", ATTR{name}=="AT Translated Set 2 keyboard", ATTR{power/control}="on"
+    '';
+
+  hardware.enableAllFirmware = true;
+  boot.kernelModules = [ "b43" ];
   hardware.firmware = [ pkgs.linux-firmware ];
 
   security.polkit = {
