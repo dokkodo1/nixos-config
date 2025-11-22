@@ -6,6 +6,7 @@ let
 in {
   options.control.audio = {
     enable = mkEnableOption "Enable pipewire with pulse and jack support and sets 48khz/1024 buffer" // { default = true; };
+    pavucontrol.enable = mkEnableOption "Enables pavucontrol, a GTK based GUI for controlling audio IO, requires display server";
     proAudio = {
       enable = mkEnableOption "Downloads and configures relevant packages for low latency audio recording with REAPER, Wine, and yabridge";
       reaper.enable = mkEnableOption "Enables REAPER with sws-extensions and reapack package manager";
@@ -44,6 +45,8 @@ in {
         };
       };
 
+    })
+    (mkIf (cfg.enable && cfg.pavucontrol.enable) {
       environment.systemPackages = [
         pkgs.pavucontrol
       ];

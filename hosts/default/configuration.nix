@@ -24,6 +24,11 @@
   
   control = {
 
+    audio = {
+      enable = true; # disabling this is not recommended, but for servers
+      pavucontrol.enable = false; # enable to... control pipewire audio with GUI, requires display server
+    };
+
     gpuVendor = null; # example: "amd" or "nvidia"
 
     display = {
@@ -74,6 +79,16 @@
       hugepages = { 
         enable = false; # gib VM RAM
         size = 16384; # Amount of memory in MB to allocate to hugepages (set based on VM RAM needs)
+      };
+    };
+
+    audio = {
+      proAudio = {
+        enable = false;
+        reaper.enable = false;
+        ardour.enable = false;
+        nativeAccess.enable = false;
+        musescore.enable = false;
       };
     };
   };

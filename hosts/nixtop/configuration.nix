@@ -1,11 +1,13 @@
-{ pkgs, modPath, inputs, username, ... }:
+{ pkgs, modPath, inputs, username, hostname, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
     (modPath + "/system")
-    (modPath + "/system/display/dwl.nix")
   ];
+
+  control.display.dwl.enable = true;
+  control.audio.enable = true;
 
 
   networking.hostName = "nixtop";
@@ -38,7 +40,6 @@
   programs.neovim.enable = true;
 
   environment.systemPackages = with pkgs; [
-    dwarf-fortress-packages.dwarf-fortress-full
     discord
     bitwarden
     mesa
@@ -62,7 +63,7 @@
   };
 
   home-manager = {
-	  extraSpecialArgs = { inherit inputs username; };
+	  extraSpecialArgs = { inherit inputs username hostname; };
     backupFileExtension = "backup";
     useGlobalPkgs = true;
   };

@@ -7,7 +7,6 @@
     ./settings/nixSettings.nix
     ./services/networking.nix
     ./services/ssh.nix
-    ./services/sound.nix
     ./services/bluetooth.nix
   ];
 }

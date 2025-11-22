@@ -3,7 +3,7 @@
 {
   imports = [
     ../../modules/user
-    ../../modules/user/terminal/kitty.nix
+    #../../modules/user/terminal/kitty.nix
     ../../modules/user/userPrograms
   ];
   home.username = username;
