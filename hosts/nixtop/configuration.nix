@@ -6,7 +6,9 @@
     (modPath + "/system")
   ];
 
+  control.display.kde.enable = false;
   control.display.dwl.enable = true;
+  control.display.i3wm.enable = true;
   control.audio.enable = true;
 
 

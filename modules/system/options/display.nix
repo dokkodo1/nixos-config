@@ -6,7 +6,7 @@ let
 in {
   options.control.display = {
     dwl.enable = lib.mkEnableOption "Enable dwl, the wayland implementation of dwl";
-    i3wm.enable = lib.mkEnableOption "Enable i3wm, a minimal x11 window manager";
+    i3wm.enable = lib.mkEnableOption "Enable i3wm, a minimal x11 window manager" // { default = true; };
     kde.enable = lib.mkEnableOption "Enable wayland kde, the desktop environment";
   };
   config = mkMerge [

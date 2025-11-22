@@ -32,9 +32,10 @@
     gpuVendor = null; # example: "amd" or "nvidia"
 
     display = {
-      kde.enable = false; # desktop environment similar to windows with wayland
+      kde.enable = false; # desktop environment similar to windows with wayland, my recommendation for a DE
       dwl.enable = false; # minimal and performant window manager with wayland
-      i3wm.enable = false; # minimal and performant window manager with x11
+      # keep i3wm enabled until I fix this fucking problem with font rendering!
+      i3wm.enable = true; # minimal and performant window manager with x11
     };
 
     gaming = {
@@ -103,7 +104,7 @@
   */
 
 
-  networking.hostName = "nixos"; # if you change this, make the same change in flake.nix
+  networking.hostName = "default"; # if you change this, make the same change in flake.nix
   system.stateVersion = "24.11"; # ESPECIALLY DO NOT TOUCH <<<
 
   # if you're going to change out your bootloader, i heard it's safer to `rebuild boot` rather than `rebuild switch` but i've never had a problem with switching

@@ -1,4 +1,4 @@
-{ pkgs, modPath, username, ... }:
+{ pkgs, modPath, inputs, username, hostname, ... }:
 
 {
   imports = [
@@ -7,16 +7,11 @@
     (modPath + "/system/display/kde.nix")
     (modPath + "/system/programs/gaming.nix")
     (modPath + "/system/programs/desktopApps.nix")
-    (modPath + "/system/programs/proAudio.nix")
     (modPath + "/system/settings/amdgpu.nix")
-    (modPath + "/system/services/flatpak.nix")
     (modPath + "/system/settings/keyboardLayout.nix")
-    (modPath + "/system/development/llm.nix")
-    (modPath + "/system/development/tools.nix")
-    (modPath + "/system/development/podman.nix")
   ];
 
-  networking.hostName = "desktop";
+  networking.hostName = "${hostname}";
   system.stateVersion = "24.11"; # DO NOT TOUCH <<<
 
   boot.loader = {
@@ -62,13 +57,13 @@
   programs.firefox.enable = true;
 
 # <<< Home-manager as module >>>
-#  home-manager = {
-#	  extraSpecialArgs = {inherit inputs; };
-#	  users = {
-#	    "dokkodo" = import ./home.nix;
-#	  };
-#    backupFileExtension = "backup";
-#  };
+  home-manager = {
+	  extraSpecialArgs = {inherit inputs username hostname; };
+	  users = {
+	    "${username}" = import ./home.nix;
+	  };
+    backupFileExtension = "backup";
+  };
 # ^^^ Comment out if using hm standalone ^^^
 
 }

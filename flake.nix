@@ -82,7 +82,6 @@
     systems = {
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
-        #nixtop = "x86_64-linux";
 			audionix = "x86_64-linux";
       ${hostname} = "x86_64-linux";
     };
@@ -163,18 +162,6 @@
           inputs.musnix.nixosModules.musnix
 				];
       };
-
-        #      nixtop = mkNixOSSystem {
-        #        system = systems.nixtop;
-        #        hostPath = ./hosts/nixtop/configuration.nix;
-        #				extraModules = [
-        #          inputs.musnix.nixosModules.musnix
-        #          home-manager.nixosModules.home-manager
-        #          {
-        #            home-manager.users.${username} = import ./hosts/nixtop/home.nix;
-        #          }
-        #				];
-        #      };
 
       ${hostname} = mkNixOSSystem {
         system = systems.${hostname};
