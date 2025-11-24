@@ -4,7 +4,7 @@
   users.users.${username} = {
     description = "${username}";
     isNormalUser = true;
-		shell = pkgs.zsh;
+ 		shell = pkgs.zsh;
     extraGroups = [
       "wheel"
       "users"

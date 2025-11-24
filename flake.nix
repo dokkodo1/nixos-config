@@ -146,7 +146,7 @@
       home-manager.lib.homeManagerConfiguration {
         pkgs = mkPkgs system;
         extraSpecialArgs = {
-          inherit inputs;
+          inherit inputs username hostname;
           modPath = ./modules;
         };
         modules = [ hostPath ];

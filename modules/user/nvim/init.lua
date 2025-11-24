@@ -1,8 +1,8 @@
 -- General options
 local opt = vim.opt
 
-opt.guifont = "JetBrainsMono Nerd Font:h12"
-vim.cmd('colorscheme retrobox')
+--opt.guifont = "JetBrainsMono Nerd Font:h12"
+--vim.cmd('colorscheme murphy')
 opt.number = true
 opt.relativenumber = true
 opt.signcolumn = "yes"
@@ -59,7 +59,6 @@ map("n", "<leader>w", vim.cmd.write, { desc = "Save buffer" })
 map("n", "<leader>q", vim.cmd.quit, { desc = "Quit" })
 map("n", "<leader>i", function() vim.cmd.edit("~/configurations/modules/user/nvim/init.lua") end,
   { desc = "Edit init.lua" })
-
 map("n", "<leader>o", function()
   vim.cmd.source("~/configurations/modules/user/nvim/init.lua")
   vim.notify("Config reloaded from repo!")
@@ -76,6 +75,7 @@ map("n", "<leader>tn", vim.cmd.tabnext, { desc = "Next tab" })
 map("n", "<leader>tp", vim.cmd.tabprevious, { desc = "Previous tab" })
 map("n", "<leader>tc", vim.cmd.tabnew, { desc = "New tab" })
 map("n", "<leader>td", vim.cmd.tabclose, { desc = "Delete tab" })
+map("n", "<leader>tls", vim.cmd.tabs, { desc = "List tabs" })
 
 -- LSP core keymaps
 map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
@@ -84,9 +84,11 @@ map("n", "gr", vim.lsp.buf.references, { desc = "Find references" })
 map("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
 map("n", "K", vim.lsp.buf.hover, { desc = "Hover docs" })
 map("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature help" })
-map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code actions" })
 map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
 map("n", "<leader>lf", vim.lsp.buf.format, { desc = "Format buffer" })
+map('n', '<leader>ca', function()
+  vim.lsp.buf.code_action()
+end, { desc = 'Code action' })
 
 -- Diagnostics
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
@@ -94,8 +96,15 @@ map("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
 map("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Show diagnostic" })
 map("n", "<leader>dq", vim.diagnostic.setloclist, { desc = "Diagnostics list" })
 
+-- Quickfix
+map("n", "[q", '<cmd>cnext<CR>', { desc = "Prev qf item" })
+map("n", "]q", '<cmd>cprev<CR>', { desc = "Next qf item" })
+map("n", "<leader>co", '<cmd>copen<CR>', { desc = "Open qflist" })
+map("n", "<leader>cc", '<cmd>cclose<CR>', { desc = "Close qflist" })
+
 -- Plugins (mini.pick, oil)
 map("n", "<leader>f", ":Pick files<CR>", { desc = "Pick files" })
+map("n", "<leader>g", ":Pick grep_live<CR>", { desc = "grep current directory" })
 map("n", "<leader>b", ":Pick buffers<CR>", { desc = "Pick buffers" })
 map("n", "<leader>h", ":Pick help<CR>", { desc = "Pick help" })
 map("n", "<leader>e", ":Oil<CR>", { desc = "Open Oil explorer" })

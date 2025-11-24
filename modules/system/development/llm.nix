@@ -1,10 +1,10 @@
-{ pkgs , ... }:
+{ lib , ... }:
 
 {
-# https://wiki.nixos.org/wiki/Ollama
-environment.systemPackages = [
-   (pkgs.ollama.override { 
-      acceleration = "rocm"; # or "cuda" for nvidia
-    })
-  ];
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda"; # or "rocm"
+  };
+  # won't start service automatically, so start with `sudo systemctl start ollama` then `ollama run llama3.2` or whatever, stop it with `sudo systemctl stop ollama`
+  systemd.services.wantedBy = lib.mkForce [ ];
 }

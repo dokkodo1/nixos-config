@@ -10,6 +10,7 @@
   control.display.dwl.enable = true;
   control.display.i3wm.enable = true;
   control.audio.enable = true;
+  control.audio.pavucontrol.enable = true;
 
 
   networking.hostName = "nixtop";

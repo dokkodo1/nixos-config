@@ -44,9 +44,9 @@
         modesetting.enable = true;
         powerManagement.enable = false;
         powerManagement.finegrained = false;
-        open = true;
+        open = false;
         nvidiaSettings = true;
-        package = config.boot.kernelPackages.nvidiaPackages.stable; # can replace stable with either beta, latest, or production. Worth imo
+        package = config.boot.kernelPackages.nvidiaPackages.production; # can replace stable with either beta, latest, or production. Worth imo
       };
     
       environment.systemPackages = with pkgs; [

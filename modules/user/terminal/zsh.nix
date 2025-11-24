@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 {
   programs.direnv.enable = true;
@@ -17,7 +17,7 @@
 			gpull = "cd ~/configurations && git pull && cd ~/proj && git pull";
       nixos = if pkgs.stdenv.isDarwin 
         then "cd /Users/callummcdonald/configurations/"
-        else "cd /home/dokkodo/configurations/";
+        else "cd /home/${username}/configurations/";
     };
 
     oh-my-zsh = {
