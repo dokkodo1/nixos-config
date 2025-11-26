@@ -2,11 +2,11 @@
   imports = [
     ./options
     ./programs/systemPackages.nix
-    ./settings/users.nix
+    ./settings/bluetooth.nix
     ./settings/keyboardLayout.nix
+    ./settings/networking.nix
+    ./settings/users.nix
     ./settings/nixSettings.nix
-    ./services/networking.nix
-    ./services/ssh.nix
-    ./services/bluetooth.nix
+    ./settings/ssh.nix
   ];
 }

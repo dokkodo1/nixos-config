@@ -1,8 +1,13 @@
 -- General options
 local opt = vim.opt
 
---opt.guifont = "JetBrainsMono Nerd Font:h12"
---vim.cmd('colorscheme murphy')
+opt.guifont = "JetBrainsMono Nerd Font:h12"
+vim.cmd('colorscheme habamax')
+vim.cmd([[
+  highlight Comment ctermfg=gray guifg=#565f89
+  highlight LineNr ctermfg=white guifg=#565f89
+  highlight CursorLineNr ctermfg=yellow guifg=#e0af69 cterm=bold
+]])
 opt.number = true
 opt.relativenumber = true
 opt.signcolumn = "yes"
@@ -76,6 +81,10 @@ map("n", "<leader>tp", vim.cmd.tabprevious, { desc = "Previous tab" })
 map("n", "<leader>tc", vim.cmd.tabnew, { desc = "New tab" })
 map("n", "<leader>td", vim.cmd.tabclose, { desc = "Delete tab" })
 map("n", "<leader>tls", vim.cmd.tabs, { desc = "List tabs" })
+
+-- Splits
+map("n", "<leader>sv", vim.cmd.vsplit, { desc = "Vertical split" })
+map("n", "<leader>sh", vim.cmd.split, { desc = "Horizontal split" })
 
 -- LSP core keymaps
 map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })

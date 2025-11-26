@@ -6,7 +6,7 @@ let
 in {
   options.control.display = {
     dwl.enable = lib.mkEnableOption "Enable dwl, the wayland implementation of dwl";
-    i3wm.enable = lib.mkEnableOption "Enable i3wm, a minimal x11 window manager" // { default = true; };
+    i3wm.enable = lib.mkEnableOption "Enable i3wm, a minimal x11 window manager";
     kde.enable = lib.mkEnableOption "Enable wayland kde, the desktop environment";
   };
   config = mkMerge [
@@ -53,28 +53,6 @@ in {
   
       environment.systemPackages = with pkgs; [ xterm ];
       environment.etc."X11/xresources".text = ''
-        ! Tokyo night theme
-        xterm*background: #1a1b266
-        xterm*foreground: #a9b1d6
-        xterm*cursorColor: #a9b1d6
-  
-        xterm*color0: #414868
-        xterm*color1: #f7768e
-        xterm*color2: #73daca
-        xterm*color3: #e0af69
-        xterm*color4: #7aa2f7
-        xterm*color5: #bb9af7
-        xterm*color6: #7dcfff
-        xterm*color7: #c0caf8
-        xterm*color8: #414868
-        xterm*color9: #f7768e
-        xterm*color10: #73daca
-        xterm*color11: #e0af69
-        xterm*color12: #7aa2f7
-        xterm*color13: #bb9af7
-        xterm*color14: #7dcfff
-        xterm*color15: #c0caf5
-  
         xterm*faceName: monospace:size=12
         xterm*font: -*-fixed-medium-r-*-*-14-*-*-*-*-*-*-*
         xterm*boldFont: -*-fixed-bold-r-*-*-14-*-*-*-*-*-*-*
