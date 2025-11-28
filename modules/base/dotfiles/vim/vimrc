@@ -90,7 +90,7 @@ nnoremap <leader>w :w<CR>
 nnoremap <leader>n :set number!<CR>:set relativenumber!<CR>
 
 " LIVE RELOAD from repo
-nnoremap <leader>o :source ~/configurations/modules/user/vim/vimrc<CR>:echo "Vimrc reloaded from repo!"<CR>
+nnoremap <leader>o :source ~/configurations/modules/base/dotfiles/vim/vimrc<CR>:echo "Vimrc reloaded from repo!"<CR>
 
 "------------------------------------------------------------
 " Terminal/Tmux Support

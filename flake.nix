@@ -101,8 +101,16 @@
     ];
 
     sharedNixOSModules = [
-      sops-nix.nixosModules.sops
-      nur.modules.nixos.default
+			inputs.chaotic.nixosModules.default
+      inputs.musnix.nixosModules.musnix
+      inputs.home-manager.nixosModules.home-manager
+      {
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        home-manager.backupFileExtension = "backup";
+      }
+      inputs.sops-nix.nixosModules.sops
+      inputs.nur.modules.nixos.default
       ({ config, pkgs, ... }: {
         nixpkgs.overlays = overlays;
         nixpkgs.config.allowUnfree = true;
@@ -142,47 +150,13 @@
       };
     };
 
-    mkHomeConfig = { system, user, hostPath }:
-      home-manager.lib.homeManagerConfiguration {
-        pkgs = mkPkgs system;
-        extraSpecialArgs = {
-          inherit inputs username hostname;
-          modPath = ./modules;
-        };
-        modules = [ hostPath ];
-      };
-
   in {
     nixosConfigurations = {
-      desktop = mkNixOSSystem {
-        system = systems.desktop;
-        hostPath = ./hosts/desktop/configuration.nix;
-				extraModules = [
-				  inputs.chaotic.nixosModules.default
-          inputs.musnix.nixosModules.musnix
-				];
-      };
-
       ${hostname} = mkNixOSSystem {
         system = systems.${hostname};
         hostPath = ./hosts/${hostname}/configuration.nix;
 				extraModules = [
-				  inputs.chaotic.nixosModules.default
-          inputs.musnix.nixosModules.musnix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.users.${username} = import ./hosts/${hostname}/home.nix;
-          }
 				];
-      };
-
-    };
-
-    homeConfigurations = {
-      "${username}@desktop" = mkHomeConfig {
-        system = systems.desktop;
-        user = username;
-        hostPath = ./hosts/desktop/home.nix;
       };
     };
 
@@ -195,10 +169,10 @@
         };
         modules = [
           ./hosts/work-mac/configuration.nix
-          home-manager.darwinModules.home-manager
+          inputs.home-manager.darwinModules.home-manager
           # When using nix-darwin save the age key to $HOME/Library/Application Support/sops/age/keys.txt
           # or set a custom configuration directory (https://github.com/getsops/sops#23encrypting-using-age)
-          sops-nix.darwinModules.sops
+          inputs.sops-nix.darwinModules.sops
           {
             nixpkgs.overlays = overlays;
             nixpkgs.config.allowUnfree = true;

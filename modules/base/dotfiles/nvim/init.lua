@@ -4,9 +4,9 @@ local opt = vim.opt
 opt.guifont = "JetBrainsMono Nerd Font:h12"
 vim.cmd('colorscheme habamax')
 vim.cmd([[
-  highlight Comment ctermfg=gray guifg=#565f89
-  highlight LineNr ctermfg=white guifg=#565f89
-  highlight CursorLineNr ctermfg=yellow guifg=#e0af69 cterm=bold
+  highlight Comment ctermfg=14 guifg=#565f89
+  highlight LineNr ctermfg=7 guifg=#565f89
+  highlight CursorLineNr ctermfg=11 cterm=bold guifg=#e0af69
 ]])
 opt.number = true
 opt.relativenumber = true
@@ -62,10 +62,10 @@ local map = vim.keymap.set
 
 map("n", "<leader>w", vim.cmd.write, { desc = "Save buffer" })
 map("n", "<leader>q", vim.cmd.quit, { desc = "Quit" })
-map("n", "<leader>i", function() vim.cmd.edit("~/configurations/modules/user/nvim/init.lua") end,
+map("n", "<leader>i", function() vim.cmd.edit("~/configurations/modules/base/dotfiles/nvim/init.lua") end,
   { desc = "Edit init.lua" })
 map("n", "<leader>o", function()
-  vim.cmd.source("~/configurations/modules/user/nvim/init.lua")
+  vim.cmd.source("~/configurations/modules/base/dotfiles/nvim/init.lua")
   vim.notify("Config reloaded from repo!")
 end, { desc = "Reload config" })
 

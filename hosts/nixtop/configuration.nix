@@ -1,9 +1,9 @@
-{ pkgs, modPath, inputs, username, hostname, ... }:
+{ pkgs, modPath, hostname, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
-    (modPath + "/system")
+    modPath
   ];
 
   control.display.dwl.enable = true;
@@ -62,11 +62,4 @@
       libva
     ];
   };
-
-  home-manager = {
-	  extraSpecialArgs = { inherit inputs username hostname; };
-    backupFileExtension = "backup";
-    useGlobalPkgs = true;
-  };
 }
-

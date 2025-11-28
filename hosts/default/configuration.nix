@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    (modPath + "/system")
+    modPath
   ];
 
 
@@ -34,8 +34,7 @@
     display = {
       kde.enable = false; # desktop environment similar to windows with wayland, my recommendation for a DE
       dwl.enable = false; # minimal and performant window manager with wayland
-      # keep i3wm enabled until I fix this fucking problem with font rendering!
-      i3wm.enable = true; # minimal and performant window manager with x11
+      i3wm.enable = false; # minimal and performant window manager with x11
     };
 
     gaming = {
@@ -104,8 +103,11 @@
   */
 
 
-  networking.hostName = "default"; # if you change this, make the same change in flake.nix
-  system.stateVersion = "24.11"; # ESPECIALLY DO NOT TOUCH <<<
+  networking.hostName = "${hostname}"; # if you change this, make the same change in flake.nix
+  environment.variables = {
+    EDITOR = "nvim"; # or nvim, vim, vscode, whatever
+  };
+  system.stateVersion = "24.11"; # ESPECIALLY NO TOUCHY <<<
 
   # if you're going to change out your bootloader, i heard it's safer to `rebuild boot` rather than `rebuild switch` but i've never had a problem with switching
   boot.loader = {
@@ -113,7 +115,7 @@
     efi.canTouchEfiVariables = true;
   };
 
-  hardware.firmware = [ pkgs.linux-firmware ];
+  hardware.firmware = [ pkgs.linux-firmware ]; # because why not
 
   security.polkit = {
     enable = true;
@@ -131,18 +133,8 @@
     enable = true;
     videoDrivers = [ "modesetting" ];
   };
-
-  environment.variables = {
-    EDITOR = "kate";
-  };
         
   programs.neovim.enable = true;
   programs.firefox.enable = true;
-
-  home-manager = {
-	  extraSpecialArgs = { inherit inputs username; };
-    backupFileExtension = "backup";
-    useGlobalPkgs = true;
-  };
 }
 
