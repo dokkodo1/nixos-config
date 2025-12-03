@@ -22,7 +22,7 @@ in {
       services.libinput.enable = true;
       programs.xwayland.enable = true;
       environment.systemPackages = with pkgs; [
-        foot dwl bemenu waybar wl-clipboard
+        foot dwl wmenu waybar wl-clipboard
       ];
       programs.dwl = {
         enable = true;

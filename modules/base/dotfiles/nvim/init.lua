@@ -2,11 +2,11 @@
 local opt = vim.opt
 
 opt.guifont = "JetBrainsMono Nerd Font:h12"
-vim.cmd('colorscheme habamax')
+vim.cmd('colorscheme default')
 vim.cmd([[
-  highlight Comment ctermfg=14 guifg=#565f89
-  highlight LineNr ctermfg=7 guifg=#565f89
-  highlight CursorLineNr ctermfg=11 cterm=bold guifg=#e0af69
+  highlight LineNr ctermfg=white ctermbg=black
+  highlight CursorLineNr ctermfg=yellow ctermbg=black cterm=bold
+  highlight Comment ctermfg=yellow cterm=bold
 ]])
 opt.number = true
 opt.relativenumber = true

@@ -41,6 +41,7 @@
   programs.neovim.enable = true;
 
   environment.systemPackages = with pkgs; [
+    ungoogled-chromium
     discord
     bitwarden
     mesa
