@@ -21,8 +21,8 @@
         # https://nixos.org/manual/nixos/unstable/index.html#sec-gpu-accel-vulkan
 
         # openGL / Mesa
-        enable = true;
-        enable32Bit = true;
+        enable = lib.mkDefault true;
+        enable32Bit = lib.mkDefault true;
 
         # AMDVLK  
         #    extraPackages = [ pkgs.amdvlk ];
@@ -36,12 +36,12 @@
 
       services.xserver.videoDrivers = [ "nvidia" ];
       hardware.graphics = {
-        enable = true;
-        enable32Bit = true;
+        enable = lib.mkDefault true;
+        enable32Bit = lib.mkDefault true;
       };
       
       hardware.nvidia = {
-        modesetting.enable = true;
+        modesetting.enable = lib.mkDefault true;
         powerManagement.enable = false;
         powerManagement.finegrained = false;
         open = false;

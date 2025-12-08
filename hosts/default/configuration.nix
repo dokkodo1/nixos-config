@@ -1,4 +1,4 @@
-{ pkgs, modPath, inputs, hostname, username, ... }:
+{ pkgs, modPath, username, ... }:
 
 {
   imports = [
@@ -6,30 +6,23 @@
     modPath
   ];
 
-
-
   # uncomment these two options if you want to use cachyos kernel
   # if commented, you'll be on the default for nixpkgs
   #boot.kernelPackages = pkgs.linuxPackages_cachyos;
   #services.scx.enable = true;
-
-   
-
+  
   /*
-
             this is where my opinionated options are. i'll grow this out once i've written a few more modules
                               hooray more abstraction hooray
-
   */
   
   control = {
-
     audio = {
       enable = true; # disabling this is not recommended, but for servers
       pavucontrol.enable = false; # enable to... control pipewire audio with GUI, requires display server
     };
 
-    gpuVendor = null; # example: "amd" or "nvidia"
+    gpuVendor = null; # example: "amd" or "nvidia", intel not implemented
 
     display = {
       kde.enable = false; # desktop environment similar to windows with wayland, my recommendation for a DE
@@ -73,7 +66,7 @@
       lookingGlass = { 
         enable = false; # view VM on same output as linux, no 2nd monitor, very nice
         sharedMemorySize = 128; # Shared memory size in MB for Looking Glass (should match VM resolution)
-        user = "myCoolUserWow";
+        user = "${username}";
       };
 
       hugepages = { 
@@ -82,32 +75,14 @@
       };
     };
 
-    audio = {
-      proAudio = {
-        enable = false;
-        reaper.enable = false;
-        ardour.enable = false;
-        nativeAccess.enable = false;
-        musescore.enable = false;
-      };
+    audio.proAudio = {
+      enable = false;
+      reaper.enable = false;
+      ardour.enable = false;
+      nativeAccess.enable = false;
+      musescore.enable = false;
     };
   };
-
-
-
-  /*
-
-            this is no-touchy land
-                              hooray more abstraction hooray
-
-  */
-
-
-  networking.hostName = "${hostname}"; # if you change this, make the same change in flake.nix
-  environment.variables = {
-    EDITOR = "nvim"; # or nvim, vim, vscode, whatever
-  };
-  system.stateVersion = "24.11"; # ESPECIALLY NO TOUCHY <<<
 
   # if you're going to change out your bootloader, i heard it's safer to `rebuild boot` rather than `rebuild switch` but i've never had a problem with switching
   boot.loader = {
@@ -117,24 +92,9 @@
 
   hardware.firmware = [ pkgs.linux-firmware ]; # because why not
 
-  security.polkit = {
-    enable = true;
-    debug = true;
-  };
-
-  users.users.${username}.extraGroups = [
-    "audio"
-    "video"
-    "input"
-    "cpu"
-  ];
-
   services.xserver = {
     enable = true;
     videoDrivers = [ "modesetting" ];
   };
-        
-  programs.neovim.enable = true;
-  programs.firefox.enable = true;
 }
 

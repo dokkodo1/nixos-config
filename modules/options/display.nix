@@ -19,17 +19,17 @@ in {
         variant = "";
         options = "";
       };
-      services.libinput.enable = true;
-      programs.xwayland.enable = true;
+      services.libinput.enable = lib.mkDefault true;
+      programs.xwayland.enable = lib.mkDefault true;
       environment.systemPackages = with pkgs; [
         foot dwl wmenu waybar wl-clipboard
       ];
       programs.dwl = {
-        enable = true;
+        enable = lib.mkDefault true;
       };
       home-manager.users.${username} = {
         programs.foot = {
-          enable = true;
+          enable = lib.mkDefault true;
           settings.main.font = "JetBrainsMono Nerd Font:size=12";
         };
       };
@@ -37,14 +37,14 @@ in {
 
     (mkIf (cfg.kde.enable) {
       users.users.${username}.extraGroups = [ "input" "video" ];
-      services.displayManager.sddm.enable = true;
-      services.displayManager.sddm.wayland.enable = true;
-      services.desktopManager.plasma6.enable = true;
+      services.displayManager.sddm.enable = lib.mkDefault true;
+      services.displayManager.sddm.wayland.enable = lib.mkDefault true;
+      services.desktopManager.plasma6.enable = lib.mkDefault true;
       environment.systemPackages = with pkgs; [ konsave wl-clipboard ];
       environment.plasma6.excludePackages = with pkgs.kdePackages; [ plasma-browser-integration elisa ];
-      home-manager.users.${username}.programs.kitty = lib.mkForce {
-	    	enable = true;
-	    	settings = {
+      home-manager.users.${username}.programs.kitty = lib.mkDefault {
+	    	enable = lib.mkDefault true;
+	    	settings = lib.mkDefault {
 	    		font_family = "JetBrainsMono Nerd Font";
 	    		font_size = 12;
 
@@ -104,10 +104,10 @@ in {
     (mkIf (cfg.i3wm.enable) {
       users.users.${username}.extraGroups = [ "input" "video" ];
       services.xserver = {
-        enable = true;
-        displayManager.startx.enable = true;
+        enable = lib.mkDefault true;
+        displayManager.startx.enable = lib.mkDefault true;
         windowManager.i3 = {
-          enable = true;
+          enable = lib.mkDefault true;
           extraPackages = with pkgs; [
             i3status i3lock
           ];
@@ -160,9 +160,9 @@ in {
         bindsym $mod+Shift+k move up
         bindsym $mod+Shift+l move right
   
-        bindsum $mod+1 workspace number 1
-        bindsum $mod+2 workspace number 2
-        bindsum $mod+3 workspace number 3
+        bindsym $mod+1 workspace number 1
+        bindsym $mod+2 workspace number 2
+        bindsym $mod+3 workspace number 3
   
         bindsym $mod+Shift+1 move container to workspace number 1
         bindsym $mod+Shift+2 move container to workspace number 2

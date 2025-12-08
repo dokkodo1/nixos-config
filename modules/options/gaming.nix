@@ -54,12 +54,12 @@ in {
     ];
 
     programs = {
-      steam.enable = true;
-      steam.gamescopeSession.enable = true;
-      gamemode.enable = true;
-      gamescope.enable = true;
+      steam.enable = lib.mkDefault true;
+      steam.gamescopeSession.enable = lib.mkDefault true;
+      gamemode.enable = lib.mkDefault true;
+      gamescope.enable = lib.mkDefault true;
       appimage = {
-        enable = true;
+        enable = lib.mkDefault true;
         binfmt = true;
         package = pkgs.appimage-run.override { extraPkgs = pkgs: [ ]; };
       };

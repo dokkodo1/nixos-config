@@ -54,143 +54,81 @@
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    nixpkgs-stable,
-    nixos-hardware,
-    nur,
-    home-manager,
-    nix-darwin,
-    sops-nix,
-    disko,
-    impermanence,
-    nixos-anywhere,
-		chaotic,
-    nix-gaming,
-    nix-citizen,
-		musnix,
-		native-access-nix,
-    neovim-nightly-overlay,
-    ...
-  }@inputs:
+  outputs = { self, nixpkgs, ... }@inputs:
   let
-
-    hostname = "nixtop"; # change me
-    username = "dokkodo"; # change me
-
+    hostname = "nixtop";
+    username = "dokkodo"; 
+    darwinHostname = "work-mac";
+    darwinUsername = "callummcdonald";
+    locale = "en_ZA.UTF-8";
     systems = {
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
-			audionix = "x86_64-linux";
-      ${hostname} = "x86_64-linux";
+      nixtop = "x86_64-linux";
     };
 
     overlays = [
       inputs.neovim-nightly-overlay.overlays.default
-      # Custom packages overlay
       (final: prev: {
-        doxpkgs = prev.callPackage ./pkgs { }; # can be called through pkgs.doxpkgs.testScript
-        
-        # Example custom package - add your own derivations here
-        # my-custom-tool = final.callPackage ./pkgs/my-custom-tool { };
-        
-        # Example: override existing package
-        # vim = prev.vim.override { ... };
-      })
-    ];
-
-    sharedNixOSModules = [
-			inputs.chaotic.nixosModules.default
-      inputs.musnix.nixosModules.musnix
-      inputs.home-manager.nixosModules.home-manager
-      {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.backupFileExtension = "backup";
-      }
-      inputs.sops-nix.nixosModules.sops
-      inputs.nur.modules.nixos.default
-      ({ config, pkgs, ... }: {
-        nixpkgs.overlays = overlays;
-        nixpkgs.config.allowUnfree = true;
-        # Make stable packages available as pkgs.stable
-        nixpkgs.config.packageOverrides = pkgs: {
-          stable = import nixpkgs-stable {
-            system = pkgs.system;
-            config.allowUnfree = true;
-          };
-        };
-				documentation.man.enable = true;
-				documentation.nixos.enable = true;
+        doxpkgs = prev.callPackage ./pkgs { };
       })
     ];
 
     mkNixOSSystem = { system, hostPath, extraModules ? [] }:
       nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = {
-          inherit inputs username hostname;
-          modPath = ./modules;
-        };
-        modules = sharedNixOSModules ++ [ hostPath ] ++ extraModules;
-      };
-
-    mkPkgs = system: import nixpkgs {
-      inherit system overlays;
-      config = {
-        allowUnfree = true;
-        # Make stable packages available in Home Manager too
-        packageOverrides = pkgs: {
-          stable = import nixpkgs-stable {
-            system = pkgs.system;
-            config.allowUnfree = true;
-          };
-        };
-      };
-    };
-
-  in {
-    nixosConfigurations = {
-      ${hostname} = mkNixOSSystem {
-        system = systems.${hostname};
-        hostPath = ./hosts/${hostname}/configuration.nix;
-				extraModules = [
-				];
-      };
-    };
-
-    darwinConfigurations = {
-      work-mac = nix-darwin.lib.darwinSystem {
-        system = systems.work-mac;
-        specialArgs = {
-          inherit inputs;
-          modPath = ./modules;
-        };
+        specialArgs = { inherit inputs username hostname locale; modPath = ./modules; };
         modules = [
-          ./hosts/work-mac/configuration.nix
-          inputs.home-manager.darwinModules.home-manager
-          # When using nix-darwin save the age key to $HOME/Library/Application Support/sops/age/keys.txt
-          # or set a custom configuration directory (https://github.com/getsops/sops#23encrypting-using-age)
-          inputs.sops-nix.darwinModules.sops
-          {
+          inputs.chaotic.nixosModules.default
+          inputs.musnix.nixosModules.musnix
+          inputs.home-manager.nixosModules.home-manager
+          inputs.sops-nix.nixosModules.sops
+          inputs.nur.modules.nixos.default
+          ({ pkgs, ... }: {
             nixpkgs.overlays = overlays;
             nixpkgs.config.allowUnfree = true;
+            nixpkgs.config.packageOverrides = pkgs: {
+              stable = import inputs.nixpkgs-stable {
+                system = pkgs.system;
+                config.allowUnfree = true;
+              };
+            };
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-              modPath = ./modules;
-            };
-            home-manager.users.callummcdonald = import ./hosts/work-mac/home.nix;
-          }
-        ];
+            home-manager.backupFileExtension = "backup";
+            documentation.man.enable = true;
+            documentation.nixos.enable = true;
+          })
+          hostPath
+        ] ++ extraModules;
       };
+
+  in {
+    nixosConfigurations.${hostname} = mkNixOSSystem {
+      system = systems.${hostname};
+      hostPath = ./hosts/${hostname}/configuration.nix;
+    };
+
+    darwinConfigurations.${darwinHostname} = inputs.nix-darwin.lib.darwinSystem {
+      system = systems.${darwinHostname};
+      specialArgs = { inherit inputs; modPath = ./modules; };
+      modules = [
+        ./hosts/${darwinHostname}/configuration.nix
+        inputs.home-manager.darwinModules.home-manager
+        inputs.sops-nix.darwinModules.sops
+        {
+          nixpkgs.overlays = overlays;
+          nixpkgs.config.allowUnfree = true;
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = { inherit inputs; modPath = ./modules; };
+          home-manager.users.${darwinUsername} = import ./hosts/${darwinHostname}/home.nix;
+        }
+      ];
     };
 
     formatter = nixpkgs.lib.genAttrs 
       (nixpkgs.lib.attrValues systems)
-      (system: (mkPkgs system).nixpkgs-fmt);
+      (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
   };
 }
-

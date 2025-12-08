@@ -17,13 +17,13 @@ in {
   };
   config = mkMerge [
     (mkIf cfg.enable {
-      security.rtkit.enable = true;
+      security.rtkit.enable = lib.mkDefault true;
       services.pipewire = {
-      	enable = true;
-      	alsa.enable = true;
-      	alsa.support32Bit = true;
-      	pulse.enable = true;
-      	jack.enable = true;
+      	enable = lib.mkDefault true;
+      	alsa.enable = lib.mkDefault true;
+      	alsa.support32Bit = lib.mkDefault true;
+      	pulse.enable = lib.mkDefault true;
+      	jack.enable = lib.mkDefault true;
         extraConfig.pipewire = {
           "10-clock-rate" = {
             "context.properties" = {
@@ -65,20 +65,20 @@ in {
       ++ optional cfg.nativeAccess.enable inputs.native-access-nix.packages.x86_64.native-access
       ++ optional cfg.musescore.enable musescore;
       zramSwap = {
-        enable = true;
+        enable = lib.mkDefault true;
         algorithm = "zstd";
         memoryPercent = 20;
       };
-      services.udisks2.enable = true;
-      services.avahi.enable = true;
+      services.udisks2.enable = lib.mkDefault true;
+      services.avahi.enable = lib.mkDefault true;
       musnix = {
       # https://github.com/musnix/musnix                                                                            	
-        enable = true;                                                                                                
+        enable = lib.mkDefault true;                                                                                                
         kernel.realtime = true;                                                                                     	
         #kernel.packages = pkgs.linuxPackages-latest_rt;                                                             	
         soundcardPciId = ""; # not applicable to USB sound cards. Example "00:1b.0" found with lspci | grep -i audio	
         ffado.enable = false; # use free FireWare audio drivers                                                     	
-        rtcqs.enable = true; # https://wiki.linuxaudio.org/wiki/system_configuration#rtcqs                            
+        rtcqs.enable = lib.mkDefault true; # https://wiki.linuxaudio.org/wiki/system_configuration#rtcqs                            
           das_watchdog.enable = false; # https://github.com/kmatheussen/das_watchdog                                 
       };                                                                                                             
       # opens UDP ports 6001-6002

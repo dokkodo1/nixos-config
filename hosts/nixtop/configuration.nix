@@ -1,4 +1,4 @@
-{ pkgs, modPath, hostname, ... }:
+{ pkgs, modPath, ... }:
 
 {
   imports = [
@@ -10,9 +10,6 @@
   control.audio.enable = true;
   control.audio.pavucontrol.enable = true;
 
-
-  networking.hostName = "${hostname}";
-  system.stateVersion = "24.11"; # DO NOT TOUCH <<<
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="input", ATTR{name}=="AT Translated Set 2 keyboard", ATTR{power/control}="on"
     '';
@@ -27,21 +24,8 @@
     grub.efiSupport = false;
   };
 
-  security = {
-    polkit = {
-      enable = true;
-      debug = true;
-    };
-  };
-
-  environment.variables = {
-    EDITOR = "nvim";
-  };
-
-  programs.neovim.enable = true;
-
   environment.systemPackages = with pkgs; [
-    ungoogled-chromium
+    claude-code
     discord
     bitwarden
     mesa

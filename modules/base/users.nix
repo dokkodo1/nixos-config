@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ pkgs, username, locale, ... }:
 
 {
   users.users.${username} = {
@@ -9,11 +9,15 @@
       "wheel"
       "users"
       "networkmanager"
+      "audio"
+      "video"
+      "input"
+      "cpu"
     ];
   };
 
-  i18n.defaultLocale = "en_ZA.UTF-8";
-  i18n.extraLocaleSettings.LC_ALL = "en_US.UTF-8"; 
+  i18n.defaultLocale = "${locale}";
+  i18n.extraLocaleSettings.LC_ALL = "${locale}"; 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 

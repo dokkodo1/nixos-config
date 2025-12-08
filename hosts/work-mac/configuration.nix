@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, darwinUsername, ... }:
 
 {
   imports = [
@@ -6,8 +6,8 @@
 
 #	darwin.installApps = true;
 #	darwin.fullCopies = true;
-  users.users.callummcdonald = {
-    home = "/Users/callummcdonald";
+  users.users.${darwinUsername} = {
+    home = "/Users/${darwinUsername}";
   };
 
   nix.settings.experimental-features = "nix-command flakes";
@@ -23,6 +23,7 @@
     sshfs
     fuse
 		iterm2
+    doxpkgs.tmux-default
   ];
 
   system.stateVersion = 6;

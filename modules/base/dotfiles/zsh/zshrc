@@ -9,7 +9,4 @@ setopt AUTO_CD
 setopt CORRECT
 setopt MENU_COMPLETE
 
-alias ll="ls -l"
-alias c="clear"
-alias gpull="cd ~/configurations && git pull && cd ~/learning && git pull"
 alias yo="echo wassup"

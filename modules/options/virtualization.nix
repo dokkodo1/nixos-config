@@ -78,13 +78,13 @@ in {
       users.groups.libvirtd.members = [ "root" ];
 
       virtualisation.libvirtd = {
-        enable = true;
+        enable = lib.mkDefault true;
         qemu = {
           package = pkgs.qemu_kvm;
           runAsRoot = true;
-          swtpm.enable = true;
+          swtpm.enable = lib.mkDefault true;
           ovmf = {
-            enable = true;
+            enable = lib.mkDefault true;
             packages = [(pkgs.OVMF.override {
               secureBoot = true;
               tpmSupport = true;
@@ -93,7 +93,7 @@ in {
         };
       };
 
-      programs.virt-manager.enable = true;
+      programs.virt-manager.enable = lib.mkDefault true;
       
       environment.systemPackages = with pkgs; [
         virt-manager

@@ -1,0 +1,12 @@
+keys:
+  - &dokkodo age1km3dl0mjq35ddhevlhfzelz62wkp4l2ehcg7xl4zlx5ufpk09drsvd2ds0
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.ya?ml$
+    key_groups:
+      - age:
+          - *dokkodo
+  - path_regex: secrets/[^/]+\.json$
+    key_groups:
+      - age:
+          - *dokkodo

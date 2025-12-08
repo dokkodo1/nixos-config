@@ -1,4 +1,6 @@
 {
+  system.stateVersion = "24.11"; # ESPECIALLY NO TOUCHY <<<
+
   nix = {
     settings = {
       auto-optimise-store = true;

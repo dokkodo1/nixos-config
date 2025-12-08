@@ -1,5 +1,6 @@
 { pkgs, username, ... }:
 {
+  environment.variables.EDITOR = "nvim"; # or nvim, vim, vscode, whatever;
   home-manager.users.${username} = {
     programs.neovim = {
       enable = true;
@@ -17,6 +18,9 @@
       nodejs
       tree-sitter  
       ripgrep
+      btop
+      fastfetch
+      doxpkgs.tmux-default
     ];
   };
 }
