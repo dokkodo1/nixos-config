@@ -38,7 +38,6 @@
       inputs.disko.follows = "disko";
     };
 
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     nix-gaming.url = "github:fufexan/nix-gaming";
     nix-citizen = {
       url = "github:LovingMelody/nix-citizen";
@@ -79,7 +78,6 @@
         inherit system;
         specialArgs = { inherit inputs username hostname locale; modPath = ./modules; };
         modules = [
-          inputs.chaotic.nixosModules.default
           inputs.musnix.nixosModules.musnix
           inputs.home-manager.nixosModules.home-manager
           inputs.sops-nix.nixosModules.sops
@@ -111,7 +109,7 @@
 
     darwinConfigurations.${darwinHostname} = inputs.nix-darwin.lib.darwinSystem {
       system = systems.${darwinHostname};
-      specialArgs = { inherit inputs; modPath = ./modules; };
+      specialArgs = { inherit inputs darwinUsername darwinHostname locale; modPath = ./modules; };
       modules = [
         ./hosts/${darwinHostname}/configuration.nix
         inputs.home-manager.darwinModules.home-manager
@@ -122,7 +120,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = { inherit inputs; modPath = ./modules; };
-          home-manager.users.${darwinUsername} = import ./hosts/${darwinHostname}/home.nix;
+            #home-manager.users.${darwinUsername} = import ./hosts/${darwinHostname}/home.nix;
         }
       ];
     };

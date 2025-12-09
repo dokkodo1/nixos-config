@@ -6,11 +6,6 @@
     modPath
   ];
 
-  # uncomment these two options if you want to use cachyos kernel
-  # if commented, you'll be on the default for nixpkgs
-  #boot.kernelPackages = pkgs.linuxPackages_cachyos;
-  #services.scx.enable = true;
-  
   /*
             this is where my opinionated options are. i'll grow this out once i've written a few more modules
                               hooray more abstraction hooray

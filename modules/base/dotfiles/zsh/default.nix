@@ -1,7 +1,12 @@
-{ pkgs, username, darwinUsername, ... }:
+{ pkgs, username, darwinUsername ? null, ... }:
 
+let
+  actualUsername = if pkgs.stdenv.isDarwin && darwinUsername != null
+    then darwinUsername
+    else username;
+in
 {
-  home-manager.users.${username}.programs = {
+  home-manager.users.${actualUsername}.programs = {
     direnv.enable = true;
     direnv.nix-direnv.enable = true;
     zsh = {
