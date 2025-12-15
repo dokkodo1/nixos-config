@@ -14,8 +14,8 @@ in {
     
     extras = {
       discord.enable = mkEnableOption "Enable Discord" // { default = true; };
-      openrgb.enable = mkEnableOption "Enable OpenRGB for RGB lighting control" // { default = true; };
-      ratbagd.enable = mkEnableOption "Enable ratbagd for gaming mice" // { default = true; };
+      openrgb.enable = mkEnableOption "Enable OpenRGB for RGB lighting control" // { default = false; };
+      ratbagd.enable = mkEnableOption "Enable ratbagd for gaming mice" // { default = false; };
     };
     
     starCitizen.enable = mkEnableOption "Enable Star Citizen with LUG-helper";

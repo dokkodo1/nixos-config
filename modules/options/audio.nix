@@ -18,6 +18,9 @@ in {
   config = mkMerge [
     (mkIf cfg.enable {
       security.rtkit.enable = lib.mkDefault true;
+      environment.sessionVariables = {
+        PULSE_LATENCY_MSEC = "60";
+      };
       services.pipewire = {
       	enable = lib.mkDefault true;
       	alsa.enable = lib.mkDefault true;
@@ -28,9 +31,9 @@ in {
           "10-clock-rate" = {
             "context.properties" = {
               "default.clock.rate" = 48000;
-              "default.clock.quantum" = 1024;
-              "default.clock.min.quantum" = 512;
-              "default.clock.max.quantum" = 2048;
+              "default.clock.quantum" = 256;
+              "default.clock.min.quantum" = 64;
+              "default.clock.max.quantum" = 512;
             };
           };
         };

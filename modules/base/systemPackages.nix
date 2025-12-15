@@ -6,6 +6,10 @@
 
   environment.systemPackages = with pkgs; [
     tree
+    cloc
+    file
+    gnumake
+    busybox
 		bat
     pciutils
 		iw

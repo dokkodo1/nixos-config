@@ -17,6 +17,7 @@ in
       history.size = 1000;
 
       shellAliases = {
+        wc3 = "wine Games/wc3/drive_c/Program Files/Warcraft 3/Warcraft III.exe";
         ll = "ls -lah";
         nixos = if pkgs.stdenv.isDarwin 
           then "cd /Users/${darwinUsername}/configurations/"
