@@ -32,8 +32,8 @@
       launchers.heroic.enable = false; # GOG + Epic + Amazon Games store/launcher. Linux native, pretty damn neat if a little jank. Tiny and worth trying
       extras = {
         discord.enable = true; # defaults to true
-        openrgb.enable = true; 
-        ratbagd.enable = true;
+        openrgb.enable = false; 
+        ratbagd.enable = false;
       };
     };
 

@@ -60,7 +60,7 @@
     hostname = "nixtop";
     username = "dokkodo"; 
     darwinHostname = "work-mac"; # these two only apply if building nix darwin. can leave null
-    darwinUsername = "callummcdonald";
+    darwinUsername = "callummcdonald"; # don't @ me
     locale = "en_ZA.UTF-8";
       # copy and rename the folder ./hosts/default and add that name and system to this list
       # if not me, delete these 3 entries and add your own. 

@@ -45,6 +45,14 @@ in
       ];
 
       initContent = ''
+        claude_session() {
+            echo "=== Session Context ==="
+            cat ~/session_context.md 2>/dev/null || echo "No session context file found at ~/session_context.md"
+            echo "========================"
+            echo
+            claude "$@"  # This launches Claude with any arguments you pass
+        }
+        alias claude-with-context="claude_session"
         # Only source p10k config if it exists
         [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
         eval "$(direnv hook zsh)"
