@@ -1,0 +1,27 @@
+● tailscaled.service - Tailscale node agent
+     Loaded: loaded (/etc/systemd/system/tailscaled.service; enabled; preset: ignored)
+    Drop-In: /nix/store/fgm6kiqas2c9401blwrz9i2y27ihyyg9-system-units/tailscaled.service.d
+             └─overrides.conf
+     Active: active (running) since Thu 2026-01-08 17:07:17 SAST; 4min 28s ago
+ Invocation: 425b48689a62414aa5046e218e5d3f6a
+       Docs: https://tailscale.com/kb/
+   Main PID: 51680 (.tailscaled-wra)
+     Status: "Connected; dokkodo1@github; 100.102.81.84 fd7a:115c:a1e0::8201:5172"
+         IP: 41.1K in, 48K out
+         IO: 25.7M read, 44K written
+      Tasks: 9 (limit: 4577)
+     Memory: 41.4M (peak: 43.9M)
+        CPU: 1.088s
+     CGroup: /system.slice/tailscaled.service
+             └─51680 /nix/store/q67msvmbklamfli7d3r3b4qbgf2ssixa-tailscale-1.86.4/bin/tailscaled --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=41641 --tun tailscale0
+
+Jan 08 17:10:57 nixtop tailscaled[51680]: health(warnable=no-derp-home): ok
+Jan 08 17:10:57 nixtop tailscaled[51680]: magicsock: home is now derp-15 (jnb)
+Jan 08 17:10:57 nixtop tailscaled[51680]: magicsock: endpoints changed: 105.233.154.20:41641 (portmap), 192.168.100.74:41641 (local), 192.168.100.220:41641 (local)
+Jan 08 17:10:57 nixtop tailscaled[51680]: magicsock: adding connection to derp-15 for home-keep-alive
+Jan 08 17:10:57 nixtop tailscaled[51680]: magicsock: 1 active derp conns: derp-15=cr0s,wr0s
+Jan 08 17:10:57 nixtop tailscaled[51680]: Switching ipn state Starting -> Running (WantRunning=true, nm=true)
+Jan 08 17:10:57 nixtop tailscaled[51680]: derphttp.Client.Connect: connecting to derp-15 (jnb)
+Jan 08 17:10:57 nixtop tailscaled[51680]: control: NetInfo: NetInfo{varies=false hairpin= ipv6=false ipv6os=true udp=true icmpv4=false derp=#15 portmap=active-UMC link="" firewallmode="ipt-default"}
+Jan 08 17:10:57 nixtop tailscaled[51680]: magicsock: derp-15 connected; connGen=1
+Jan 08 17:10:57 nixtop tailscaled[51680]: health(warnable=no-derp-connection): ok
