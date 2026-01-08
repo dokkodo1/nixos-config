@@ -10,6 +10,14 @@
 #   qute://help/configuring.html
 #   qute://help/settings.html
 
+# Font configuration - use system fonts for better web rendering
+c.fonts.default_family = ["DejaVu Sans", "Liberation Sans", "Arial", "sans-serif"]
+c.fonts.default_size = "12pt"
+c.fonts.web.family.standard = "DejaVu Sans"
+c.fonts.web.family.fixed = "DejaVu Sans"
+c.fonts.web.family.serif = "DejaVu Serif" 
+c.fonts.web.family.sans_serif = "DejaVu Sans"
+
 # Keybinds
 config.bind('<Ctrl-w>', 'tab-close')
 

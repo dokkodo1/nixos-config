@@ -45,10 +45,10 @@
       inputs.nix-gaming.follows = "nix-gaming";
     };
 
-		musnix.url = "github:musnix/musnix";
-		native-access-nix = {
-			url = "github:yusefnapora/native-access-nix";
-			inputs.nixpkgs.follows = "nixpkgs";
+    musnix.url = "github:musnix/musnix";
+    native-access-nix = {
+      url = "github:yusefnapora/native-access-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
@@ -125,7 +125,7 @@
           nixpkgs.config.allowUnfree = true;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs; modPath = ./modules; };
+          home-manager.extraSpecialArgs = { inherit inputs darwinUsername darwinHostname locale repoName; modPath = ./modules; };
         }
       ];
     };

@@ -2,6 +2,7 @@
 {
 	fonts.packages = with pkgs; [
 		nerd-fonts.jetbrains-mono
+		dejavu_fonts  # Add DejaVu fonts for qutebrowser
 	];
 
   environment.systemPackages = with pkgs; [

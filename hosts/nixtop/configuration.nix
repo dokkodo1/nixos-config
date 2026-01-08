@@ -6,6 +6,8 @@
     modPath
   ];
 
+  time.timeZone = "Africa/Johannesburg";
+
   control.display.dwl.enable = true;
   control.audio.enable = true;
   control.audio.pavucontrol.enable = true;
@@ -51,6 +53,8 @@
     mpv
   ];
 
+  programs.nix-ld.enable = true;
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -64,5 +68,14 @@
       vaapiIntel
       libva
     ];
+  };
+
+  # Default applications for URL opening
+  xdg.mime.defaultApplications = {
+    "text/html" = "qutebrowser.desktop";
+    "x-scheme-handler/http" = "qutebrowser.desktop";
+    "x-scheme-handler/https" = "qutebrowser.desktop";
+    "x-scheme-handler/about" = "qutebrowser.desktop";
+    "x-scheme-handler/unknown" = "qutebrowser.desktop";
   };
 }

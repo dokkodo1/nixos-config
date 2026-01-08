@@ -101,7 +101,6 @@ if has('termguicolors')
     set termguicolors
 endif
 
-" Tokyo Night color scheme (works in TTY)
 set background=dark
 hi Normal ctermfg=15 ctermbg=0 guifg=#a9b1d6 guibg=#1a1b26
 hi Comment ctermfg=8 guifg=#565f89

@@ -6,12 +6,17 @@ let
     else username;
 in
 {
-  environment.variables.EDITOR = "nvim"; # or nvim, vim, vscode, whatever;
+  environment.variables.EDITOR = "nvim";
   home-manager.users.${actualUsername} = {
     programs.neovim = {
       enable = true;
-      extraLuaConfig = builtins.readFile ./init.lua;
     };
+    
+    # Symlink entire nvim config to repo for hot reloading
+    xdg.configFile."nvim/init.lua".source = ./init.lua;
+    xdg.configFile."nvim/lua/settings.lua".source = ./lua/settings.lua;
+    xdg.configFile."nvim/lua/keymaps.lua".source = ./lua/keymaps.lua;
+    xdg.configFile."nvim/lua/plugins.lua".source = ./lua/plugins.lua;
     
     home.packages = with pkgs; [
       lua-language-server

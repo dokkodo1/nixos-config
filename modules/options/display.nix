@@ -10,6 +10,13 @@ in {
     kde.enable = lib.mkEnableOption "Enable wayland kde, the desktop environment";
   };
   config = mkMerge [
+    # Common XDG support for any display environment
+    (mkIf (cfg.dwl.enable || cfg.kde.enable || cfg.i3wm.enable) {
+      xdg.portal.enable = true;
+      environment.systemPackages = with pkgs; [
+        xdg-utils  # Provides xdg-open, xdg-mime, etc.
+      ];
+    })
 
     (mkIf (cfg.dwl.enable) {
       boot.kernelParams = [ "i915.modeset=1" "i804.nopnp=1" "8042.reset=1" ];
@@ -21,16 +28,93 @@ in {
       };
       services.libinput.enable = lib.mkDefault true;
       programs.xwayland.enable = lib.mkDefault true;
+      xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+      
+      # DWL environment packages
       environment.systemPackages = with pkgs; [
-        foot dwl wmenu waybar wl-clipboard
+        foot
+        wmenu
+        wl-clipboard
+        bemenu
+        swaybg
+        grim
+        slurp
+        waybar  # Standard waybar (DWL support may not be available yet)
+        dwl
       ];
+      
       programs.dwl = {
         enable = lib.mkDefault true;
       };
+      
+      # Font packages
+      fonts.packages = with pkgs; [
+        jetbrains-mono
+        font-awesome
+      ];
+      
       home-manager.users.${username} = {
+        # Terminal configuration
         programs.foot = {
           enable = lib.mkDefault true;
           settings.main.font = "JetBrainsMono Nerd Font:size=12";
+        };
+        
+        # Waybar configuration (hot-reloadable symlinks)
+        programs.waybar = {
+          enable = true;
+        };
+        
+        # Create symlinks to your repo for live editing (home-manager manages these)
+        home.file.".config/waybar/config.jsonc" = {
+          source = ../base/dotfiles/waybar/config.jsonc;
+          force = true;
+        };
+        home.file.".config/waybar/style.css" = {
+          source = ../base/dotfiles/waybar/style.css;
+          force = true;
+        };
+        
+        # DWL config (hot-reloadable via script)
+        home.file.".config/dwl/config.h" = {
+          source = ../base/dotfiles/dwl/config.h;
+          force = true;
+        };
+        
+        # DWL reload script using Makefile
+        home.file."bin/dwl-reload" = {
+          text = ''
+            #!/bin/sh
+            cd /home/${username}/configurations/modules/base/dotfiles/dwl
+            echo "Recompiling DWL with make..."
+            make reload
+            echo "Reloading waybar..."
+            killall waybar 2>/dev/null; waybar &
+            echo "DWL binary ready at: $(pwd)/dwl"
+            echo "To test: ./dwl  (or restart your session for system-wide update)"
+          '';
+          executable = true;
+        };
+        
+        # Waybar reload script
+        home.file."bin/waybar-reload" = {
+          text = ''
+            #!/bin/sh
+            killall waybar 2>/dev/null
+            waybar &
+            echo "Waybar reloaded"
+          '';
+          executable = true;
+        };
+
+        # Auto-start script for DWL
+        home.file.".dwl/autostart" = {
+          text = ''
+            #!/bin/sh
+            waybar &
+            swaybg -i ~/.config/wallpaper.jpg &
+          '';
+          executable = true;
         };
       };
     })
