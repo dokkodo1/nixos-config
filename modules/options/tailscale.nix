@@ -37,7 +37,7 @@ in
     services.tailscale = {
       enable = true;
     } // (lib.optionalAttrs pkgs.stdenv.isLinux {
-      authKeyFile = cfg.authKeyFile or config.sops.secrets.tailscale_auth_key.path;
+      authKeyFile = cfg.authKeyFile or "/run/secrets/tailscale_auth_key";
       useRoutingFeatures = lib.mkIf cfg.exitNode "server";
       extraUpFlags = lib.flatten [
         (lib.optional cfg.ssh "--ssh")
