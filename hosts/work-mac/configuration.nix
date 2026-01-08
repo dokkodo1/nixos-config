@@ -9,7 +9,6 @@
 
   # Temporary direct Tailscale config for Darwin
   services.tailscale.enable = true;
-  environment.systemPackages = with pkgs; [ tailscale ];
 
   home-manager.users.${darwinUsername} = {
     home.username = darwinUsername;
@@ -36,6 +35,7 @@
     sshfs
     fuse
 		iterm2
+    tailscale
     doxpkgs.tmux-default
   ];
 
