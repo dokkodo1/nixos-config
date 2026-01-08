@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, stdenv, ... }:
 
 let
   cfg = config.control.tailscale;
@@ -36,7 +36,7 @@ in
     # Tailscale service configuration (cross-platform)
     services.tailscale = {
       enable = true;
-    } // (lib.optionalAttrs pkgs.stdenv.isLinux {
+    } // (lib.optionalAttrs stdenv.isLinux {
       authKeyFile = cfg.authKeyFile or "/run/secrets/tailscale_auth_key";
       useRoutingFeatures = lib.mkIf cfg.exitNode "server";
       extraUpFlags = lib.flatten [
@@ -45,7 +45,7 @@ in
         ["--accept-routes"]
       ];
     });
-  } // lib.optionalAttrs pkgs.stdenv.isLinux {
+  } // lib.optionalAttrs stdenv.isLinux {
     # NixOS-only configuration
     networking.firewall = {
       enable = true;
