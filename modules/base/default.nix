@@ -6,8 +6,8 @@
     ./keyboardLayout.nix
     ./networking.nix
     ./nixSettings.nix
-    ./root-home.nix
     ./security.nix
+    ./sops.nix
     ./ssh.nix
     ./systemPackages.nix
     ./users.nix

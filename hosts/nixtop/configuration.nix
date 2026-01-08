@@ -11,6 +11,7 @@
   control.display.dwl.enable = true;
   control.audio.enable = true;
   control.audio.pavucontrol.enable = true;
+  control.tailscale.enable = true;
 
   control.gaming.enable = true;
   control.gaming.launchers.lutris.enable = true;

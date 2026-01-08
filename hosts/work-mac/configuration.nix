@@ -5,6 +5,8 @@
     ../../modules/base/dotfiles
   ];
 
+  control.tailscale.enable = true;
+
   home-manager.users.${darwinUsername} = {
     home.username = darwinUsername;
     home.homeDirectory = "/Users/${darwinUsername}";

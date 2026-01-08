@@ -6,5 +6,6 @@
     ./gpu.nix
     ./audio.nix
     ./virtualization.nix
+    ./tailscale.nix
   ];
 }

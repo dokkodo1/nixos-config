@@ -77,6 +77,12 @@
       nativeAccess.enable = false;
       musescore.enable = false;
     };
+
+    tailscale = {
+      enable = false;
+      ssh = true;
+      exitNode = false;
+    };
   };
 
   # if you're going to change out your bootloader, i heard it's safer to `rebuild boot` rather than `rebuild switch` but i've never had a problem with switching
