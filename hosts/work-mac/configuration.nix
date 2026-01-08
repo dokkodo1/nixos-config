@@ -3,6 +3,8 @@
 {
   imports = [
     ../../modules/base/dotfiles
+    ../../modules/base/sops.nix
+    ../../modules/options/tailscale.nix
   ];
 
   control.tailscale.enable = true;

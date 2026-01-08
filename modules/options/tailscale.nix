@@ -55,9 +55,11 @@ in
     };
 
     # Enable IP forwarding for exit nodes on NixOS
-    boot.kernel.sysctl = lib.mkIf (pkgs.stdenv.isLinux && cfg.exitNode) {
+    boot = lib.mkIf pkgs.stdenv.isLinux {
+      kernel.sysctl = lib.mkIf cfg.exitNode {
       "net.ipv4.ip_forward" = 1;
       "net.ipv6.conf.all.forwarding" = 1;
+      };
     };
   };
 }
