@@ -1,4 +1,4 @@
-{ config, pkgs, lib, stdenv, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   cfg = config.control.tailscale;
@@ -36,8 +36,8 @@ in
     # Tailscale service configuration (cross-platform)
     services.tailscale = {
       enable = true;
-    } // (lib.optionalAttrs stdenv.isLinux {
-      authKeyFile = cfg.authKeyFile or "/run/secrets/tailscale_auth_key";
+    } // (lib.optionalAttrs pkgs.stdenv.isLinux {
+      authKeyFile = cfg.authKeyFile or config.sops.secrets.tailscale_auth_key.path;
       useRoutingFeatures = lib.mkIf cfg.exitNode "server";
       extraUpFlags = lib.flatten [
         (lib.optional cfg.ssh "--ssh")
@@ -45,13 +45,13 @@ in
         ["--accept-routes"]
       ];
     });
-  } // lib.optionalAttrs stdenv.isLinux {
+  } // lib.optionalAttrs pkgs.stdenv.isLinux {
     # NixOS-only configuration
     networking.firewall = {
       enable = true;
       checkReversePath = "loose";  # Required for exit nodes
       trustedInterfaces = [ "tailscale0" ];
-      allowedUDPPorts = [ 41641 ];  # Tailscale default UDP port
+      allowedUDPPorts = [ config.services.tailscale.port ];
     };
 
     # Enable IP forwarding for exit nodes
