@@ -4,10 +4,12 @@
   imports = [
     ../../modules/base/dotfiles
     ../../modules/base/sops.nix
-    ../../modules/options/tailscale.nix
+    # ../../modules/options/tailscale.nix  # Temporarily disabled for testing
   ];
 
-  control.tailscale.enable = true;
+  # Temporary direct Tailscale config for Darwin
+  services.tailscale.enable = true;
+  environment.systemPackages = with pkgs; [ tailscale ];
 
   home-manager.users.${darwinUsername} = {
     home.username = darwinUsername;
