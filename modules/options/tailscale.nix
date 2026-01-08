@@ -51,7 +51,7 @@ in
       enable = true;
       checkReversePath = "loose";  # Required for exit nodes
       trustedInterfaces = [ "tailscale0" ];
-      allowedUDPPorts = [ config.services.tailscale.port ];
+      allowedUDPPorts = [ 41641 ];  # Tailscale default UDP port
     };
 
     # Enable IP forwarding for exit nodes
