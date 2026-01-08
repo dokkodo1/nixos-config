@@ -1,12 +1,15 @@
 keys:
-  - &dokkodo age1km3dl0mjq35ddhevlhfzelz62wkp4l2ehcg7xl4zlx5ufpk09drsvd2ds0
+  - &nixtop age1km3dl0mjq35ddhevlhfzelz62wkp4l2ehcg7xl4zlx5ufpk09drsvd2ds0
+  - &work-mac age1etund6rrv4z9yp8kau6wvhzhkape09z25f07n8tzv9cr95mgwf8sc8fw3n
 
 creation_rules:
   - path_regex: secrets/[^/]+\.ya?ml$
     key_groups:
       - age:
-          - *dokkodo
+          - *nixtop
+          - *work-mac
   - path_regex: secrets/[^/]+\.json$
     key_groups:
       - age:
-          - *dokkodo
+          - *nixtop
+          - *work-mac
