@@ -62,12 +62,14 @@
     darwinHostname = "work-mac"; # these two only apply if building nix darwin. can leave null
     darwinUsername = "callummcdonald"; # don't @ me
     locale = "en_ZA.UTF-8";
+    timezone = "Africa/Johannesburg";
       # copy and rename the folder ./hosts/default and add that name and system to this list
       # if not me, delete these 3 entries and add your own. 
     systems = {
       desktop = "x86_64-linux";
       work-mac = "x86_64-darwin";
       nixtop = "x86_64-linux";
+      hpl-tower = "x86_64-linux";
     };
 
     overlays = [
@@ -80,12 +82,13 @@
     mkNixOSSystem = { system, hostPath, extraModules ? [] }:
       nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs username hostname locale repoName; modPath = ./modules; };
+        specialArgs = { inherit inputs username hostname locale timezone repoName; modPath = ./modules; };
         modules = [
           inputs.musnix.nixosModules.musnix
           inputs.home-manager.nixosModules.home-manager
           inputs.sops-nix.nixosModules.sops
           inputs.nur.modules.nixos.default
+          inputs.disko.nixosModules.disko
           ({ pkgs, ... }: {
             nixpkgs.overlays = overlays;
             nixpkgs.config.allowUnfree = true;
@@ -115,7 +118,7 @@
 
     darwinConfigurations.${darwinHostname} = inputs.nix-darwin.lib.darwinSystem {
       system = systems.${darwinHostname};
-      specialArgs = { inherit inputs darwinUsername darwinHostname locale repoName; modPath = ./modules; };
+      specialArgs = { inherit inputs darwinUsername darwinHostname locale timezone repoName; modPath = ./modules; };
       modules = [
         ./hosts/${darwinHostname}/configuration.nix
         inputs.home-manager.darwinModules.home-manager
@@ -125,7 +128,7 @@
           nixpkgs.config.allowUnfree = true;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs darwinUsername darwinHostname locale repoName; modPath = ./modules; };
+          home-manager.extraSpecialArgs = { inherit inputs darwinUsername darwinHostname locale timezone repoName; modPath = ./modules; };
         }
       ];
     };

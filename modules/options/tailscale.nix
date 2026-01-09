@@ -26,17 +26,13 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable ({
-    # sops secret configuration - just declare the secret (defaultSopsFile handled in base/sops.nix)
+  config = lib.mkIf cfg.enable {
     sops.secrets.tailscale_auth_key = {};
-
-    # Common package for both platforms
     environment.systemPackages = [ pkgs.tailscale ];
 
     # Tailscale service configuration (cross-platform)
     services.tailscale = {
       enable = true;
-    } // (lib.optionalAttrs pkgs.stdenv.isLinux {
       authKeyFile = cfg.authKeyFile or config.sops.secrets.tailscale_auth_key.path;
       useRoutingFeatures = lib.mkIf cfg.exitNode "server";
       extraUpFlags = lib.flatten [
@@ -44,20 +40,17 @@ in
         (lib.optional cfg.exitNode "--advertise-exit-node")
         ["--accept-routes"]
       ];
-    });
-  } // lib.optionalAttrs pkgs.stdenv.isLinux {
-    # NixOS-only configuration
+    };
     networking.firewall = {
       enable = true;
       checkReversePath = "loose";  # Required for exit nodes
       trustedInterfaces = [ "tailscale0" ];
       allowedUDPPorts = [ config.services.tailscale.port ];
     };
-
     # Enable IP forwarding for exit nodes
     boot.kernel.sysctl = lib.mkIf cfg.exitNode {
       "net.ipv4.ip_forward" = 1;
       "net.ipv6.conf.all.forwarding" = 1;
     };
-  });
+  };
 }

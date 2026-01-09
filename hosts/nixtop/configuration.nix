@@ -6,8 +6,6 @@
     modPath
   ];
 
-  time.timeZone = "Africa/Johannesburg";
-
   control.display.dwl.enable = true;
   control.audio.enable = true;
   control.audio.pavucontrol.enable = true;
@@ -78,5 +76,9 @@
     "x-scheme-handler/https" = "qutebrowser.desktop";
     "x-scheme-handler/about" = "qutebrowser.desktop";
     "x-scheme-handler/unknown" = "qutebrowser.desktop";
+  };
+
+  environment.sessionVariables = {
+    XKB_DEFAULT_OPTIONS = "caps:swapescape";
   };
 }

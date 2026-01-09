@@ -57,7 +57,7 @@ map("n", "<leader>cc", '<cmd>cclose<CR>', { desc = "Close qflist" })
 
 -- Plugins (mini.pick, oil)
 map("n", "<leader>f", ":Pick files<CR>", { desc = "Pick files" })
-map("n", "<leader>g", ":Pick grep_live<CR>", { desc = "grep current directory" })
+map("n", "<leader>t", ":Pick grep_live<CR>", { desc = "grep current directory" })
 map("n", "<leader>b", ":Pick buffers<CR>", { desc = "Pick buffers" })
 map("n", "<leader>h", ":Pick help<CR>", { desc = "Pick help" })
 map("n", "<leader>e", function() 
@@ -207,3 +207,57 @@ map("n", "<leader>m", function()
   local pathname = vim.fn.expand("%:h")
   vim.cmd("!" .. "cd " .. pathname .. "&& " .. "make " .. filename)
 end, { desc = "Make current buffer" })
+
+-- Git workflow keymaps
+map("n", "<leader>gs", ":terminal git status<CR>", { desc = "Git status" })
+map("n", "<leader>ga", ":terminal git add .<CR>", { desc = "Git add all" })
+map("n", "<leader>gc", function()
+  local msg = vim.fn.input("Commit message: ")
+  if msg ~= "" then
+    vim.cmd("terminal git commit -m " .. vim.fn.shellescape(msg))
+  end
+end, { desc = "Git commit" })
+map("n", "<leader>gp", ":terminal git push<CR>", { desc = "Git push" })
+map("n", "<leader>gl", ":terminal git log --oneline -10<CR>", { desc = "Git log" })
+map("n", "<leader>gb", function()
+  -- Branch picker using mini.pick
+  local pick_ok, pick = pcall(require, "mini.pick")
+  if not pick_ok then return end
+  
+  local branches = vim.fn.systemlist("git branch -a --format='%(refname:short)'")
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Not in a git repository")
+    return
+  end
+  
+  pick.start({
+    source = {
+      items = branches,
+      name = "Git Branches",
+    },
+    mappings = {
+      choose = {
+        char = '<CR>',
+        func = function()
+          local branch = pick.get_picker_matches().current
+          if branch then
+            vim.cmd("terminal git checkout " .. vim.fn.shellescape(branch))
+            -- Refresh Oil if it's open
+            vim.schedule(function()
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                local buf = vim.api.nvim_win_get_buf(win)
+                if vim.bo[buf].filetype == 'oil' then
+                  vim.api.nvim_buf_call(buf, function() vim.cmd("edit") end)
+                end
+              end
+            end)
+          end
+        end,
+      },
+    },
+  })
+end, { desc = "Git checkout branch" })
+
+-- Conflict resolution
+map("n", "<leader>gm", ":terminal git mergetool<CR>", { desc = "Git merge tool" })
+map("n", "<leader>gd", ":terminal git diff<CR>", { desc = "Git diff" })

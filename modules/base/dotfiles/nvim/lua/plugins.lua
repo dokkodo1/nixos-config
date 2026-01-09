@@ -207,6 +207,45 @@ if oil_ok then
         end,
         desc = "File permissions and ownership operations",
       },
+      -- git operations
+      ["<C-g>"] = {
+        callback = function()
+          local entry = oil.get_cursor_entry()
+          if not entry then return end
+          local filepath = oil.get_current_dir() .. entry.name
+          local git_root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("%s+", "")
+          
+          if vim.v.shell_error ~= 0 then
+            vim.notify("Not in a git repository")
+            return
+          end
+          
+          local relative_path = filepath:gsub("^" .. git_root .. "/", "")
+          local options = {
+            "Git add " .. entry.name,
+            "Git reset " .. entry.name,
+            "Git checkout " .. entry.name,
+            "Git diff " .. entry.name,
+            "Git log " .. entry.name,
+            "Git blame " .. entry.name,
+          }
+          
+          vim.ui.select(options, {
+            prompt = "Git operations for: " .. entry.name,
+          }, function(choice)
+            if not choice then return end
+            local cmd = choice:gsub("Git ", "git "):gsub(entry.name, vim.fn.shellescape(relative_path))
+            if choice:match("diff") or choice:match("log") or choice:match("blame") then
+              vim.cmd("terminal cd " .. git_root .. " && " .. cmd)
+            else
+              vim.fn.system("cd " .. git_root .. " && " .. cmd)
+              vim.schedule(function() vim.cmd("edit") end) -- Refresh Oil
+              vim.notify("Executed: " .. cmd)
+            end
+          end)
+        end,
+        desc = "Git operations on file",
+      },
     },
   })
   vim.notify("Oil setup complete with columns and custom functions")
@@ -310,5 +349,22 @@ require('lualine').setup {
     theme = 'auto',
     component_separators = '',
     section_separators = '',
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {
+      {
+        'branch',
+        fmt = function(str) return str ~= '' and ' ' .. str or '' end
+      },
+      {
+        'diff',
+        symbols = {added = '+', modified = '~', removed = '-'}
+      }
+    },
+    lualine_c = {'filename'},
+    lualine_x = {'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
   },
 }
