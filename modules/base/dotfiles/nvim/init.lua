@@ -4,3 +4,4 @@ package.path = config_dir .. "/lua/?.lua;" .. package.path
 require('settings')
 require('keymaps')
 require('plugins')
+

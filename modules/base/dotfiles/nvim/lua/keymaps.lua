@@ -9,7 +9,17 @@ map("n", "<leader>q", vim.cmd.quit, { desc = "Quit" })
 map("n", "<leader>i", function() vim.cmd.edit("~/configurations/modules/base/dotfiles/nvim/init.lua") end,
   { desc = "Edit init.lua" })
 map("n", "<leader>o", function()
-  vim.cmd.source("~/configurations/modules/base/dotfiles/nvim/init.lua")
+  -- Bypass module cache by using dofile directly
+  local config_base = vim.fn.expand("~/configurations/modules/base/dotfiles/nvim/lua")
+
+  package.loaded['settings'] = nil
+  package.loaded['keymaps'] = nil
+  package.loaded['plugins'] = nil
+
+  dofile(config_base .. "/settings.lua")
+  dofile(config_base .. "/keymaps.lua")
+  dofile(config_base .. "/plugins.lua")
+
   vim.notify("Config reloaded from repo!")
 end, { desc = "Reload config" })
 
@@ -208,6 +218,18 @@ map("n", "<leader>m", function()
   vim.cmd("!" .. "cd " .. pathname .. "&& " .. "make " .. filename)
 end, { desc = "Make current buffer" })
 
+-- Helper function to refresh Oil buffers after git operations
+local function refresh_oil_buffers()
+  vim.schedule(function()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      if vim.bo[buf].filetype == 'oil' then
+        vim.api.nvim_buf_call(buf, function() vim.cmd("edit") end)
+      end
+    end
+  end)
+end
+
 -- Git workflow keymaps
 map("n", "<leader>gs", ":terminal git status<CR>", { desc = "Git status" })
 map("n", "<leader>ga", ":terminal git add .<CR>", { desc = "Git add all" })
@@ -242,15 +264,7 @@ map("n", "<leader>gb", function()
           local branch = pick.get_picker_matches().current
           if branch then
             vim.cmd("terminal git checkout " .. vim.fn.shellescape(branch))
-            -- Refresh Oil if it's open
-            vim.schedule(function()
-              for _, win in ipairs(vim.api.nvim_list_wins()) do
-                local buf = vim.api.nvim_win_get_buf(win)
-                if vim.bo[buf].filetype == 'oil' then
-                  vim.api.nvim_buf_call(buf, function() vim.cmd("edit") end)
-                end
-              end
-            end)
+            refresh_oil_buffers()
           end
         end,
       },

@@ -68,15 +68,3 @@ set_indent({ "lua", "javascript", "html", "css", "yaml", "json", "nix", "haskell
 set_indent({ "python", "c", "cpp", "java", "go", "rust", "sh", "bash", "zsh" }, 4)
 set_indent({ "make" }, 8, true)
 
--- Git status refresh for Oil
-vim.api.nvim_create_autocmd({"BufEnter", "FocusGained"}, {
-  pattern = "*",
-  callback = function()
-    if vim.bo.filetype == 'oil' then
-      -- Small delay to ensure git operations complete
-      vim.defer_fn(function()
-        vim.cmd("edit")
-      end, 100)
-    end
-  end,
-})

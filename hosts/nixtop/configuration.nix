@@ -46,9 +46,9 @@
     qbittorrent
     claude-code
     discord
-    bitwarden
+    bitwarden-desktop
     mesa
-    glxinfo
+    mesa-demos
     mpv
   ];
 
@@ -59,12 +59,13 @@
     enable32Bit = true;
     extraPackages = with pkgs; [
       intel-media-driver
-      vaapiIntel
-      vaapiVdpau
+      intel-vaapi-driver
+      libva-vdpau-driver
+      intel-vaapi-driver
       libvdpau-va-gl
     ];
     extraPackages32 = with pkgs.pkgsi686Linux; [
-      vaapiIntel
+      intel-vaapi-driver
       libva
     ];
   };

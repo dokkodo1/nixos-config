@@ -7,7 +7,9 @@ let
 in
 {
   home-manager.users.${actualUsername} = {
-    programs.qutebrowser.enable = true;
-    xdg.configFile."qutebrowser/config.py".source = ./config.py;
+    programs.qutebrowser = {
+      enable = true;
+      extraConfig = builtins.readFile ./config.py;
+    };
   };
 }
