@@ -10,9 +10,7 @@
   control.audio.enable = true;
   control.audio.pavucontrol.enable = true;
   control.tailscale.enable = true;
-
   control.gaming.enable = true;
-  control.gaming.launchers.lutris.enable = true;
 
 
   services.udev.extraRules = ''
@@ -38,12 +36,10 @@
   hardware.uinput.enable = true;
   environment.systemPackages = with pkgs; [
     deluge
-    bottles
     wineWowPackages.waylandFull
     winetricks
     wine64
     wine
-    qbittorrent
     claude-code
     discord
     bitwarden-desktop

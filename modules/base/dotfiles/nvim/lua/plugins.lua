@@ -82,6 +82,43 @@ if oil_ok then
             return
           end
           
+          local is_image = false
+          if entry.type == "file" and ext then
+            if ext == "iso" then
+              is_image = true
+            end
+          end
+
+          if is_image then
+            -- Generate default mountpoint name from filename
+            local default_mountpoint = entry.name:match("(.+)%.iso$") or entry.name
+            default_mountpoint = default_mountpoint:gsub("%s+", "_")
+
+            vim.ui.select({"Mount image", "Custom command"}, {
+              prompt = "Disk image detected (" .. entry.name .. "):",
+            }, function(choice)
+              if choice == "Mount image" then
+                local mountpoint_name = vim.fn.input("Mountpoint name (in /mnt/): ", default_mountpoint)
+                if not mountpoint_name or mountpoint_name == "" then
+                  mountpoint_name = default_mountpoint
+                end
+                -- Remove any remaining whitespace and sanitize
+                mountpoint_name = mountpoint_name:gsub("%s+", "_")
+
+                local mountpoint = "/mnt/" .. mountpoint_name
+                local mount_cmd = "sudo mkdir -p " .. vim.fn.shellescape(mountpoint) ..
+                                  " && sudo mount -o loop " .. vim.fn.shellescape(filepath) ..
+                                  " " .. vim.fn.shellescape(mountpoint)
+                vim.cmd("terminal cd " .. oil.get_current_dir() .. " && " .. mount_cmd)
+              elseif choice == "Custom command" then
+                local command = vim.fn.input("Run: ", "sudo mount -o loop " .. entry.name .. " /mnt/", "shellcmd")
+                if command and command ~= "" then
+                  vim.cmd("terminal cd " .. oil.get_current_dir() .. " && " .. command)
+                end
+              end
+            end)
+            return
+          end
           -- Smart command suggestions based on file type (original logic)
           local default_cmd = ""
           if entry.type == "file" then
@@ -141,14 +178,15 @@ if oil_ok then
           vim.notify("Working on: " .. entry.name)
           local filepath = oil.get_current_dir() .. entry.name
           local current_user = vim.fn.system("whoami"):gsub("%s+", "")
-          
+          local current_group = vim.fn.system("id -gn"):gsub("%s+", "")
+
           local options = {
             "Make executable (chmod +x)",
             "Remove executable (chmod -x)",
             "Make read-only (chmod -w)",
             "Make writable (chmod +w)",
             "Custom chmod",
-            "Change owner to " .. current_user .. " (sudo chown)",
+            "Change owner to " .. current_user .. ":" .. current_group .. " (sudo chown)",
             "Custom chown (sudo)",
             "View permissions (ls -la)"
           }
@@ -174,12 +212,12 @@ if oil_ok then
               end
             elseif choice:match("Change owner to") then
               if entry.type == "directory" then
-                command = "sudo chown -R " .. current_user .. ":" .. current_user .. " " .. vim.fn.shellescape(filepath)
+                command = "sudo chown -R " .. current_user .. ":" .. current_group .. " " .. vim.fn.shellescape(filepath)
               else
-                command = "sudo chown " .. current_user .. ":" .. current_user .. " " .. vim.fn.shellescape(filepath)
+                command = "sudo chown " .. current_user .. ":" .. current_group .. " " .. vim.fn.shellescape(filepath)
               end
             elseif choice:match("Custom chown") then
-              local owner = vim.fn.input("chown owner:group: ", current_user .. ":" .. current_user, "user")
+              local owner = vim.fn.input("chown owner:group: ", current_user .. ":" .. current_group, "user")
               if owner and owner ~= "" then
                 if entry.type == "directory" then
                   local recursive = vim.fn.confirm("Apply recursively to directory?", "&Yes\n&No", 1)
@@ -256,7 +294,16 @@ end
 
 -- Plugin setup
 local pick_ok, pick = pcall(require, "mini.pick")
-if pick_ok then pick.setup() end
+if pick_ok then
+  pick.setup()
+
+  -- Apply mini.pick highlights immediately after setup
+  vim.api.nvim_set_hl(0, "MiniPickMatchCurrent", { bg = "#3c3836", fg = "#ebdbb2", bold = true })
+  vim.api.nvim_set_hl(0, "MiniPickMatchMarked", { bg = "#427b58", fg = "#ebdbb2", bold = true })
+  vim.api.nvim_set_hl(0, "MiniPickBorder", { fg = "#928374" })
+  vim.api.nvim_set_hl(0, "MiniPickPrompt", { fg = "#ebdbb2", bold = true })
+  vim.api.nvim_set_hl(0, "MiniPickNormal", { bg = "#282828", fg = "#ebdbb2" })
+end
 
 
 -- Indentmini

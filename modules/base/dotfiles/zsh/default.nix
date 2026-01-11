@@ -19,10 +19,12 @@ in
       shellAliases = {
         wc3 = "wine Games/wc3/drive_c/Program Files/Warcraft 3/Warcraft III.exe";
         ll = "ls -lah";
-        nixos = if pkgs.stdenv.isDarwin 
+        nixos = if pkgs.stdenv.isDarwin
           then "cd /Users/${darwinUsername}/configurations/"
           else "cd /home/${username}/configurations/";
         tm = "tmux-default";
+        screenshot = ''grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png'';
+        screenshot-clip = ''grim -g "$(slurp)" - | wl-copy'';
       };
 
       oh-my-zsh = {

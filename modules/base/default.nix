@@ -1,15 +1,7 @@
+{ pkgs, lib, ... }:
+
 {
-  imports = [
-    ./dotfiles
-    ./bluetooth.nix
-    ./home-manager.nix
-    ./keyboardLayout.nix
-    ./networking.nix
-    ./nixSettings.nix
-    ./security.nix
-    ./sops.nix
-    ./ssh.nix
-    ./systemPackages.nix
-    ./users.nix
-  ];
+  imports = [ ./dotfiles ]
+   ++ lib.optional pkgs.stdenv.isLinux ./nixos
+   ++ lib.optional pkgs.stdenv.isDarwin ./darwin;
 }

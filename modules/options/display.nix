@@ -54,18 +54,19 @@ in {
       ];
       
       home-manager.users.${username} = {
-        # Terminal configuration
         programs.foot = {
           enable = lib.mkDefault true;
           settings.main.font = "JetBrainsMono Nerd Font:size=12";
         };
         
-        # Waybar configuration (hot-reloadable symlinks)
         programs.waybar = {
           enable = true;
         };
         
-        # Create symlinks to your repo for live editing (home-manager manages these)
+        home.file.".config/foot/foot.ini" = {
+          source = ../base/dotfiles/foot/foot.ini;
+          force = true;
+        };
         home.file.".config/waybar/config.jsonc" = {
           source = ../base/dotfiles/waybar/config.jsonc;
           force = true;
@@ -75,13 +76,11 @@ in {
           force = true;
         };
         
-        # DWL config (hot-reloadable via script)
         home.file.".config/dwl/config.h" = {
           source = ../base/dotfiles/dwl/config.h;
           force = true;
         };
         
-        # DWL reload script using Makefile
         home.file."bin/dwl-reload" = {
           text = ''
             #!/bin/sh
@@ -96,7 +95,6 @@ in {
           executable = true;
         };
         
-        # Waybar reload script
         home.file."bin/waybar-reload" = {
           text = ''
             #!/bin/sh

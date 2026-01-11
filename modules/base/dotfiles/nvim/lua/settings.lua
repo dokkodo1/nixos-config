@@ -10,12 +10,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
       highlight LineNr ctermfg=white ctermbg=black
       highlight CursorLineNr ctermfg=yellow ctermbg=black cterm=bold
       highlight Comment ctermfg=yellow cterm=bold
-      " Mini.pick selection highlighting - tmux compatible
-      highlight MiniPickMatchCurrent ctermbg=236 ctermfg=15 cterm=bold
-      highlight MiniPickMatchMarked ctermbg=22 ctermfg=15 cterm=bold
-      highlight MiniPickBorder ctermfg=7 ctermbg=NONE
-      highlight MiniPickPrompt ctermfg=15 ctermbg=NONE cterm=bold
-      highlight MiniPickNormal ctermbg=235 ctermfg=15
       highlight Normal ctermbg=NONE
       highlight NormalFloat ctermbg=black ctermfg=white
       highlight FloatBorder ctermfg=white ctermbg=NONE

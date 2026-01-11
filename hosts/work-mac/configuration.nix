@@ -1,13 +1,10 @@
-{ pkgs, darwinUsername, ... }:
+{ pkgs, darwinUsername, modPath, ... }:
 
 {
   imports = [
-    ../../modules/base/dotfiles
-    ../../modules/base/sops.nix
-    # ../../modules/options/tailscale.nix  # Temporarily disabled for testing
+    modPath
   ];
 
-  # Temporary direct Tailscale config for Darwin
   services.tailscale.enable = true;
 
   home-manager.users.${darwinUsername} = {
@@ -15,8 +12,7 @@
     home.homeDirectory = "/Users/${darwinUsername}";
     home.stateVersion = "24.11";
   };
-#	darwin.installApps = true;
-#	darwin.fullCopies = true;
+
   users.users.${darwinUsername} = {
     home = "/Users/${darwinUsername}";
     shell = pkgs.zsh;
