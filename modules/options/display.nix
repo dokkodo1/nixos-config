@@ -56,17 +56,19 @@ in {
       home-manager.users.${username} = {
         programs.foot = {
           enable = lib.mkDefault true;
-          settings.main.font = "JetBrainsMono Nerd Font:size=12";
+          # settings.main.font = "JetBrainsMono Nerd Font:size=12";
+          # settings = builtins.readFile ../base/dotfiles/foot/foot.ini;
         };
-        
-        programs.waybar = {
-          enable = true;
-        };
-        
         home.file.".config/foot/foot.ini" = {
           source = ../base/dotfiles/foot/foot.ini;
           force = true;
         };
+
+        programs.waybar = {
+          enable = true;
+        };
+        
+
         home.file.".config/waybar/config.jsonc" = {
           source = ../base/dotfiles/waybar/config.jsonc;
           force = true;

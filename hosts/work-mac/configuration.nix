@@ -1,11 +1,6 @@
-{ pkgs, darwinUsername, modPath, ... }:
+{ pkgs, darwinUsername, ... }:
 
 {
-  imports = [
-    modPath
-  ];
-
-  services.tailscale.enable = true;
 
   home-manager.users.${darwinUsername} = {
     home.username = darwinUsername;

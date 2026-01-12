@@ -1,9 +1,8 @@
-{ pkgs, modPath, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
-    modPath
   ];
 
   control = {

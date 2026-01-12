@@ -1,9 +1,8 @@
-{ pkgs, lib, modPath, inputs, ... }:
+{ lib, ... }:
 
 {
   imports = [
     ./disko-simple.nix
-    modPath
   ];
 
   control.tailscale.enable = true;

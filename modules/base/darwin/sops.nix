@@ -3,7 +3,7 @@
 {
   # sops-nix configuration for encrypted secrets
   sops = {
-    defaultSopsFile = ../../secrets/secrets.yaml;
+    defaultSopsFile = ../../../secrets/secrets.yaml;
     validateSopsFiles = false;  # Disable validation during build
     
     # Age key configuration - works on both platforms

@@ -1,9 +1,8 @@
-{ pkgs, modPath, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
-    modPath
   ];
 
   control.display.dwl.enable = true;
@@ -46,6 +45,7 @@
     mesa
     mesa-demos
     mpv
+    doxpkgs.tmux-powerkit
   ];
 
   programs.nix-ld.enable = true;

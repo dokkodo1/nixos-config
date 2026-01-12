@@ -52,6 +52,8 @@
     };
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+
+    tmux-powerkit.url = "github:dokkodo1/tmux-powerkit/add-nix-packaging";
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
@@ -105,6 +107,8 @@
             documentation.nixos.enable = true;
           })
           hostPath
+          ./modules
+          ./modules/base/nixos
         ] ++ extraModules;
       };
 
@@ -121,6 +125,7 @@
       specialArgs = { inherit inputs darwinUsername darwinHostname locale timezone repoName; modPath = ./modules; };
       modules = [
         ./hosts/${darwinHostname}/configuration.nix
+        ./modules/base/darwin
         inputs.home-manager.darwinModules.home-manager
         inputs.sops-nix.darwinModules.sops
         {
