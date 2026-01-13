@@ -61,7 +61,7 @@
     repoName = "configurations"; # name of this folder
     hostname = "nixtop";
     username = "dokkodo"; 
-    darwinHostname = "work-mac"; # these two only apply if building nix darwin. can leave null
+    darwinHostname = "hpl-macmini"; # these two only apply if building nix darwin. can leave null
     darwinUsername = "callummcdonald"; # don't @ me
     locale = "en_ZA.UTF-8";
     timezone = "Africa/Johannesburg";
@@ -69,7 +69,7 @@
       # if not me, delete these 3 entries and add your own. 
     systems = {
       desktop = "x86_64-linux";
-      work-mac = "x86_64-darwin";
+      hpl-macmini = "x86_64-darwin";
       nixtop = "x86_64-linux";
       hpl-tower = "x86_64-linux";
     };
@@ -124,6 +124,7 @@
       system = systems.${darwinHostname};
       specialArgs = { inherit inputs darwinUsername darwinHostname locale timezone repoName; modPath = ./modules; };
       modules = [
+        ./modules/base
         ./hosts/${darwinHostname}/configuration.nix
         ./modules/base/darwin
         inputs.home-manager.darwinModules.home-manager

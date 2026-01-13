@@ -1,15 +1,15 @@
 keys:
   - &nixtop age1km3dl0mjq35ddhevlhfzelz62wkp4l2ehcg7xl4zlx5ufpk09drsvd2ds0
-  - &work-mac age1w3zwf6yp43fksd5crhku7w74t4s9fzlh7whtlppzh5r60jy7yy8qg0wenw
+  - &hpl-macmini age1w3zwf6yp43fksd5crhku7w74t4s9fzlh7whtlppzh5r60jy7yy8qg0wenw
 
 creation_rules:
   - path_regex: secrets/[^/]+\.ya?ml$
     key_groups:
       - age:
           - *nixtop
-          - *work-mac
+          - *hpl-macmini
   - path_regex: secrets/[^/]+\.json$
     key_groups:
       - age:
           - *nixtop
-          - *work-mac
+          - *hpl-macmini
