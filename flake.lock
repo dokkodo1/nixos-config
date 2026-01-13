@@ -496,6 +496,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-local": {
+      "locked": {
+        "lastModified": 1768328967,
+        "narHash": "sha256-5bvYCWEHcdKHruKpUzWLJLhLT/Dsy3VgQJv1ymUF/jM=",
+        "owner": "dokkodo1",
+        "repo": "nixpkgs",
+        "rev": "8c85122dd4d78026b4905030fbacc67dafdc9c5d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dokkodo1",
+        "ref": "tmux-plugin-powerkit",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1751274312,
@@ -643,6 +659,7 @@
         "nixos-anywhere": "nixos-anywhere",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_6",
+        "nixpkgs-local": "nixpkgs-local",
         "nixpkgs-stable": "nixpkgs-stable",
         "nur": "nur",
         "sops-nix": "sops-nix",
