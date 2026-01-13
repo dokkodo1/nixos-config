@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
 	fonts.packages = with pkgs; [
 		nerd-fonts.jetbrains-mono
@@ -10,27 +10,23 @@
     cloc
     file
     gnumake
-    busybox
 		bat
     pciutils
-		iw
     git
 		gh
-    bitwarden-cli
     w3m-nox
     tmux
     yazi
     fastfetch
 		btop
-    parted
 		rar
     nh
 		nixd 
 		gcc
-  ];
-
-  programs.git = {
-    enable = true;
-    lfs.enable = true;
-  };
+  ] ++ lib.optionals pkgs.stdenv.isLinux [
+      busybox
+      iw
+      parted
+      bitwarden-cli
+    ];
 }

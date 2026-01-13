@@ -1,5 +1,6 @@
 {
   imports = [
     ./dotfiles
+    ./systemPackages.nix
   ];
 }

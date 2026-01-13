@@ -130,7 +130,13 @@
         inputs.home-manager.darwinModules.home-manager
         inputs.sops-nix.darwinModules.sops
         {
-          nixpkgs.overlays = overlays;
+          nixpkgs.overlays = overlays ++ [
+            (final: prev: {
+              basedpyright = (import inputs.nixpkgs-stable {
+                system = prev.stdenv.hostPlatform.system;
+              }).basedpyright;
+            })
+          ];
           nixpkgs.config.allowUnfree = true;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;

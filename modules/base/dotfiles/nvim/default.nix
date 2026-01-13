@@ -31,7 +31,6 @@ in
       ripgrep
       btop
       fastfetch
-      doxpkgs.tmux-default
     ];
   };
 }

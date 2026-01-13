@@ -45,7 +45,6 @@
     mesa
     mesa-demos
     mpv
-    doxpkgs.tmux-powerkit
   ];
 
   programs.nix-ld.enable = true;
