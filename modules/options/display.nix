@@ -77,45 +77,6 @@ in {
           source = ../base/dotfiles/waybar/style.css;
           force = true;
         };
-        
-        home.file.".config/dwl/config.h" = {
-          source = ../base/dotfiles/dwl/config.h;
-          force = true;
-        };
-        
-        home.file."bin/dwl-reload" = {
-          text = ''
-            #!/bin/sh
-            cd /home/${username}/configurations/modules/base/dotfiles/dwl
-            echo "Recompiling DWL with make..."
-            make reload
-            echo "Reloading waybar..."
-            killall waybar 2>/dev/null; waybar &
-            echo "DWL binary ready at: $(pwd)/dwl"
-            echo "To test: ./dwl  (or restart your session for system-wide update)"
-          '';
-          executable = true;
-        };
-        
-        home.file."bin/waybar-reload" = {
-          text = ''
-            #!/bin/sh
-            killall waybar 2>/dev/null
-            waybar &
-            echo "Waybar reloaded"
-          '';
-          executable = true;
-        };
-
-        # Auto-start script for DWL
-        home.file.".dwl/autostart" = {
-          text = ''
-            #!/bin/sh
-            waybar &
-            swaybg -i ~/.config/wallpaper.jpg &
-          '';
-          executable = true;
-        };
       };
     })
 

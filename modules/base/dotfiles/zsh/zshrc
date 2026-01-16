@@ -1,12 +1,89 @@
+# ============================================================================
+# ZSH Configuration
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# History Configuration
+# ----------------------------------------------------------------------------
 HISTSIZE=1000
 SAVEHIST=1000
-HISTFILE=~/.zsh_history
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_SPACE
-setopt SHARE_HISTORY
+HISTFILE=~/.zsh/zsh_history
+setopt HIST_IGNORE_DUPS      # Don't save duplicate commands
+setopt HIST_IGNORE_SPACE     # Don't save commands starting with space
+setopt SHARE_HISTORY         # Share history across all sessions
+setopt HIST_VERIFY           # Show command with history expansion before running it
 
-setopt AUTO_CD
-setopt CORRECT
-setopt MENU_COMPLETE
+# ----------------------------------------------------------------------------
+# ZSH Options
+# ----------------------------------------------------------------------------
+setopt AUTO_CD               # cd by just typing directory name
+setopt CORRECT               # Suggest corrections for typos
+setopt MENU_COMPLETE         # Automatically select first completion match
+setopt AUTO_PUSHD            # Make cd push old directory onto directory stack
+setopt PUSHD_IGNORE_DUPS     # Don't push duplicates onto directory stack
 
-alias yo="echo wassup"
+# ----------------------------------------------------------------------------
+# Completion System
+# ----------------------------------------------------------------------------
+autoload -Uz compinit
+compinit
+
+# Case-insensitive completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# Menu-style completion
+zstyle ':completion:*' menu select
+# Colors in completion
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# ----------------------------------------------------------------------------
+# Key Bindings
+# ----------------------------------------------------------------------------
+# Use emacs key bindings
+bindkey -e
+
+# ----------------------------------------------------------------------------
+# Oh My Zsh Plugins (manual loading)
+# ----------------------------------------------------------------------------
+# Load git plugin functions if available
+if [[ -d "$HOME/.oh-my-zsh/plugins/git" ]]; then
+    source "$HOME/.oh-my-zsh/plugins/git/git.plugin.zsh" 2>/dev/null || true
+fi
+
+# ----------------------------------------------------------------------------
+# Aliases
+# ----------------------------------------------------------------------------
+alias wc3='wine Games/wc3/drive_c/Program\ Files/Warcraft\ 3/Warcraft\ III.exe'
+alias ll='ls -lah'
+alias tm='tmux-default'
+alias screenshot='grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png'
+alias screenshot-clip='grim -g "$(slurp)" - | wl-copy'
+
+# Platform-specific nixos alias
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    alias nixos="cd $HOME/configurations/"
+else
+    alias nixos="cd $HOME/configurations/"
+fi
+
+# ----------------------------------------------------------------------------
+# Reload Function
+# ----------------------------------------------------------------------------
+reload_zsh() {
+    local repo_zshrc="$HOME/configurations/modules/base/dotfiles/zsh/zshrc"
+    if [[ -f "$repo_zshrc" ]]; then
+        source "$repo_zshrc"
+        echo "✓ zshrc reloaded from repo!"
+    else
+        echo "✗ Error: zshrc not found at $repo_zshrc"
+    fi
+}
+alias zreload="reload_zsh"
+
+# ----------------------------------------------------------------------------
+# Prompt Configuration
+# ----------------------------------------------------------------------------
+# Starship prompt will be initialized by the starship init zsh command
+# This is handled in the Nix configuration
+
+# Enable transient prompt support
+# The actual transient prompt is handled by Starship's configuration
