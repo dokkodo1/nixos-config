@@ -58,6 +58,13 @@ alias tm='tmux-default'
 alias screenshot='grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png'
 alias screenshot-clip='grim -g "$(slurp)" - | wl-copy'
 
+# Colorize Nix commands with grc for easier visual parsing of store paths
+if command -v grc &> /dev/null; then
+    alias nh='grc -c ~/.config/grc/nix.conf nh'
+    alias nix='grc -c ~/.config/grc/nix.conf nix'
+    alias darwin-rebuild='grc -c ~/.config/grc/nix.conf darwin-rebuild'
+fi
+
 # Platform-specific nixos alias
 if [[ "$OSTYPE" == "darwin"* ]]; then
     alias nixos="cd $HOME/configurations/"

@@ -245,29 +245,44 @@ map("n", "<leader>gb", function()
   -- Branch picker using mini.pick
   local pick_ok, pick = pcall(require, "mini.pick")
   if not pick_ok then return end
-  
+
   local branches = vim.fn.systemlist("git branch -a --format='%(refname:short)'")
   if vim.v.shell_error ~= 0 then
     vim.notify("Not in a git repository")
     return
   end
-  
+
   pick.start({
     source = {
       items = branches,
       name = "Git Branches",
-    },
-    mappings = {
-      choose = {
-        char = '<CR>',
-        func = function()
-          local branch = pick.get_picker_matches().current
-          if branch then
-            vim.cmd("terminal git checkout " .. vim.fn.shellescape(branch))
+      choose = function(branch)
+        if branch then
+          -- Silently checkout and capture output
+          local output = vim.fn.system("git checkout " .. vim.fn.shellescape(branch))
+          local exit_code = vim.v.shell_error
+
+          if exit_code == 0 then
+            vim.notify("Switched to branch: " .. branch, vim.log.levels.INFO)
+
+            -- Reload all file buffers to reflect the branch change
+            for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+              if vim.api.nvim_buf_is_loaded(buf) and vim.api.nvim_buf_get_option(buf, 'buftype') == '' then
+                local bufname = vim.api.nvim_buf_get_name(buf)
+                if bufname ~= "" and not vim.api.nvim_buf_get_option(buf, 'modified') then
+                  vim.api.nvim_buf_call(buf, function()
+                    vim.cmd('checktime')
+                  end)
+                end
+              end
+            end
+
             refresh_oil_buffers()
+          else
+            vim.notify("Failed to checkout: " .. vim.trim(output), vim.log.levels.ERROR)
           end
-        end,
-      },
+        end
+      end,
     },
   })
 end, { desc = "Git checkout branch" })

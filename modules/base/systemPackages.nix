@@ -23,6 +23,7 @@
     nh
 		nixd 
 		gcc
+	grc
   ] ++ lib.optionals pkgs.stdenv.isLinux [
       busybox
       iw

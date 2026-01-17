@@ -48,5 +48,8 @@ in
 
     # Symlink starship config for hot-reloading
     xdg.configFile."starship.toml".source = ./starship.toml;
+
+    # Symlink grc config for colorizing Nix store paths
+    xdg.configFile."grc/nix.conf".source = ./grc-nix.conf;
   };
 }
