@@ -1,6 +1,5 @@
-{ lib , ... }:
+{ lib , ... }: {
 
-{
   services.ollama = {
     enable = true;
     acceleration = "cuda"; # or "rocm"

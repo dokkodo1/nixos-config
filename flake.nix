@@ -88,6 +88,8 @@
         inherit system;
         specialArgs = { inherit inputs username hostname locale timezone repoName; modPath = ./modules; };
         modules = [
+          ./modules/nixos
+          hostPath
           inputs.musnix.nixosModules.musnix
           inputs.home-manager.nixosModules.home-manager
           inputs.sops-nix.nixosModules.sops
@@ -108,9 +110,6 @@
             documentation.man.enable = true;
             documentation.nixos.enable = true;
           })
-          hostPath
-          ./modules
-          ./modules/base/nixos
         ] ++ extraModules;
       };
 
@@ -126,9 +125,8 @@
       system = systems.${darwinHostname};
       specialArgs = { inherit inputs darwinUsername darwinHostname locale timezone repoName; modPath = ./modules; };
       modules = [
-        ./modules/base
+        ./modules/darwin
         ./hosts/${darwinHostname}/configuration.nix
-        ./modules/base/darwin
         inputs.home-manager.darwinModules.home-manager
         inputs.sops-nix.darwinModules.sops
         {

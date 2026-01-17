@@ -1,6 +1,0 @@
-{
-  imports = [
-    ./dotfiles
-    ./systemPackages.nix
-  ];
-}

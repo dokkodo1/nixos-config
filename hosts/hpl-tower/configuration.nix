@@ -1,6 +1,5 @@
-{ lib, ... }:
+{ lib, ... }: {
 
-{
   imports = [
     ./disko-simple.nix
   ];

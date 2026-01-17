@@ -1,10 +1,7 @@
-{ pkgs, modPath, username, ... }:
+{ pkgs, username, ... }: {
 
-{
   imports = [
     ./hardware-configuration.nix
-    modPath
-    (modPath + "/base/nixos")
   ];
 
   /*
@@ -83,6 +80,32 @@
       enable = false;
       ssh = true;
       exitNode = false;
+    };
+
+    remoteBuilders = {
+      enable = false; # enable distributed builds
+      serveAsBuilder = false; # allow other machines to use this host for remote builds
+      enableLinuxBuilder = false; # (Darwin only) enable Linux VM for building x86_64-linux packages on macOS
+
+      useBuilders = []; # list of remote builders to use for offloading compilation
+      /*
+        example = [
+          {
+            hostName = "hpl-macmini"; # or IP address, or tailscale hostname
+            systems = [ "x86_64-darwin" ]; # what systems this builder can build
+            sshUser = "builder"; # SSH user for remote builds
+            maxJobs = 8; # max parallel jobs
+            speedFactor = 2; # relative speed (higher = prefer this builder)
+          }
+          {
+            hostName = "hpl-tower";
+            systems = [ "x86_64-linux" ];
+            sshUser = "builder";
+            maxJobs = 12;
+            speedFactor = 3;
+          }
+        ];
+      */
     };
   };
 
