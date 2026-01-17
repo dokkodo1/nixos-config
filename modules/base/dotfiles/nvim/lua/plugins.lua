@@ -11,6 +11,7 @@ vim.pack.add({
   { src = "https://github.com/catppuccin/nvim" },
   { src = "https://github.com/morhetz/gruvbox" },
   { src = "https://github.com/windwp/nvim-autopairs" },
+  { src = "https://github.com/tpope/vim-fugitive" },
 })
 
 -- Oil setup immediately after pack.add

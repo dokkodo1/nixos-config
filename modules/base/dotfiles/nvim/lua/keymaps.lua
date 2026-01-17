@@ -287,6 +287,140 @@ map("n", "<leader>gb", function()
   })
 end, { desc = "Git checkout branch" })
 
--- Conflict resolution
-map("n", "<leader>gm", ":terminal git mergetool<CR>", { desc = "Git merge tool" })
-map("n", "<leader>gd", ":terminal git diff<CR>", { desc = "Git diff" })
+-- Diff and merge workflow
+-- View diff of current file against another branch
+map("n", "<leader>gd", function()
+  local pick_ok, pick = pcall(require, "mini.pick")
+  if not pick_ok then return end
+
+  local branches = vim.fn.systemlist("git branch --format='%(refname:short)'")
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Not in a git repository")
+    return
+  end
+
+  pick.start({
+    source = {
+      items = branches,
+      name = "Diff current file against branch",
+      choose = function(branch)
+        if branch then
+          local current_file = vim.fn.expand("%:p")
+          if current_file == "" then
+            vim.notify("No file in current buffer", vim.log.levels.WARN)
+            return
+          end
+          -- Open vertical split with diff against selected branch
+          vim.cmd("Gvdiffsplit " .. vim.fn.shellescape(branch))
+        end
+      end,
+    },
+  })
+end, { desc = "Diff current file vs branch" })
+
+-- Merge branch into current branch
+map("n", "<leader>gM", function()
+  local pick_ok, pick = pcall(require, "mini.pick")
+  if not pick_ok then return end
+
+  local branches = vim.fn.systemlist("git branch --format='%(refname:short)'")
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Not in a git repository")
+    return
+  end
+
+  pick.start({
+    source = {
+      items = branches,
+      name = "Merge branch into current",
+      choose = function(branch)
+        if branch then
+          local output = vim.fn.system("git merge " .. vim.fn.shellescape(branch))
+          local exit_code = vim.v.shell_error
+
+          if exit_code == 0 then
+            vim.notify("Merged " .. branch .. " successfully", vim.log.levels.INFO)
+            -- Reload buffers
+            for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+              if vim.api.nvim_buf_is_loaded(buf) and vim.api.nvim_buf_get_option(buf, 'buftype') == '' then
+                local bufname = vim.api.nvim_buf_get_name(buf)
+                if bufname ~= "" and not vim.api.nvim_buf_get_option(buf, 'modified') then
+                  vim.api.nvim_buf_call(buf, function()
+                    vim.cmd('checktime')
+                  end)
+                end
+              end
+            end
+            refresh_oil_buffers()
+          else
+            -- Merge conflict occurred
+            vim.notify("Merge conflicts detected. Use <leader>gm to resolve", vim.log.levels.WARN)
+            vim.cmd("cexpr system('git diff --name-only --diff-filter=U')")
+            vim.cmd("copen")
+          end
+        end
+      end,
+    },
+  })
+end, { desc = "Merge branch into current" })
+
+-- Open merge conflicts in quickfix and start resolving
+map("n", "<leader>gm", function()
+  local conflicts = vim.fn.systemlist("git diff --name-only --diff-filter=U")
+  if vim.v.shell_error ~= 0 or #conflicts == 0 then
+    vim.notify("No merge conflicts to resolve", vim.log.levels.INFO)
+    return
+  end
+
+  -- Configure git to use nvimdiff
+  vim.fn.system("git config merge.tool nvimdiff")
+  vim.fn.system("git config merge.conflictstyle diff3")
+  vim.fn.system("git config mergetool.nvimdiff.cmd 'nvim -d $LOCAL $BASE $REMOTE $MERGED -c \"wincmd w\" -c \"wincmd J\"'")
+
+  -- Open first conflict file in 3-way diff
+  vim.cmd("Gvdiffsplit!")
+  vim.notify("Resolving conflicts. Use ]c/[c to navigate, :diffget //2 (ours) or //3 (theirs)", vim.log.levels.INFO)
+end, { desc = "Resolve merge conflicts" })
+
+-- List all conflicted files
+map("n", "<leader>gC", function()
+  local conflicts = vim.fn.systemlist("git diff --name-only --diff-filter=U")
+  if #conflicts == 0 then
+    vim.notify("No conflicts", vim.log.levels.INFO)
+    return
+  end
+
+  local pick_ok, pick = pcall(require, "mini.pick")
+  if not pick_ok then
+    vim.notify("Conflicted files:\n" .. table.concat(conflicts, "\n"), vim.log.levels.INFO)
+    return
+  end
+
+  pick.start({
+    source = {
+      items = conflicts,
+      name = "Conflicted Files",
+      choose = function(file)
+        if file then
+          vim.cmd("edit " .. vim.fn.fnameescape(file))
+          vim.cmd("Gvdiffsplit!")
+        end
+      end,
+    },
+  })
+end, { desc = "List merge conflicts" })
+
+-- In diff mode: take changes from left window (LOCAL/ours)
+map("n", "<leader>gh", ":diffget //2<CR>", { desc = "Get from LOCAL (ours)" })
+-- In diff mode: take changes from right window (REMOTE/theirs)
+map("n", "<leader>gl", ":diffget //3<CR>", { desc = "Get from REMOTE (theirs)" })
+
+-- Abort merge
+map("n", "<leader>gA", function()
+  local confirm = vim.fn.input("Abort merge? (y/n): ")
+  if confirm == "y" then
+    vim.fn.system("git merge --abort")
+    vim.notify("Merge aborted", vim.log.levels.INFO)
+    vim.cmd("bufdo checktime")
+  end
+end, { desc = "Abort merge" })
