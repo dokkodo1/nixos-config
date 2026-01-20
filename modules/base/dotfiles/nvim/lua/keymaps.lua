@@ -65,14 +65,19 @@ map("n", "]q", '<cmd>cprev<CR>', { desc = "Next qf item" })
 map("n", "<leader>co", '<cmd>copen<CR>', { desc = "Open qflist" })
 map("n", "<leader>cc", '<cmd>cclose<CR>', { desc = "Close qflist" })
 
--- Plugins (mini.pick, oil)
+-- Plugins (mini.pick, oil, glow)
 map("n", "<leader>f", ":Pick files<CR>", { desc = "Pick files" })
 map("n", "<leader>t", ":Pick grep_live<CR>", { desc = "grep current directory" })
 map("n", "<leader>b", ":Pick buffers<CR>", { desc = "Pick buffers" })
 map("n", "<leader>h", ":Pick help<CR>", { desc = "Pick help" })
-map("n", "<leader>e", function() 
+map("n", "<leader>e", function()
   vim.cmd("Oil")
 end, { desc = "Open Oil explorer" })
+
+-- Markdown previews
+map("n", "<leader>md", ":Glow<CR>", { desc = "Preview markdown in terminal" })
+map("n", "<leader>mp", ":MarkdownPreview<CR>", { desc = "Preview markdown in browser" })
+map("n", "<leader>ms", ":MarkdownPreviewStop<CR>", { desc = "Stop markdown preview" })
 
 -- Directory picker helper functions
 local function get_directories_file()

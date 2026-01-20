@@ -17,7 +17,7 @@ in
       # Enable zsh with minimal Nix configuration
       zsh = {
         enable = true;
-        dotDir = "${actualHome}/zsh";
+        dotDir = "${actualHome}/.zsh";
         enableCompletion = true;
         autosuggestion.enable = true;
         syntaxHighlighting.enable = true;

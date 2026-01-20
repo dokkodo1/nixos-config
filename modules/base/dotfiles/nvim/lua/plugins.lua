@@ -12,6 +12,8 @@ vim.pack.add({
   { src = "https://github.com/morhetz/gruvbox" },
   { src = "https://github.com/windwp/nvim-autopairs" },
   { src = "https://github.com/tpope/vim-fugitive" },
+  { src = "https://github.com/ellisonleao/glow.nvim" },
+  { src = "https://github.com/iamcco/markdown-preview.nvim" },
 })
 
 -- Oil setup immediately after pack.add
@@ -415,4 +417,23 @@ require('lualine').setup {
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
+}
+
+-- Glow (markdown preview in terminal)
+local glow_ok, glow = pcall(require, "glow")
+if glow_ok then
+  glow.setup({
+    border = "rounded",
+    style = "dark",
+    width = 120,
+  })
+end
+
+-- Markdown Preview (browser-based)
+vim.g.mkdp_auto_close = 0
+vim.g.mkdp_refresh_slow = 0
+vim.g.mkdp_browser = ''  -- use system default browser
+vim.g.mkdp_preview_options = {
+  disable_sync_scroll = 0,
+  disable_filename = 0,
 }

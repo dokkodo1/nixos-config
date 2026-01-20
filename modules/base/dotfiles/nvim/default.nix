@@ -27,10 +27,11 @@ in
       basedpyright
       git
       nodejs
-      tree-sitter  
+      tree-sitter
       ripgrep
       btop
       fastfetch
+      glow
     ];
   };
 }
