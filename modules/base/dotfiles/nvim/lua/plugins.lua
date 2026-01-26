@@ -377,7 +377,13 @@ if lspconfig_ok then
   setup_lsp("rust_analyzer", "rust-analyzer", {})
   setup_lsp("clangd", "clangd", { cmd = { "clangd", "--background-index" } })
   setup_lsp("nixd", "nixd")
-  setup_lsp("basedpyright", "basedpyright")
+  setup_lsp("basedpyright", "basedpyright", {
+    settings = {
+      basedpyright = {
+        typeCheckingMode = "basic"  -- or "off"
+      }
+    }
+  })
 end
 
 -- Autopairs
