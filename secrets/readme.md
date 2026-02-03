@@ -101,13 +101,13 @@ creation_rules:
 
    Repeat for every rule block (yaml, json, etc.).
 
-4. Re-encrypt every existing secrets file. This **must** be done from a host that already has a working decryption key (i.e. a host whose key is already in the file):
+4. Sync the recipients in every existing secrets file to match `.sops.yaml`. This **must** be done from a host that already has a working decryption key (i.e. a host whose key is already in the file):
 
 ```sh
-SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt sops -r secrets/secrets.yaml
+sops updatekeys --yes secrets/secrets.yaml
 ```
 
-   Repeat for any other secrets files in the directory.
+   Repeat for any other secrets files in the directory. Note: `sops -r` (rotate) does **not** add new recipients — it only rotates the data encryption key. Use `updatekeys`.
 
 5. Commit and push. Pull on the new host and rebuild.
 
@@ -115,7 +115,7 @@ SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt sops -r secrets/secrets.yaml
 
 ## Gotchas
 
-- **`sops -r` must be run from a host that can decrypt.** If you add a new host's key but only have that new host's private key, `-r` will fail. Do it from an existing host.
+- **`sops updatekeys` must be run from a host that can already decrypt.** If you add a new host's key but only have that new host's private key, `updatekeys` will fail. Do it from an existing host.
 - **`validateSopsFiles = false`** is set in `modules/base/nixos/sops.nix`. This means the build will not fail if a secret cannot be decrypted — but the secret simply will not appear in `/run/secrets/` at runtime. If a service needs it, it will fail silently or crash.
 - **Per-host secrets** are possible by scoping `path_regex` in `.sops.yaml` to a subdirectory (e.g. `secrets/hpl-tower/`) and only listing that host's key in that rule.
 - **The default secrets file** is set in `sops.nix` via `sops.defaultSopsFile`. Any secret declared with `sops.secrets.<name> = { };` (no explicit `sopsFile`) is read from that file.

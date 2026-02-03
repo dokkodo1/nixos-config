@@ -4,6 +4,7 @@
   users.users.${username} = {
     description = "${username}";
     isNormalUser = true;
+    initialHashedPassword = "$y$j9T$URFMsTnfViKbG3CrNGoIt1$OhNNXxGab2ec8fIPomqP/nQrsAfzwRP2bZWEooL5s1C";
  		shell = pkgs.zsh;
     extraGroups = [
       "wheel"
