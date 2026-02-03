@@ -2,10 +2,12 @@
 local opt = vim.opt
 
 opt.guifont = "JetBrainsMono Nerd Font:h12"
-vim.cmd('colorscheme gruvbox')
--- Apply highlighting after plugins load
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
+-- gruvbox may not be available on the very first run of a fresh install
+-- (vim.pack.add needs to clone it first). Fall back gracefully and apply
+-- the theme + custom highlights once it is available.
+local function apply_theme()
+  local ok = pcall(vim.cmd, 'colorscheme gruvbox')
+  if ok then
     vim.cmd([[
       highlight LineNr ctermfg=white ctermbg=black
       highlight CursorLineNr ctermfg=yellow ctermbg=black cterm=bold
@@ -14,8 +16,21 @@ vim.api.nvim_create_autocmd("VimEnter", {
       highlight NormalFloat ctermbg=black ctermfg=white
       highlight FloatBorder ctermfg=white ctermbg=NONE
     ]])
-  end,
-})
+    return true
+  end
+  return false
+end
+
+if not apply_theme() then
+  vim.api.nvim_create_autocmd("VimEnter", {
+    once = true,
+    callback = function()
+      if not apply_theme() then
+        vim.notify("gruvbox not yet available — restart nvim after plugins finish installing.", vim.log.levels.WARN)
+      end
+    end,
+  })
+end
 opt.number = true
 opt.relativenumber = true
 opt.signcolumn = "yes"

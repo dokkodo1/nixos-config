@@ -60,7 +60,7 @@
   outputs = { self, nixpkgs, ... }@inputs:
   let
     repoName = "configurations"; # name of this folder
-    hostname = "nixtop";
+    hostname = "hpl-tower";
     username = "dokkodo"; 
     darwinHostname = "hpl-macmini"; # these two only apply if building nix darwin. can leave null
     darwinUsername = "callummcdonald"; # don't @ me
