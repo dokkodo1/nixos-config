@@ -1,9 +1,9 @@
-{ config, pkgs, username, darwinUsername ? null, ... }:
+{ config, pkgs, userVars, ... }:
 
 let
-  actualUsername = if pkgs.stdenv.isDarwin && darwinUsername != null
-    then darwinUsername
-    else username;
+  actualUsername = if pkgs.stdenv.isDarwin && userVars.darwinUsername != null
+    then userVars.darwinUsername
+    else userVars.username;
   actualHome = if pkgs.stdenv.isDarwin
     then "/Users/${actualUsername}"
     else "/home/${actualUsername}";

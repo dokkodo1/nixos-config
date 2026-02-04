@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, username, ... }:
+{ config, lib, pkgs, inputs, userVars, ... }:
 
 with lib;
 let
@@ -23,7 +23,7 @@ in {
 
   config = mkIf cfg.enable {
 
-    users.users.${username} = {
+    users.users.${userVars.username} = {
       extraGroups = [
         "gamemode"
         "audio"

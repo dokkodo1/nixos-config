@@ -1,8 +1,8 @@
-{ hostname, ... }:
+{ userVars, ... }:
 
 {
   networking = {
-    hostName = "${hostname}";
+    hostName = "${userVars.hostname}";
     networkmanager = {
       enable = true;
       wifi = {

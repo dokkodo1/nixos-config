@@ -11,7 +11,6 @@
   control.tailscale.enable = true;
   control.gaming.enable = true;
 
-
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="input", ATTR{name}=="AT Translated Set 2 keyboard", ATTR{power/control}="on"
     '';
@@ -25,6 +24,10 @@
     "threadirqs"
     "preempt=full"
   ];
+
+  services.resolved.enable = true;
+  networking.networkmanager.dns = "systemd-resolved";
+
   boot.loader = {
     grub.enable = true;
     grub.device = "/dev/sda";

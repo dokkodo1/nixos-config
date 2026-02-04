@@ -1,15 +1,15 @@
-{ pkgs, darwinUsername, ... }:
+{ pkgs, userVars, ... }:
 
 {
 
-  home-manager.users.${darwinUsername} = {
-    home.username = darwinUsername;
-    home.homeDirectory = "/Users/${darwinUsername}";
+  home-manager.users.${userVars.darwinUsername} = {
+    home.username = userVars.darwinUsername;
+    home.homeDirectory = "/Users/${userVars.darwinUsername}";
     home.stateVersion = "24.11";
   };
 
-  users.users.${darwinUsername} = {
-    home = "/Users/${darwinUsername}";
+  users.users.${userVars.darwinUsername} = {
+    home = "/Users/${userVars.darwinUsername}";
     shell = pkgs.zsh;
   };
 

@@ -1,10 +1,8 @@
-{ pkgs, modPath, username, ... }:
+{ pkgs, userVars, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
-    modPath
-    (modPath + "/base/nixos")
   ];
 
   /*
@@ -62,7 +60,7 @@
       lookingGlass = { 
         enable = false; # view VM on same output as linux, no 2nd monitor, very nice
         sharedMemorySize = 128; # Shared memory size in MB for Looking Glass (should match VM resolution)
-        user = "${username}";
+        user = "${userVars.username}";
       };
 
       hugepages = { 

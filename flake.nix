@@ -59,15 +59,9 @@
 
   outputs = { self, nixpkgs, ... }@inputs:
   let
-    repoName = "configurations"; # name of this folder
-    hostname = "hpl-tower";
-    username = "dokkodo"; 
-    darwinHostname = "hpl-macmini"; # these two only apply if building nix darwin. can leave null
-    darwinUsername = "callummcdonald"; # don't @ me
-    locale = "en_ZA.UTF-8";
-    timezone = "Africa/Johannesburg";
-      # copy and rename the folder ./hosts/default and add that name and system to this list
-      # if not me, delete these 3 entries and add your own. 
+    userVars = import ./userVars.nix;
+    # copy and rename the folder `./hosts/default` and add that name and system to this list
+    # if not me, delete these 4 entries and add your own.
     systems = {
       desktop = "x86_64-linux";
       hpl-macmini = "x86_64-darwin";
@@ -86,7 +80,7 @@
     mkNixOSSystem = { system, hostPath, extraModules ? [] }:
       nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs username hostname locale timezone repoName; modPath = ./modules; };
+        specialArgs = { inherit inputs userVars; modPath = ./modules; };
         modules = [
           inputs.musnix.nixosModules.musnix
           inputs.home-manager.nixosModules.home-manager
@@ -109,26 +103,24 @@
             documentation.nixos.enable = true;
           })
           hostPath
-          ./modules
-          ./modules/base/nixos
+          ./modules/nixos
         ] ++ extraModules;
       };
 
   in {
       # will build the current host, for personal use. nixosConfigurations attrs grows quickly when you got nix everywhere
-    nixosConfigurations.${hostname} = mkNixOSSystem {
-      system = systems.${hostname};
-      hostPath = ./hosts/${hostname}/configuration.nix;
+    nixosConfigurations.${userVars.hostname} = mkNixOSSystem {
+      system = systems.${userVars.hostname};
+      hostPath = ./hosts/${userVars.hostname}/configuration.nix;
       # you can pass in `extraModules = [ ];` here, or if you make individual hosts, not this over-generalized mess (:
     };
 
-    darwinConfigurations.${darwinHostname} = inputs.nix-darwin.lib.darwinSystem {
-      system = systems.${darwinHostname};
-      specialArgs = { inherit inputs darwinUsername darwinHostname locale timezone repoName; modPath = ./modules; };
+    darwinConfigurations.${userVars.darwinHostname} = inputs.nix-darwin.lib.darwinSystem {
+      system = systems.${userVars.darwinHostname};
+      specialArgs = { inherit inputs userVars; modPath = ./modules; };
       modules = [
-        ./modules/base
-        ./hosts/${darwinHostname}/configuration.nix
-        ./modules/base/darwin
+        ./modules/darwin
+        ./hosts/${userVars.darwinHostname}/configuration.nix
         inputs.home-manager.darwinModules.home-manager
         inputs.sops-nix.darwinModules.sops
         {
@@ -142,7 +134,7 @@
           nixpkgs.config.allowUnfree = true;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs darwinUsername darwinHostname locale timezone repoName; modPath = ./modules; };
+          home-manager.extraSpecialArgs = { inherit inputs userVars; modPath = ./modules; };
         }
       ];
     };

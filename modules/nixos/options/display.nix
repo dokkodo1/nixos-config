@@ -1,4 +1,4 @@
-{ pkgs, lib, config, username, ... }:
+{ pkgs, lib, config, userVars, ... }:
 
 with lib;
 let
@@ -20,7 +20,7 @@ in {
 
     (mkIf (cfg.dwl.enable) {
       boot.kernelParams = [ "i915.modeset=1" "i804.nopnp=1" "8042.reset=1" ];
-      users.users.${username}.extraGroups = [ "input" "video" ];
+      users.users.${userVars.username}.extraGroups = [ "input" "video" ];
       services.xserver.xkb = {
         layout = "us";
         variant = "";
@@ -53,14 +53,14 @@ in {
         font-awesome
       ];
       
-      home-manager.users.${username} = {
+      home-manager.users.${userVars.username} = {
         programs.foot = {
           enable = lib.mkDefault true;
           # settings.main.font = "JetBrainsMono Nerd Font:size=12";
-          # settings = builtins.readFile ../base/dotfiles/foot/foot.ini;
+          # settings = builtins.readFile ../../dotfiles/foot/foot.ini;
         };
         home.file.".config/foot/foot.ini" = {
-          source = ../base/dotfiles/foot/foot.ini;
+          source = ../../dotfiles/foot/foot.ini;
           force = true;
         };
 
@@ -70,24 +70,24 @@ in {
         
 
         home.file.".config/waybar/config.jsonc" = {
-          source = ../base/dotfiles/waybar/config.jsonc;
+          source = ../../dotfiles/waybar/config.jsonc;
           force = true;
         };
         home.file.".config/waybar/style.css" = {
-          source = ../base/dotfiles/waybar/style.css;
+          source = ../../dotfiles/waybar/style.css;
           force = true;
         };
       };
     })
 
     (mkIf (cfg.kde.enable) {
-      users.users.${username}.extraGroups = [ "input" "video" ];
+      users.users.${userVars.username}.extraGroups = [ "input" "video" ];
       services.displayManager.sddm.enable = lib.mkDefault true;
       services.displayManager.sddm.wayland.enable = lib.mkDefault true;
       services.desktopManager.plasma6.enable = lib.mkDefault true;
       environment.systemPackages = with pkgs; [ konsave wl-clipboard ];
       environment.plasma6.excludePackages = with pkgs.kdePackages; [ plasma-browser-integration elisa ];
-      home-manager.users.${username}.programs.kitty = lib.mkDefault {
+      home-manager.users.${userVars.username}.programs.kitty = lib.mkDefault {
 	    	enable = lib.mkDefault true;
 	    	settings = lib.mkDefault {
 	    		font_family = "JetBrainsMono Nerd Font";
@@ -147,7 +147,7 @@ in {
     })
 
     (mkIf (cfg.i3wm.enable) {
-      users.users.${username}.extraGroups = [ "input" "video" ];
+      users.users.${userVars.username}.extraGroups = [ "input" "video" ];
       services.xserver = {
         enable = lib.mkDefault true;
         displayManager.startx.enable = lib.mkDefault true;
