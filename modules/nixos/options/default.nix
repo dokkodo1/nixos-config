@@ -7,5 +7,6 @@
     ./audio.nix
     ./virtualization.nix
     ./tailscale.nix
+    ./remote-builders.nix
   ];
 }

@@ -37,6 +37,8 @@
 
   hardware.uinput.enable = true;
   environment.systemPackages = with pkgs; [
+    nethack
+    cataclysm-dda
     deluge
     wineWowPackages.waylandFull
     winetricks
