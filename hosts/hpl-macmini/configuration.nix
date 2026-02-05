@@ -17,6 +17,7 @@
 
   environment.systemPackages = with pkgs; [
 		iterm2
+    discord
   ];
 
   system.stateVersion = 6;

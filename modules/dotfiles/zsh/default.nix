@@ -46,6 +46,12 @@ in
       };
     };
 
+    # Explicit .zshenv at home root to bootstrap ZDOTDIR before zsh starts.
+    # Without this, zsh can't find .zshrc inside .zsh/ and runs newuser-install.
+    home.file.".zshenv".text = ''
+      export ZDOTDIR="$HOME/.zsh"
+    '';
+
     # Symlink starship config for hot-reloading
     xdg.configFile."starship.toml".source = ./starship.toml;
 
