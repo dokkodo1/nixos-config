@@ -7,6 +7,7 @@
   ];
 
   control.tailscale.enable = true;
+  control.gitlab.enable = true;
 
   boot.loader = {
     systemd-boot.enable = true;
