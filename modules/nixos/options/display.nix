@@ -1,4 +1,4 @@
-{ pkgs, lib, config, userVars, ... }:
+{ pkgs, lib, config, hostVars, ... }:
 
 with lib;
 let
@@ -20,7 +20,7 @@ in {
 
     (mkIf (cfg.dwl.enable) {
       boot.kernelParams = [ "i915.modeset=1" "i804.nopnp=1" "8042.reset=1" ];
-      users.users.${userVars.username}.extraGroups = [ "input" "video" ];
+      users.users.${hostVars.username}.extraGroups = [ "input" "video" ];
       services.xserver.xkb = {
         layout = "us";
         variant = "";
@@ -53,7 +53,7 @@ in {
         font-awesome
       ];
       
-      home-manager.users.${userVars.username} = {
+      home-manager.users.${hostVars.username} = {
         programs.foot = {
           enable = lib.mkDefault true;
           # settings.main.font = "JetBrainsMono Nerd Font:size=12";
@@ -81,13 +81,13 @@ in {
     })
 
     (mkIf (cfg.kde.enable) {
-      users.users.${userVars.username}.extraGroups = [ "input" "video" ];
+      users.users.${hostVars.username}.extraGroups = [ "input" "video" ];
       services.displayManager.sddm.enable = lib.mkDefault true;
       services.displayManager.sddm.wayland.enable = lib.mkDefault true;
       services.desktopManager.plasma6.enable = lib.mkDefault true;
       environment.systemPackages = with pkgs; [ konsave wl-clipboard ];
       environment.plasma6.excludePackages = with pkgs.kdePackages; [ plasma-browser-integration elisa ];
-      home-manager.users.${userVars.username}.programs.kitty = lib.mkDefault {
+      home-manager.users.${hostVars.username}.programs.kitty = lib.mkDefault {
 	    	enable = lib.mkDefault true;
 	    	settings = lib.mkDefault {
 	    		font_family = "JetBrainsMono Nerd Font";
@@ -147,7 +147,7 @@ in {
     })
 
     (mkIf (cfg.i3wm.enable) {
-      users.users.${userVars.username}.extraGroups = [ "input" "video" ];
+      users.users.${hostVars.username}.extraGroups = [ "input" "video" ];
       services.xserver = {
         enable = lib.mkDefault true;
         displayManager.startx.enable = lib.mkDefault true;

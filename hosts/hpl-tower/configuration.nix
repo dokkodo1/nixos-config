@@ -19,8 +19,4 @@
   environment.systemPackages = with pkgs; [
     claude-code
   ];
-  # SSH keys for dokkodo user  
-  # users.users.dokkodo.openssh.authorizedKeys.keys = [
-  #   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILSUHwWhaJPV4wHXrMnp4jxSkrNoZWIsbdUYQrCM3x6p callum.dokkodo@gmail.com"
-  # ];
 }

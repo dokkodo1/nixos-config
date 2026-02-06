@@ -1,23 +1,18 @@
-{ pkgs, userVars, ... }:
+{ pkgs, hostVars, ... }:
 
-let
-  actualUsername = if pkgs.stdenv.isDarwin && userVars.darwinUsername != null
-    then userVars.darwinUsername
-    else userVars.username;
-in
 {
   environment.variables.EDITOR = "nvim";
-  home-manager.users.${actualUsername} = {
+  home-manager.users.${hostVars.username} = {
     programs.neovim = {
       enable = true;
     };
-    
+
     # Symlink entire nvim config to repo for hot reloading
     xdg.configFile."nvim/init.lua".source = ./init.lua;
     xdg.configFile."nvim/lua/settings.lua".source = ./lua/settings.lua;
     xdg.configFile."nvim/lua/keymaps.lua".source = ./lua/keymaps.lua;
     xdg.configFile."nvim/lua/plugins.lua".source = ./lua/plugins.lua;
-    
+
     home.packages = with pkgs; [
       lua-language-server
       rust-analyzer

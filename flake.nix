@@ -31,9 +31,9 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     impermanence.url = "github:nix-community/impermanence";
-    
+
     nixos-anywhere = {
       url = "github:nix-community/nixos-anywhere";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -59,15 +59,13 @@
 
   outputs = { self, nixpkgs, ... }@inputs:
   let
-    userVars = import ./userVars.nix;
-    # copy and rename the folder `./hosts/default` and add that name and system to this list
-    # if not me, delete these 4 entries and add your own.
-    systems = {
-      desktop = "x86_64-linux";
-      hpl-macmini = "x86_64-darwin";
-      nixtop = "x86_64-linux";
-      hpl-tower = "x86_64-linux";
-    };
+    lib = nixpkgs.lib;
+    hostDirs = lib.filterAttrs (n: v: v == "directory" && n != "default") (builtins.readDir ./hosts);
+    mkHostVars = hostname: (import ./hosts/${hostname}/meta.nix) // { inherit hostname; };
+    isLinuxHost = hostname: let meta = import ./hosts/${hostname}/meta.nix; in lib.hasSuffix "-linux" meta.system;
+    isDarwinHost = hostname: let meta = import ./hosts/${hostname}/meta.nix; in lib.hasSuffix "-darwin" meta.system;
+    linuxHosts = lib.filterAttrs (n: _: isLinuxHost n) hostDirs;
+    darwinHosts = lib.filterAttrs (n: _: isDarwinHost n) hostDirs;
 
     overlays = [
       inputs.neovim-nightly-overlay.overlays.default
@@ -77,10 +75,12 @@
       })
     ];
 
-    mkNixOSSystem = { system, hostPath, extraModules ? [] }:
-      nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = { inherit inputs userVars; modPath = ./modules; };
+    mkNixOSSystem = { hostname, extraModules ? [] }:
+      let
+        hostVars = mkHostVars hostname;
+      in nixpkgs.lib.nixosSystem {
+        system = hostVars.system;
+        specialArgs = { inherit inputs hostVars; modPath = ./modules; };
         modules = [
           inputs.musnix.nixosModules.musnix
           inputs.home-manager.nixosModules.home-manager
@@ -102,45 +102,43 @@
             documentation.man.enable = true;
             documentation.nixos.enable = true;
           })
-          hostPath
+          ./hosts/${hostname}/configuration.nix
           ./modules/nixos
         ] ++ extraModules;
       };
 
+    mkDarwinSystem = { hostname, extraModules ? [] }:
+      let
+        hostVars = mkHostVars hostname;
+      in inputs.nix-darwin.lib.darwinSystem {
+        system = hostVars.system;
+        specialArgs = { inherit inputs hostVars; modPath = ./modules; };
+        modules = [
+          ./modules/darwin
+          ./hosts/${hostname}/configuration.nix
+          inputs.home-manager.darwinModules.home-manager
+          inputs.sops-nix.darwinModules.sops
+          {
+            nixpkgs.overlays = overlays ++ [
+              (final: prev: {
+                basedpyright = (import inputs.nixpkgs-stable {
+                  system = prev.stdenv.hostPlatform.system;
+                }).basedpyright;
+              })
+            ];
+            nixpkgs.config.allowUnfree = true;
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs hostVars; modPath = ./modules; };
+          }
+        ] ++ extraModules;
+      };
+
   in {
-      # will build the current host, for personal use. nixosConfigurations attrs grows quickly when you got nix everywhere
-    nixosConfigurations.${userVars.hostname} = mkNixOSSystem {
-      system = systems.${userVars.hostname};
-      hostPath = ./hosts/${userVars.hostname}/configuration.nix;
-      # you can pass in `extraModules = [ ];` here, or if you make individual hosts, not this over-generalized mess (:
-    };
+    nixosConfigurations = lib.mapAttrs (hostname: _: mkNixOSSystem { inherit hostname; }) linuxHosts;
+    darwinConfigurations = lib.mapAttrs (hostname: _: mkDarwinSystem { inherit hostname; }) darwinHosts;
 
-    darwinConfigurations.${userVars.darwinHostname} = inputs.nix-darwin.lib.darwinSystem {
-      system = systems.${userVars.darwinHostname};
-      specialArgs = { inherit inputs userVars; modPath = ./modules; };
-      modules = [
-        ./modules/darwin
-        ./hosts/${userVars.darwinHostname}/configuration.nix
-        inputs.home-manager.darwinModules.home-manager
-        inputs.sops-nix.darwinModules.sops
-        {
-          nixpkgs.overlays = overlays ++ [
-            (final: prev: {
-              basedpyright = (import inputs.nixpkgs-stable {
-                system = prev.stdenv.hostPlatform.system;
-              }).basedpyright;
-            })
-          ];
-          nixpkgs.config.allowUnfree = true;
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs userVars; modPath = ./modules; };
-        }
-      ];
-    };
-
-    formatter = nixpkgs.lib.genAttrs 
-      (nixpkgs.lib.attrValues systems)
-      (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
+    formatter = let allSystems = lib.unique (lib.mapAttrsToList (n: _: (import ./hosts/${n}/meta.nix).system) hostDirs);
+    in lib.genAttrs allSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
   };
 }

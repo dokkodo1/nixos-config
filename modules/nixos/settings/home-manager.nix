@@ -1,12 +1,12 @@
-{ userVars, ... }:
+{ hostVars, ... }:
 
 {
-  home-manager.users.${userVars.username} = {
-    home.username = userVars.username;
-    home.homeDirectory = "/home/${userVars.username}";
+  home-manager.users.${hostVars.username} = {
+    home.username = hostVars.username;
+    home.homeDirectory = "/home/${hostVars.username}";
     home.stateVersion = "24.11";
     home.sessionVariables = {
-      NH_FLAKE = "/home/${userVars.username}/${userVars.repoName}";
+      NH_FLAKE = "/home/${hostVars.username}/${hostVars.repoName}";
     };
   };
 }

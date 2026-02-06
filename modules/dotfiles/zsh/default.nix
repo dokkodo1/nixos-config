@@ -1,15 +1,12 @@
-{ config, pkgs, userVars, ... }:
+{ pkgs, hostVars, ... }:
 
 let
-  actualUsername = if pkgs.stdenv.isDarwin && userVars.darwinUsername != null
-    then userVars.darwinUsername
-    else userVars.username;
-  actualHome = if pkgs.stdenv.isDarwin
-    then "/Users/${actualUsername}"
-    else "/home/${actualUsername}";
+  homeDir = if pkgs.stdenv.isDarwin
+    then "/Users/${hostVars.username}"
+    else "/home/${hostVars.username}";
 in
 {
-  home-manager.users.${actualUsername} = {
+  home-manager.users.${hostVars.username} = {
     programs = {
       direnv.enable = true;
       direnv.nix-direnv.enable = true;
@@ -17,7 +14,7 @@ in
       # Enable zsh with minimal Nix configuration
       zsh = {
         enable = true;
-        dotDir = "${actualHome}/.zsh";
+        dotDir = "${homeDir}/.zsh";
         enableCompletion = true;
         autosuggestion.enable = true;
         syntaxHighlighting.enable = true;

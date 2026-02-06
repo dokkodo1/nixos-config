@@ -1,12 +1,7 @@
-{ pkgs, inputs, userVars, ... }:
+{ pkgs, inputs, hostVars, ... }:
 
-let
-  actualUsername = if pkgs.stdenv.isDarwin && userVars.darwinUsername != null
-    then userVars.darwinUsername
-    else userVars.username;
-in
 {
-  home-manager.users.${actualUsername} = {
+  home-manager.users.${hostVars.username} = {
     programs.tmux = {
       enable = true;
       plugins = [{

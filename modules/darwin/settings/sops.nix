@@ -1,4 +1,4 @@
-{ pkgs, userVars, ... }:
+{ pkgs, hostVars, ... }:
 
 {
   # sops-nix configuration for encrypted secrets
@@ -8,7 +8,7 @@
     
     # Age key configuration - works on both platforms
     age = {
-      keyFile = "/Users/${userVars.darwinUsername}/.config/sops/age/keys.txt";
+      keyFile = "/Users/${hostVars.username}/.config/sops/age/keys.txt";
       generateKey = true;  # Generate key if it doesn't exist
     };
   };
