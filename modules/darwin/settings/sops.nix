@@ -1,18 +1,15 @@
 { pkgs, hostVars, ... }:
 
 {
-  # sops-nix configuration for encrypted secrets
   sops = {
     defaultSopsFile = ../../../secrets/secrets.yaml;
-    validateSopsFiles = false;  # Disable validation during build
+    validateSopsFiles = false;
     
-    # Age key configuration - works on both platforms
     age = {
       keyFile = "/Users/${hostVars.username}/.config/sops/age/keys.txt";
-      generateKey = true;  # Generate key if it doesn't exist
+      generateKey = true;
     };
   };
 
-  # Ensure sops package is available on both platforms
   environment.systemPackages = with pkgs; [ sops ];
 }
