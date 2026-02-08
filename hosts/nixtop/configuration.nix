@@ -10,6 +10,14 @@
   control.audio.pavucontrol.enable = true;
   control.tailscale.enable = true;
   control.gaming.enable = true;
+  control.remoteBuilders = {
+    enable = true;
+    useBuilders = [{
+      hostName = "hpl-tower";
+      maxJobs = 8;
+      speedFactor = 2;
+    }];
+  };
 
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="input", ATTR{name}=="AT Translated Set 2 keyboard", ATTR{power/control}="on"
