@@ -9,7 +9,7 @@ This repo uses [sops-nix](https://github.com/Mic92/sops-nix) to encrypt secrets 
 You need `sops` and `age` available. On any host managed by this repo they are already in the nix store. If for some reason they are not on PATH, find them:
 
 ```sh
-nix shell -p sops age
+nix-shell -p sops age
 ```
 
 Your host's age private key lives at:

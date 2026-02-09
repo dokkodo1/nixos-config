@@ -55,9 +55,7 @@ in {
 
     programs = {
       steam.enable = lib.mkDefault true;
-      steam.gamescopeSession.enable = lib.mkDefault true;
       gamemode.enable = lib.mkDefault true;
-      gamescope.enable = lib.mkDefault true;
       appimage = {
         enable = lib.mkDefault true;
         binfmt = true;

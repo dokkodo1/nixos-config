@@ -14,5 +14,5 @@
   };
 
   # Ensure sops package is available on both platforms
-  environment.systemPackages = with pkgs; [ sops ];
+  environment.systemPackages = with pkgs; [ sops age ];
 }
