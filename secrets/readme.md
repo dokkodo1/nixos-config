@@ -116,6 +116,6 @@ sops updatekeys --yes secrets/secrets.yaml
 ## Gotchas
 
 - **`sops updatekeys` must be run from a host that can already decrypt.** If you add a new host's key but only have that new host's private key, `updatekeys` will fail. Do it from an existing host.
-- **`validateSopsFiles = false`** is set in `modules/base/nixos/sops.nix`. This means the build will not fail if a secret cannot be decrypted — but the secret simply will not appear in `/run/secrets/` at runtime. If a service needs it, it will fail silently or crash.
+- **`validateSopsFiles = false`** is set in `modules/nixos/settings/sops.nix`. This means the build will not fail if a secret cannot be decrypted — but the secret simply will not appear in `/run/secrets/` at runtime. If a service needs it, it will fail silently or crash.
 - **Per-host secrets** are possible by scoping `path_regex` in `.sops.yaml` to a subdirectory (e.g. `secrets/hpl-tower/`) and only listing that host's key in that rule.
 - **The default secrets file** is set in `sops.nix` via `sops.defaultSopsFile`. Any secret declared with `sops.secrets.<name> = { };` (no explicit `sopsFile`) is read from that file.

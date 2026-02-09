@@ -10,6 +10,7 @@
     audio.pavucontrol.enable = true;
     gpuVendor = "amd";
     display.kde.enable = true;
+    display.dwl.enable = true;
     gaming.enable = true;
     gaming.starCitizen.enable = true;
     gaming.launchers.lutris.enable = true;
@@ -22,6 +23,7 @@
 
   environment.systemPackages = with pkgs; [
     claude-code
+    bitwarden-desktop
   ];
 
   boot.loader = {
@@ -39,6 +41,8 @@
   systemd.tmpfiles.rules = [
     "d /mnt/sata1 0775 dokkodo users - -"
   ];
+
+  services.displayManager.sddm.enable = false;
 
   programs.firefox.enable = true;
 }

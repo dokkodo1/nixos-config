@@ -16,7 +16,7 @@ in {
       environment.systemPackages = with pkgs; [
         xdg-utils
         adwaita-icon-theme
-      ];
+      ] ++ lib.optionals (!cfg.kde.enable) [ adwaita-qt ];
 
       # GTK dark theme
       home-manager.users.${hostVars.username} = {
@@ -31,18 +31,15 @@ in {
             package = pkgs.adwaita-icon-theme;
           };
         };
-        dconf.settings."org/gnome/desktop/interface" = {
-          color-scheme = "prefer-dark";
-        };
+        dconf.enable = lib.mkForce false;
       };
 
       # QT dark theme (for non-KDE environments; KDE handles this natively)
       qt = lib.mkIf (!cfg.kde.enable) {
         enable = true;
-        platformTheme = "adwaita";
+        platformTheme = "gnome";
         style = "adwaita-dark";
       };
-      environment.systemPackages = lib.mkIf (!cfg.kde.enable) [ pkgs.adwaita-qt ];
     })
 
     (mkIf (cfg.dwl.enable) {

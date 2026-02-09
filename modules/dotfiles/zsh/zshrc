@@ -57,6 +57,8 @@ alias ll='ls -lah'
 alias tm='tmux-default'
 alias screenshot='grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png'
 alias screenshot-clip='grim -g "$(slurp)" - | wl-copy'
+alias start-kde='dbus-run-session startplasma-wayland'
+alias stop-kde='qdbus org.kde.Shutdown /Shutdown org.kde.Shutdown.logout'
 
 # Colorize Nix commands with grc for easier visual parsing of store paths
 if command -v grc &> /dev/null; then
@@ -76,7 +78,7 @@ fi
 # Reload Function
 # ----------------------------------------------------------------------------
 reload_zsh() {
-    local repo_zshrc="$HOME/configurations/modules/base/dotfiles/zsh/zshrc"
+    local repo_zshrc="$HOME/configurations/modules/dotfiles/zsh/zshrc"
     if [[ -f "$repo_zshrc" ]]; then
         source "$repo_zshrc"
         echo "✓ zshrc reloaded from repo!"

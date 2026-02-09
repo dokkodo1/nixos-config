@@ -6,11 +6,11 @@ local map = vim.keymap.set
 
 map("n", "<leader>w", vim.cmd.write, { desc = "Save buffer" })
 map("n", "<leader>q", vim.cmd.quit, { desc = "Quit" })
-map("n", "<leader>i", function() vim.cmd.edit("~/configurations/modules/base/dotfiles/nvim/init.lua") end,
+map("n", "<leader>i", function() vim.cmd.edit("~/configurations/modules/dotfiles/nvim/init.lua") end,
   { desc = "Edit init.lua" })
 map("n", "<leader>o", function()
   -- Bypass module cache by using dofile directly
-  local config_base = vim.fn.expand("~/configurations/modules/base/dotfiles/nvim/lua")
+  local config_base = vim.fn.expand("~/configurations/modules/dotfiles/nvim/lua")
 
   package.loaded['settings'] = nil
   package.loaded['keymaps'] = nil
