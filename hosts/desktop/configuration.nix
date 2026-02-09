@@ -9,10 +9,20 @@
     audio.enable = true;
     audio.pavucontrol.enable = true;
     gpuVendor = "amd";
+    display.kde.enable = true;
     gaming.enable = true;
     gaming.starCitizen.enable = true;
     gaming.launchers.lutris.enable = true;
+    tailscale.enable = true;
   };
+
+  environment.sessionVariables = {
+    XKB_DEFAULT_OPTIONS = "caps:swapescape";
+  };
+
+  environment.systemPackages = with pkgs; [
+    claude-code
+  ];
 
   boot.loader = {
     systemd-boot.enable = true;
@@ -29,11 +39,6 @@
   systemd.tmpfiles.rules = [
     "d /mnt/sata1 0775 dokkodo users - -"
   ];
-
-  services.xserver = {
-    enable = true;
-    videoDrivers = [ "modesetting" ];
-  };
 
   programs.firefox.enable = true;
 }

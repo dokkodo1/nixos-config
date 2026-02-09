@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-local.url = "github:dokkodo1/nixpkgs/tmux-plugin-powerkit";
+    #nixpkgs-local.url = "github:dokkodo1/nixpkgs/tmux-plugin-powerkit";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -71,7 +71,6 @@
       inputs.neovim-nightly-overlay.overlays.default
       (final: prev: {
         doxpkgs = prev.callPackage ./pkgs { };
-        tmuxPlugins = inputs.nixpkgs-local.legacyPackages.${prev.system}.tmuxPlugins;
       })
     ];
 

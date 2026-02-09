@@ -31,6 +31,9 @@
   boot.kernelParams = [
     "threadirqs"
     "preempt=full"
+    "i915.modeset=1"
+    "i8042.nopnp=1"
+    "8042.reset=1"
   ];
 
   services.resolved.enable = true;
