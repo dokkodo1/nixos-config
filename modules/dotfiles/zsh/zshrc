@@ -1,10 +1,3 @@
-# ============================================================================
-# ZSH Configuration
-# ============================================================================
-
-# ----------------------------------------------------------------------------
-# History Configuration
-# ----------------------------------------------------------------------------
 HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.zsh/zsh_history
@@ -12,19 +5,12 @@ setopt HIST_IGNORE_DUPS      # Don't save duplicate commands
 setopt HIST_IGNORE_SPACE     # Don't save commands starting with space
 setopt SHARE_HISTORY         # Share history across all sessions
 setopt HIST_VERIFY           # Show command with history expansion before running it
-
-# ----------------------------------------------------------------------------
-# ZSH Options
-# ----------------------------------------------------------------------------
 setopt AUTO_CD               # cd by just typing directory name
 setopt CORRECT               # Suggest corrections for typos
 setopt MENU_COMPLETE         # Automatically select first completion match
 setopt AUTO_PUSHD            # Make cd push old directory onto directory stack
 setopt PUSHD_IGNORE_DUPS     # Don't push duplicates onto directory stack
 
-# ----------------------------------------------------------------------------
-# Completion System
-# ----------------------------------------------------------------------------
 autoload -Uz compinit
 compinit
 
@@ -35,41 +21,28 @@ zstyle ':completion:*' menu select
 # Colors in completion
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
-# ----------------------------------------------------------------------------
-# Key Bindings
-# ----------------------------------------------------------------------------
-# Use emacs key bindings
 bindkey -e
 
-# ----------------------------------------------------------------------------
-# Oh My Zsh Plugins (manual loading)
-# ----------------------------------------------------------------------------
 # Load git plugin functions if available
 if [[ -d "$HOME/.oh-my-zsh/plugins/git" ]]; then
     source "$HOME/.oh-my-zsh/plugins/git/git.plugin.zsh" 2>/dev/null || true
 fi
 
-# ----------------------------------------------------------------------------
-# Aliases
-# ----------------------------------------------------------------------------
 alias wc3='wine Games/wc3/drive_c/Program\ Files/Warcraft\ 3/Warcraft\ III.exe'
 alias ll='ls -lah'
 alias tm='tmux-default'
 alias screenshot='grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png'
 alias screenshot-clip='grim -g "$(slurp)" - | wl-copy'
-alias start-kde='dbus-run-session startplasma-wayland'
-alias stop-kde='qdbus org.kde.Shutdown /Shutdown org.kde.Shutdown.logout'
+alias kde-start='dbus-run-session startplasma-wayland'
+alias kde-stop='qdbus org.kde.Shutdown /Shutdown org.kde.Shutdown.logout'
 
 # Colorize Nix commands with grc for easier visual parsing of store paths
-if command -v grc &> /dev/null; then
-    alias nh='grc -c ~/.config/grc/nix.conf nh'
-    alias nix='grc -c ~/.config/grc/nix.conf nix'
-    alias darwin-rebuild='grc -c ~/.config/grc/nix.conf darwin-rebuild'
-fi
+# if command -v grc &> /dev/null; then
+#     alias nh='grc -c ~/.config/grc/nix.conf nh'
+#     alias nix='grc -c ~/.config/grc/nix.conf nix'
+#     alias darwin-rebuild='grc -c ~/.config/grc/nix.conf darwin-rebuild'
+# fi
 
-# ----------------------------------------------------------------------------
-# Reload Function
-# ----------------------------------------------------------------------------
 reload_zsh() {
     local repo_zshrc="$NIX_CONFIG_DIR/modules/dotfiles/zsh/zshrc"
     if [[ -f "$repo_zshrc" ]]; then
@@ -80,12 +53,3 @@ reload_zsh() {
     fi
 }
 alias zreload="reload_zsh"
-
-# ----------------------------------------------------------------------------
-# Prompt Configuration
-# ----------------------------------------------------------------------------
-# Starship prompt will be initialized by the starship init zsh command
-# This is handled in the Nix configuration
-
-# Enable transient prompt support
-# The actual transient prompt is handled by Starship's configuration

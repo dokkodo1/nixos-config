@@ -1,8 +1,3 @@
-# ============================================================================
-# Starship Prompt Configuration
-# Minimal lean style - no icons, with transient prompt and VCS support
-# ============================================================================
-
 format = """
 $username\
 $hostname\
@@ -10,9 +5,9 @@ $directory\
 $git_branch\
 $git_state\
 $git_status\
+$custom\
 $character"""
 
-# Transient prompt - previous prompts are simplified after execution
 [character]
 success_symbol = "[❯](bold green)"
 error_symbol = "[❯](bold red)"
@@ -59,7 +54,6 @@ format = "[@$hostname]($style) "
 style = "bold green"
 disabled = false
 
-# Disable icons/symbols for all other modules
 [aws]
 disabled = true
 
@@ -116,6 +110,10 @@ disabled = true
 
 [nix_shell]
 disabled = true
+impure_msg = '[impure shell](bold red)'
+pure_msg = '[pure shell](bold green)'
+unknown_msg = '[unknown shell](bold yellow)'
+format = 'via [☃️ $state( \($name\))](bold blue) '
 
 [nodejs]
 disabled = true
@@ -167,3 +165,10 @@ disabled = true
 
 [zig]
 disabled = true
+
+# Custom module: warn when flake.lock is unlocked
+[custom.flake_unlocked]
+command = "echo 'UNLOCKED'"
+when = """ test -d "$NIX_CONFIG_DIR/.git" && cd "$NIX_CONFIG_DIR" && test "$(git ls-files -v flake.lock 2>/dev/null | cut -c1)" != "S" """
+style = "bold red"
+format = "[$output]($style) "
