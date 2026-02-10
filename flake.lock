@@ -20,6 +20,18 @@
         "type": "github"
       }
     },
+    "dwl-source": {
+      "flake": false,
+      "locked": {
+        "path": "./modules/dotfiles/dwl",
+        "type": "path"
+      },
+      "original": {
+        "path": "./modules/dotfiles/dwl",
+        "type": "path"
+      },
+      "parent": []
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
@@ -615,6 +627,7 @@
     "root": {
       "inputs": {
         "disko": "disko",
+        "dwl-source": "dwl-source",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "musnix": "musnix",

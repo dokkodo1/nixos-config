@@ -54,7 +54,13 @@
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
+    dwl-source = {
+      url = "path:./modules/dotfiles/dwl";
+      flake = false;
+    };
+
     tmux-powerkit.url = "github:dokkodo1/tmux-powerkit/add-nix-packaging";
+
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
@@ -66,19 +72,12 @@
     isDarwinHost = hostname: let meta = import ./hosts/${hostname}/meta.nix; in lib.hasSuffix "-darwin" meta.system;
     linuxHosts = lib.filterAttrs (n: _: isLinuxHost n) hostDirs;
     darwinHosts = lib.filterAttrs (n: _: isDarwinHost n) hostDirs;
-
-    # Collect all host SSH public keys for cross-host authorization
     allHostKeys = lib.pipe (builtins.attrNames hostDirs) [
       (map (name: (import ./hosts/${name}/meta.nix).hostSshKey or null))
       (lib.filter (k: k != null))
     ];
 
-    overlays = [
-      inputs.neovim-nightly-overlay.overlays.default
-      (final: prev: {
-        doxpkgs = prev.callPackage ./pkgs { };
-      })
-    ];
+    overlays = import ./overlays { inherit inputs; };
 
     mkNixOSSystem = { hostname, extraModules ? [] }:
       let
@@ -140,10 +139,13 @@
         ] ++ extraModules;
       };
 
+    devShellsModule = import ./devShells { inherit inputs lib; };
+
   in {
     nixosConfigurations = lib.mapAttrs (hostname: _: mkNixOSSystem { inherit hostname; }) linuxHosts;
     darwinConfigurations = lib.mapAttrs (hostname: _: mkDarwinSystem { inherit hostname; }) darwinHosts;
-
+    devShells = devShellsModule.shells;
+    lib.mkShell = devShellsModule.templates;
     formatter = let allSystems = lib.unique (lib.mapAttrsToList (n: _: (import ./hosts/${n}/meta.nix).system) hostDirs);
     in lib.genAttrs allSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
   };

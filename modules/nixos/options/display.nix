@@ -62,12 +62,13 @@ in {
         swaybg
         grim
         slurp
-        waybar  # Standard waybar (DWL support may not be available yet)
-        dwl
+        waybar
       ];
-      
+
+      # dwl from local source (modules/dotfiles/dwl) via overlay
       programs.dwl = {
         enable = lib.mkDefault true;
+        package = pkgs.dwl;  # uses our overlay
       };
       
       # Font packages
