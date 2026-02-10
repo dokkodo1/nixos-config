@@ -17,6 +17,8 @@
     tailscale.enable = true;
   };
 
+  programs.nix-ld.enable = true;
+
   environment.sessionVariables = {
     XKB_DEFAULT_OPTIONS = "caps:swapescape";
   };
