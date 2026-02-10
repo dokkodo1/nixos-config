@@ -134,7 +134,8 @@
             nixpkgs.config.allowUnfree = true;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs hostVars; modPath = ./modules; };
+            home-manager.backupFileExtension = "backup";
+            home-manager.extraSpecialArgs = { inherit inputs hostVars allHostKeys; modPath = ./modules; };
           }
         ] ++ extraModules;
       };
