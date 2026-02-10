@@ -7,5 +7,5 @@
   gitUsername = "dokkodo";
   gitEmail = "callum.dokkodo@gmail.com";
   githubUsername = "dokkodo1";
-  hostSshKey = null;
+  hostSshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILSUHwWhaJPV4wHXrMnp4jxSkrNoZWIsbdUYQrCM3x6p callum.dokkodo@gmail.com";
 }
