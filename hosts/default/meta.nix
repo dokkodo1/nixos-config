@@ -7,4 +7,5 @@
   gitUsername = null;
   gitEmail = null;
   githubUsername = null;
+  hostSshKey = null;
 }

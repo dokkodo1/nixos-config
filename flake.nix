@@ -60,12 +60,18 @@
   outputs = { self, nixpkgs, ... }@inputs:
   let
     lib = nixpkgs.lib;
-    hostDirs = lib.filterAttrs (n: v: v == "directory" && n != "default") (builtins.readDir ./hosts);
+    hostDirs = lib.filterAttrs (n: v: v == "directory" && !lib.hasPrefix "default" n) (builtins.readDir ./hosts);
     mkHostVars = hostname: (import ./hosts/${hostname}/meta.nix) // { inherit hostname; };
     isLinuxHost = hostname: let meta = import ./hosts/${hostname}/meta.nix; in lib.hasSuffix "-linux" meta.system;
     isDarwinHost = hostname: let meta = import ./hosts/${hostname}/meta.nix; in lib.hasSuffix "-darwin" meta.system;
     linuxHosts = lib.filterAttrs (n: _: isLinuxHost n) hostDirs;
     darwinHosts = lib.filterAttrs (n: _: isDarwinHost n) hostDirs;
+
+    # Collect all host SSH public keys for cross-host authorization
+    allHostKeys = lib.pipe (builtins.attrNames hostDirs) [
+      (map (name: (import ./hosts/${name}/meta.nix).hostSshKey or null))
+      (lib.filter (k: k != null))
+    ];
 
     overlays = [
       inputs.neovim-nightly-overlay.overlays.default
@@ -79,7 +85,7 @@
         hostVars = mkHostVars hostname;
       in nixpkgs.lib.nixosSystem {
         system = hostVars.system;
-        specialArgs = { inherit inputs hostVars; modPath = ./modules; };
+        specialArgs = { inherit inputs hostVars allHostKeys; modPath = ./modules; };
         modules = [
           inputs.musnix.nixosModules.musnix
           inputs.home-manager.nixosModules.home-manager
@@ -111,7 +117,7 @@
         hostVars = mkHostVars hostname;
       in inputs.nix-darwin.lib.darwinSystem {
         system = hostVars.system;
-        specialArgs = { inherit inputs hostVars; modPath = ./modules; };
+        specialArgs = { inherit inputs hostVars allHostKeys; modPath = ./modules; };
         modules = [
           ./modules/darwin
           ./hosts/${hostname}/configuration.nix
