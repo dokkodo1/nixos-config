@@ -4,4 +4,7 @@
   locale = "en_ZA.UTF-8";
   timezone = "Africa/Johannesburg";
   repoName = "nixos-config";
+  gitUsername = null;
+  gitEmail = null;
+  githubUsername = null;
 }
