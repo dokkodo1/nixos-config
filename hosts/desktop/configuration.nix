@@ -24,6 +24,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    teamspeak6-client
     claude-code
     bitwarden-desktop
   ];

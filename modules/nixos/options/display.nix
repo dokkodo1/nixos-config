@@ -10,7 +10,6 @@ in {
     kde.enable = lib.mkEnableOption "Enable wayland kde, the desktop environment";
   };
   config = mkMerge [
-    # Common XDG support and theming for any display environment
     (mkIf (cfg.dwl.enable || cfg.kde.enable || cfg.i3wm.enable) {
       xdg.portal.enable = true;
       environment.systemPackages = with pkgs; [
@@ -18,10 +17,10 @@ in {
         adwaita-icon-theme
       ] ++ lib.optionals (!cfg.kde.enable) [ adwaita-qt ];
 
-      # GTK dark theme
       home-manager.users.${hostVars.username} = {
         gtk = {
           enable = true;
+          gtk2.force = true;
           theme = {
             name = "Adwaita-dark";
             package = pkgs.gnome-themes-extra;

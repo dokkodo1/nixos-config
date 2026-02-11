@@ -6,6 +6,7 @@ let
 
   # Shell templates - all take pkgs, return a shell
   templates = {
+    dwl = pkgs: import ./dwl.nix { inherit pkgs; };
     c = pkgs: import ./c.nix { inherit pkgs; };
     rust = pkgs: import ./rust.nix { inherit pkgs; };
     haskell = pkgs: import ./haskell.nix { inherit pkgs; };
@@ -17,6 +18,7 @@ let
       isLinux = builtins.elem system linuxSystems;
     in lib.filterAttrs (_: v: v != null) {
       # Linux-only (use glibc or wayland)
+      dwl = if isLinux then templates.dwl pkgs else null;
       c = if isLinux then templates.c pkgs else null;
 
       # Cross-platform
