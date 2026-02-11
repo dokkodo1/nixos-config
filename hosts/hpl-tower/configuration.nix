@@ -10,6 +10,10 @@
   control.gitlab.enable = true;
   control.remoteBuilders.enable = true;
   control.remoteBuilders.serveAsBuilder = true;
+  control.teamspeak6 = {
+    enable = true;
+    acceptLicense = true;
+  };
 
   boot.loader = {
     systemd-boot.enable = true;
