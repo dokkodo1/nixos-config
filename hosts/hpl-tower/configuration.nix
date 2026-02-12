@@ -15,6 +15,14 @@
     acceptLicense = true;
   };
 
+  control.vaultwarden = {
+    enable = true;
+    domain = "vault.dokkodo.me";
+    signupsAllowed = false;
+    adminToken.enable = true;
+    backup.enable = true;
+  };
+
   control.distributedBackup = {
     enable = true;
     targets = [ "nixtop" "desktop" ];

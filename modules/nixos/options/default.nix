@@ -11,6 +11,7 @@
     ./remote-builders.nix
     ./tailscale.nix
     ./teamspeak6.nix
+    ./vaultwarden.nix
     ./virtualization.nix
     ./web-service.nix
   ];
