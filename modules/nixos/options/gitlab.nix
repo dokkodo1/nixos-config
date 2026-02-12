@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, lib, ... }:
 
 let
   cfg = config.control.gitlab;
@@ -89,8 +89,6 @@ in
         owner = "gitlab";
         group = "gitlab";
       };
-    } // lib.optionalAttrs cfg.useTunnel {
-      cloudflare_tunnel_token = {};
     } // lib.optionalAttrs cfg.enableRunner {
       gitlab_runner_token = {
         owner = "gitlab-runner";
@@ -149,20 +147,7 @@ in
       };
     };
 
-    systemd.services.cloudflared-tunnel = lib.mkIf cfg.useTunnel {
-      description = "Cloudflare Tunnel for GitLab";
-      after = [ "network-online.target" "gitlab.target" ];
-      wants = [ "network-online.target" ];
-      wantedBy = [ "multi-user.target" ];
-      script = ''
-        ${pkgs.cloudflared}/bin/cloudflared tunnel --no-autoupdate run --token $(cat ${config.sops.secrets.cloudflare_tunnel_token.path})
-      '';
-      serviceConfig = {
-        Type = "simple";
-        Restart = "always";
-        RestartSec = 5;
-      };
-    };
+    control.cloudflareTunnel.enable = lib.mkIf cfg.useTunnel true;
 
     services.nginx = {
       enable = true;
