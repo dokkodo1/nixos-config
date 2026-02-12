@@ -6,13 +6,18 @@
     ./hardware-configuration.nix
   ];
 
-  control.tailscale.enable = true;
-  control.gitlab.enable = true;
   control.remoteBuilders.enable = true;
   control.remoteBuilders.serveAsBuilder = true;
+  control.tailscale.enable = true;
+  control.gitlab.enable = true;
   control.teamspeak6 = {
     enable = true;
     acceptLicense = true;
+  };
+
+  control.distributedBackup = {
+    enable = true;
+    targets = [ "nixtop" "desktop" ];
   };
 
   boot.loader = {

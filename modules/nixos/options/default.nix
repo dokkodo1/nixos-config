@@ -4,6 +4,7 @@
     ./audio.nix
     ./cloudflare-tunnel.nix
     ./display.nix
+    ./distributed-backup.nix
     ./gaming.nix
     ./gitlab.nix
     ./gpu.nix

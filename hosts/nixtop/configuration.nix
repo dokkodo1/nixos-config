@@ -9,6 +9,7 @@
   control.audio.enable = true;
   control.audio.pavucontrol.enable = true;
   control.tailscale.enable = true;
+  control.distributedBackup.allowIncoming = true;
   control.gaming.enable = true;
   control.remoteBuilders = {
     enable = true;

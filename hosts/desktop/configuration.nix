@@ -15,6 +15,7 @@
     gaming.starCitizen.enable = true;
     gaming.launchers.lutris.enable = true;
     tailscale.enable = true;
+    distributedBackup.allowIncoming = true;
   };
 
   programs.nix-ld.enable = true;
