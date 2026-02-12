@@ -1,9 +1,6 @@
 { pkgs, lib, ... }:
 {
-	fonts.packages = with pkgs; [
-		nerd-fonts.jetbrains-mono
-		dejavu_fonts  # Add DejaVu fonts for qutebrowser
-	];
+	fonts.packages = with pkgs; [ nerd-fonts.jetbrains-mono ];
 
   environment.systemPackages = with pkgs; [
     tree

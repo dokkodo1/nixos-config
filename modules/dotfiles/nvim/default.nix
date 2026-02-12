@@ -7,7 +7,6 @@
       enable = true;
     };
 
-    # Symlink entire nvim config to repo for hot reloading
     xdg.configFile."nvim/init.lua".source = ./init.lua;
     xdg.configFile."nvim/lua/settings.lua".source = ./lua/settings.lua;
     xdg.configFile."nvim/lua/keymaps.lua".source = ./lua/keymaps.lua;

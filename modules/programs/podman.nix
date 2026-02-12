@@ -21,7 +21,5 @@
       ports = ["5678:5678"];
     };
   };
-  environment.systemPackages = with pkgs; [
-    podman-compose
-  ];
+  environment.systemPackages = with pkgs; [ podman-compose ];
 }

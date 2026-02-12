@@ -165,11 +165,9 @@ in {
         StateDirectory = "teamspeak6";
         StateDirectoryMode = "0750";
 
-        # Read database password if using MariaDB
         EnvironmentFile = mkIf (cfg.database.plugin == "mariadb" && cfg.database.passwordFile != null)
           cfg.database.passwordFile;
 
-        # Hardening
         NoNewPrivileges = true;
         PrivateTmp = true;
         ProtectSystem = "strict";
