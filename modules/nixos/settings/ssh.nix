@@ -17,6 +17,5 @@ in
   };
 
   users.users.${hostVars.username}.openssh.authorizedKeys.keys = authorizedKeys;
-
   networking.firewall.allowedTCPPorts = [ 22 ];
 }

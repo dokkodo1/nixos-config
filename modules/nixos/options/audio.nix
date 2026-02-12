@@ -7,6 +7,7 @@ in {
   options.control.audio = {
     enable = mkEnableOption "Enable pipewire with pulse and jack support and sets 48khz/1024 buffer" // { default = true; };
     pavucontrol.enable = mkEnableOption "Enables pavucontrol, a GTK based GUI for controlling audio IO, requires display server";
+    audioShare.enable = mkEnableOption "PipeWire null sink + mic loopback for sharing desktop audio, with audio-share toggle script";
     proAudio = {
       enable = mkEnableOption "Downloads and configures relevant packages for low latency audio recording with REAPER, Wine, and yabridge";
       reaper.enable = mkEnableOption "Enables REAPER with sws-extensions and reapack package manager";
@@ -53,6 +54,28 @@ in {
       environment.systemPackages = [
         pkgs.pavucontrol
       ];
+    })
+    (mkIf (cfg.enable && cfg.audioShare.enable) {
+      # Null sink only - loopbacks are managed by the audio-share toggle script
+      services.pipewire.extraConfig.pipewire."20-ts-audio-mix" = {
+        "context.objects" = [
+          {
+            factory = "adapter";
+            args = {
+              "factory.name" = "support.null-audio-sink";
+              "node.name" = "ts-audio-mix";
+              "node.description" = "TeamSpeak Mix";
+              "media.class" = "Audio/Source/Virtual";
+              "node.virtual" = "true";
+              "audio.position" = [ "FL" "FR" ];
+              "monitor.channel-volumes" = true;
+              "monitor.passthrough" = true;
+              "priority.session" = 0;
+            };
+          }
+        ];
+      };
+      environment.systemPackages = [ pkgs.doxpkgs.audio-share ];
     })
     (mkIf (cfg.enable && cfg.proAudio.enable) {
 

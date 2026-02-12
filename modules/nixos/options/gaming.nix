@@ -33,13 +33,10 @@ in {
     };
 
     environment.systemPackages = with pkgs; [
-      # Performance and compatibility layers
       gamemode
       mangohud
       dxvk
       protonup-qt
-      
-      # just keep them all, they work
       wineWowPackages.waylandFull
       wineWowPackages.staging
       winetricks
@@ -50,7 +47,7 @@ in {
     ++ optional cfg.launchers.lutris.enable lutris
     ++ optionals cfg.starCitizen.enable [
       lug-helper
-      inputs.nix-citizen.packages."x86_64-linux".star-citizen
+      inputs.nix-citizen.packages."x86_64-linux".rsi-launcher
     ];
 
     programs = {
@@ -65,7 +62,6 @@ in {
 
     services.ratbagd.enable = cfg.extras.ratbagd.enable;
 
-    # Star Citizen specific configuration
     boot.kernel.sysctl = mkIf cfg.starCitizen.enable {
       "vm.max_map_count" = 16777216;
       "fs.file-max" = 524288;

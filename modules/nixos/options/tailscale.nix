@@ -30,7 +30,6 @@ in
     sops.secrets.tailscale_auth_key = {};
     environment.systemPackages = [ pkgs.tailscale ];
 
-    # Tailscale service configuration (cross-platform)
     services.tailscale = {
       enable = true;
       authKeyFile = cfg.authKeyFile or config.sops.secrets.tailscale_auth_key.path;
@@ -47,7 +46,6 @@ in
       trustedInterfaces = [ "tailscale0" ];
       allowedUDPPorts = [ config.services.tailscale.port ];
     };
-    # Enable IP forwarding for exit nodes
     boot.kernel.sysctl = lib.mkIf cfg.exitNode {
       "net.ipv4.ip_forward" = 1;
       "net.ipv6.conf.all.forwarding" = 1;

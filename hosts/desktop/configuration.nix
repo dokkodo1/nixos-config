@@ -5,9 +5,22 @@
     ./hardware-configuration.nix
   ];
 
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  hardware.firmware = [ pkgs.linux-firmware ];
+  fileSystems."/mnt/sata1" = {
+    device = "/dev/disk/by-uuid/3a472f59-0607-46f1-9885-4140a3314895";
+    fsType = "ext4";
+    options = [ "noatime" "lazytime" "x-systemd.automount" "nofail" ];
+  };  
+  systemd.tmpfiles.rules = [
+    "d /mnt/sata1 0775 dokkodo users - -"
+  ];
+
   control = {
     audio.enable = true;
     audio.pavucontrol.enable = true;
+    audio.audioShare.enable = false;
     gpuVendor = "amd";
     display.kde.enable = true;
     display.dwl.enable = true;
@@ -19,10 +32,8 @@
   };
 
   programs.nix-ld.enable = true;
-
-  environment.sessionVariables = {
-    XKB_DEFAULT_OPTIONS = "caps:swapescape";
-  };
+  programs.firefox.enable = true;
+  services.displayManager.sddm.enable = false;
 
   environment.systemPackages = with pkgs; [
     teamspeak6-client
@@ -30,24 +41,6 @@
     bitwarden-desktop
   ];
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-  };
-
-  hardware.firmware = [ pkgs.linux-firmware ];
-
-  fileSystems."/mnt/sata1" = {
-    device = "/dev/disk/by-uuid/3a472f59-0607-46f1-9885-4140a3314895";
-    fsType = "ext4";
-    options = [ "noatime" "lazytime" "x-systemd.automount" "nofail" ];
-  };  
-  systemd.tmpfiles.rules = [
-    "d /mnt/sata1 0775 dokkodo users - -"
-  ];
-
-  services.displayManager.sddm.enable = false;
-
-  programs.firefox.enable = true;
+  environment.sessionVariables.XKB_DEFAULT_OPTIONS = "caps:swapescape";
 }
 

@@ -27,20 +27,16 @@ stdenv.mkDerivation rec {
 
     mkdir -p $out/bin $out/lib $out/share/teamspeak6-server
 
-    # Main binary
     install -Dm755 tsserver $out/bin/tsserver
 
-    # Bundled libraries
     install -Dm644 libc++.so.1 $out/lib/
     install -Dm644 libssh.so.4 $out/lib/
     install -Dm644 libatomic.so.1 $out/lib/
     install -Dm644 libunwind.so.1 $out/lib/
 
-    # SQL scripts and documentation
     cp -r sql $out/share/teamspeak6-server/
     cp -r serverquerydocs $out/share/teamspeak6-server/
 
-    # License and docs
     install -Dm644 LICENSE $out/share/teamspeak6-server/
     install -Dm644 CHANGELOG $out/share/teamspeak6-server/
 

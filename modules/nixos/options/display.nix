@@ -33,7 +33,6 @@ in {
         dconf.enable = lib.mkForce false;
       };
 
-      # QT dark theme (for non-KDE environments; KDE handles this natively)
       qt = lib.mkIf (!cfg.kde.enable) {
         enable = true;
         platformTheme = "gnome";
@@ -52,7 +51,6 @@ in {
       programs.xwayland.enable = lib.mkDefault true;
       xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
       
-      # DWL environment packages
       environment.systemPackages = with pkgs; [
         foot
         wmenu
@@ -64,13 +62,11 @@ in {
         waybar
       ];
 
-      # dwl from local source (modules/dotfiles/dwl) via overlay
       programs.dwl = {
         enable = lib.mkDefault true;
         package = pkgs.dwl;  # uses our overlay
       };
       
-      # Font packages
       fonts.packages = with pkgs; [
         jetbrains-mono
         font-awesome
