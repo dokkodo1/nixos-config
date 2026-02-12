@@ -11,7 +11,7 @@ in
     settings = {
       PasswordAuthentication = false;
       PubkeyAuthentication = true;
-      PermitRootLogin = "no";
+      PermitRootLogin = lib.mkDefault "no";
       X11Forwarding = true;
     };
   };
