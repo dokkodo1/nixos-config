@@ -1,14 +1,16 @@
 
 {
   imports = [
+    ./audio.nix
+    ./cloudflare-tunnel.nix
     ./display.nix
     ./gaming.nix
     ./gitlab.nix
     ./gpu.nix
-    ./audio.nix
     ./remote-builders.nix
+    ./tailscale.nix
     ./teamspeak6.nix
     ./virtualization.nix
-    ./tailscale.nix
+    ./web-service.nix
   ];
 }
