@@ -2,6 +2,10 @@
 local opt = vim.opt
 
 opt.guifont = "JetBrainsMono Nerd Font:h12"
+vim.cmd [[
+  highlight Normal guibg=none
+  highlight NonText guibg=none
+]]
 -- gruvbox may not be available on the very first run of a fresh install
 -- (vim.pack.add needs to clone it first). Fall back gracefully and apply
 -- the theme + custom highlights once it is available.
@@ -13,6 +17,7 @@ local function apply_theme()
       highlight CursorLineNr ctermfg=yellow ctermbg=black cterm=bold
       highlight Comment ctermfg=yellow cterm=bold
       highlight Normal ctermbg=NONE
+      highlight NonText ctermbg=NONE
       highlight NormalFloat ctermbg=black ctermfg=white
       highlight FloatBorder ctermfg=white ctermbg=NONE
     ]])
