@@ -10,7 +10,6 @@
   control.audio.pavucontrol.enable = true;
   control.tailscale.enable = true;
   control.distributedBackup.allowIncoming = true;
-  control.gaming.enable = true;
   control.monitoring.agent = {
     enable = true;
     lokiUrl = "http://hpl-tower:3100";
@@ -54,35 +53,12 @@
   hardware.uinput.enable = true;
   environment.systemPackages = with pkgs; [
     deluge
-    wineWowPackages.waylandFull
-    winetricks
-    wine64
-    wine
     claude-code
-    discord
     bitwarden-desktop
-    mesa
-    mesa-demos
     mpv
   ];
 
   programs.nix-ld.enable = true;
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [
-      intel-media-driver
-      intel-vaapi-driver
-      libva-vdpau-driver
-      intel-vaapi-driver
-      libvdpau-va-gl
-    ];
-    extraPackages32 = with pkgs.pkgsi686Linux; [
-      intel-vaapi-driver
-      libva
-    ];
-  };
 
   # Default applications for URL opening
   xdg.mime.defaultApplications = {
