@@ -47,7 +47,7 @@
       matrix = {
         enable = true;
         roomId = "!jYHruqewzLjIDOBihd:dokkodo.me";
-      }
+      };
     };
   };
 

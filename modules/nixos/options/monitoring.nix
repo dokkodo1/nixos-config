@@ -13,7 +13,7 @@ let
     nginxExporter = 9113;
     postgresExporter = 9187;
     promtail = 9080;
-    nginxStatus = 8080;
+    nginxStatus = 8085;
     matrixAlertBot = 3033;
     gitlabExporter = 9168;
   };
@@ -197,6 +197,17 @@ in
     # AGENT MODE (node_exporter + promtail)
     # ============================================
     (lib.mkIf cfg.agent.enable {
+      # Override DynamicUser - upstream module creates promtail user/group
+      # but DynamicUser prevents it from owning pre-created directories
+      systemd.services.promtail.serviceConfig = {
+        DynamicUser = lib.mkForce false;
+      };
+
+      # Create state directory with correct ownership (promtail user/group from upstream)
+      systemd.tmpfiles.rules = [
+        "d /var/lib/promtail 0750 promtail promtail -"
+      ];
+
       # Node exporter for system metrics
       services.prometheus.exporters.node = {
         enable = true;
@@ -586,12 +597,6 @@ in
         listenAddress = "127.0.0.1";
 
         configuration = {
-          global = lib.mkIf cfg.alertmanager.email.enable {
-            smtp_smarthost = "{{ .ExternalURL }}";
-            smtp_from = "{{ .ExternalURL }}";
-            smtp_require_tls = true;
-          };
-
           route = {
             receiver = "default";
             group_by = [ "alertname" "host" ];
@@ -603,19 +608,25 @@ in
           receivers = [
             {
               name = "default";
-              webhook_configs = lib.optional cfg.alertmanager.matrix.enable {
-                url = "http://localhost:${toString ports.matrixAlertBot}/alerts";
-                send_resolved = true;
-              };
+              webhook_configs =
+                if cfg.alertmanager.matrix.enable then [{
+                  url = "http://localhost:${toString ports.matrixAlertBot}/alerts";
+                  send_resolved = true;
+                }] else [];
+              email_configs =
+                if cfg.alertmanager.email.enable then [{
+                  to = cfg.alertmanager.email.to;
+                  send_resolved = true;
+                }] else [];
             }
-          ] ++ lib.optional cfg.alertmanager.email.enable {
-            name = "email";
-            email_configs = [{
-              to = cfg.alertmanager.email.to;
-              send_resolved = true;
-            }];
+          ];
+        } // (if cfg.alertmanager.email.enable then {
+          global = {
+            smtp_smarthost = "{{ .ExternalURL }}";
+            smtp_from = "{{ .ExternalURL }}";
+            smtp_require_tls = true;
           };
-        };
+        } else {});
       };
 
       # This runs a webhook receiver that posts to Matrix
