@@ -8,6 +8,7 @@
     ./gaming.nix
     ./gitlab.nix
     ./gpu.nix
+    ./matrix.nix
     ./remote-builders.nix
     ./tailscale.nix
     ./teamspeak6.nix

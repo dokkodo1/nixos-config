@@ -23,6 +23,15 @@
     backup.enable = true;
   };
 
+  control.matrix = {
+    enable = true;
+    baseDomain = "dokkodo.me";
+    mediaRetention = {
+      enable = true;
+      remoteMediaLifetimeDays = 90;
+    };
+  };
+
   control.distributedBackup = {
     enable = true;
     targets = [ "nixtop" "desktop" ];
