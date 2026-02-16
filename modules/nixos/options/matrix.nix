@@ -178,7 +178,7 @@ in
         max_upload_size_mib = cfg.maxUploadSizeMib;
         url_preview_enabled = true;
         enable_registration = cfg.enableRegistration;
-        enable_metrics = false;
+        enable_metrics = lib.mkDefault false;
         registration_shared_secret_path = config.sops.secrets.matrix_registration_secret.path;
 
         trusted_key_servers = [{ server_name = "matrix.org"; }];

@@ -29,6 +29,10 @@
     gaming.launchers.lutris.enable = true;
     tailscale.enable = true;
     distributedBackup.allowIncoming = true;
+    monitoring.agent = {
+      enable = true;
+      lokiUrl = "http://hpl-tower:3100";
+    };
   };
 
   programs.nix-ld.enable = true;

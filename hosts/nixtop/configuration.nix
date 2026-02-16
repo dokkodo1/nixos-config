@@ -11,6 +11,10 @@
   control.tailscale.enable = true;
   control.distributedBackup.allowIncoming = true;
   control.gaming.enable = true;
+  control.monitoring.agent = {
+    enable = true;
+    lokiUrl = "http://hpl-tower:3100";
+  };
   control.remoteBuilders = {
     enable = true;
     useBuilders = [{

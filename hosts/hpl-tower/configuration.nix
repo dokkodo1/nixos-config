@@ -37,6 +37,20 @@
     targets = [ "nixtop" "desktop" ];
   };
 
+  control.monitoring = {
+    enable = true;
+    grafana.domain = "grafana.dokkodo.me";
+    prometheus.remoteTargets = [ "nixtop" "desktop" ];
+
+    alertmanager = {
+      enable = true;
+      matrix = {
+        enable = true;
+        roomId = "!jYHruqewzLjIDOBihd:dokkodo.me";
+      }
+    };
+  };
+
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;

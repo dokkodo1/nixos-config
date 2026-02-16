@@ -9,6 +9,7 @@
     ./gitlab.nix
     ./gpu.nix
     ./matrix.nix
+    ./monitoring.nix
     ./remote-builders.nix
     ./tailscale.nix
     ./teamspeak6.nix
