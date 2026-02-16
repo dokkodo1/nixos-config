@@ -9,7 +9,6 @@
 
   config = lib.mkMerge [
     (lib.mkIf (config.control.gpuVendor == "amd") {
-
       boot.kernelModules = [ "amdgpu" ];
       services.xserver.videoDrivers = [ "amdgpu" ];
       environment.systemPackages = [ pkgs.lact ];
@@ -19,21 +18,13 @@
       hardware.graphics = {
         # NixOS enables Vulkan through Mesa RADV by default
         # https://nixos.org/manual/nixos/unstable/index.html#sec-gpu-accel-vulkan
-
-        # openGL / Mesa
         enable = lib.mkDefault true;
         enable32Bit = lib.mkDefault true;
-
-        # AMDVLK  
-        #    extraPackages = [ pkgs.amdvlk ];
-        #    extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
       };
 
     })
     
     (lib.mkIf (config.control.gpuVendor == "nvidia") {
-      # i don't know how/if any of the nvidia linux stuff works
-
       services.xserver.videoDrivers = [ "nvidia" ];
       hardware.graphics = {
         enable = lib.mkDefault true;
