@@ -36,6 +36,8 @@
   services.displayManager.sddm.enable = false;
 
   environment.systemPackages = with pkgs; [
+    vlc
+    deluge
     teamspeak6-client
     claude-code
     bitwarden-desktop
