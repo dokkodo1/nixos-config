@@ -16,6 +16,7 @@ let
     nginxStatus = 8085;
     matrixAlertBot = 3033;
     gitlabExporter = 9168;
+    synapseMetrics = 9148;
   };
 
   matrixEnabled = config.control.matrix.enable or false;
@@ -70,6 +71,12 @@ in
         type = lib.types.int;
         default = 30;
         description = "Number of days to retain Prometheus metrics";
+      };
+
+      remoteInterval = lib.mkOption {
+        type = lib.types.str;
+        default = "60s";
+        description = "Scrape interval for remote Tailscale targets";
       };
 
       remoteTargets = lib.mkOption {
@@ -152,6 +159,12 @@ in
           description = "Matrix room ID for alerts";
           example = "!abc123:example.com";
         };
+
+        userId = lib.mkOption {
+          type = lib.types.str;
+          default = "";
+          description = "Matrix user ID for the alert bot (e.g., @alertbot:example.com)";
+        };
       };
     };
 
@@ -185,6 +198,10 @@ in
         {
           assertion = cfg.alertmanager.matrix.enable -> cfg.alertmanager.matrix.roomId != "";
           message = "control.monitoring.alertmanager.matrix.roomId must be set when matrix alerts are enabled";
+        }
+        {
+          assertion = cfg.alertmanager.matrix.enable -> cfg.alertmanager.matrix.userId != "";
+          message = "control.monitoring.alertmanager.matrix.userId must be set when matrix alerts are enabled";
         }
         {
           assertion = cfg.alertmanager.matrix.enable -> matrixHomeserver != "";
@@ -252,10 +269,11 @@ in
                   host = hostname;
                 };
               };
-              relabel_configs = [{
-                source_labels = [ "__journal__systemd_unit" ];
-                target_label = "unit";
-              }];
+              relabel_configs = [
+                { source_labels = [ "__journal__systemd_unit" ]; target_label = "unit"; }
+                { source_labels = [ "__journal_priority" ]; target_label = "priority"; }
+                { source_labels = [ "__journal_syslog_identifier" ]; target_label = "syslog_identifier"; }
+              ];
             }
             {
               job_name = "nginx";
@@ -367,6 +385,11 @@ in
         upstream = "http://127.0.0.1:${toString ports.grafana}";
         useTunnel = cfg.grafana.useTunnel;
         websockets = true;
+        extraNginxConfig = ''
+          proxy_read_timeout 300s;
+          proxy_send_timeout 300s;
+          proxy_connect_timeout 60s;
+        '';
       };
 
       # ----------------------------------------
@@ -393,9 +416,11 @@ in
             }];
           }
         ]
-        # Remote node exporters
+        # Remote node exporters (longer interval to reduce tailscaled timeout spam)
         ++ lib.optional (cfg.prometheus.remoteTargets != []) {
           job_name = "remote-nodes";
+          scrape_interval = cfg.prometheus.remoteInterval;
+          scrape_timeout = cfg.prometheus.remoteInterval;
           static_configs = [{
             targets = map (h: "${h}:${toString ports.nodeExporter}") cfg.prometheus.remoteTargets;
           }];
@@ -425,7 +450,7 @@ in
         ++ lib.optional matrixEnabled {
           job_name = "matrix-synapse";
           static_configs = [{
-            targets = [ "localhost:${toString (config.control.matrix.port or 8008)}" ];
+            targets = [ "localhost:${toString ports.synapseMetrics}" ];
             labels = { host = hostname; };
           }];
           metrics_path = "/_synapse/metrics";
@@ -575,6 +600,7 @@ in
             retention_period = "${toString cfg.loki.retentionDays}d";
             reject_old_samples = true;
             reject_old_samples_max_age = "168h";
+            query_timeout = "5m";
           };
 
           compactor = {
@@ -610,7 +636,7 @@ in
               name = "default";
               webhook_configs =
                 if cfg.alertmanager.matrix.enable then [{
-                  url = "http://localhost:${toString ports.matrixAlertBot}/alerts";
+                  url = "http://localhost:${toString ports.matrixAlertBot}/alerts/default";
                   send_resolved = true;
                 }] else [];
               email_configs =
@@ -630,36 +656,53 @@ in
       };
 
       # This runs a webhook receiver that posts to Matrix
-      systemd.services.matrix-alertmanager-bot = lib.mkIf (cfg.alertmanager.enable && cfg.alertmanager.matrix.enable) {
-        description = "Matrix Alertmanager Bot";
-        after = [ "network-online.target" ];
-        wants = [ "network-online.target" ];
-        wantedBy = [ "multi-user.target" ];
-
-        script = ''
-          export MATRIX_HOMESERVER="${matrixHomeserver}"
-          export MATRIX_ROOM_ID="${cfg.alertmanager.matrix.roomId}"
-          export MATRIX_ACCESS_TOKEN="$(cat ${config.sops.secrets.matrix_alertmanager_token.path})"
-          export LISTEN_ADDRESS="127.0.0.1:${toString ports.matrixAlertBot}"
-          exec ${pkgs.alertmanager-matrix-forwarder or pkgs.writeShellScript "matrix-alert-stub" ''
-            # Fallback if package not available
-            echo "Matrix alertmanager forwarder not available, using simple webhook logger"
-            ${pkgs.python3}/bin/python3 -m http.server ${toString ports.matrixAlertBot} --bind 127.0.0.1
-          ''}
-        '';
-
-        serviceConfig = {
-          Type = "simple";
-          Restart = "always";
-          RestartSec = 5;
-          DynamicUser = true;
-        };
-      };
+      systemd.services.matrix-alertmanager-bot = lib.mkIf (cfg.alertmanager.enable && cfg.alertmanager.matrix.enable) (
+        let
+          configFile = pkgs.writeText "matrix-alertmanager-receiver.yaml" (builtins.toJSON {
+            http = {
+              address = "127.0.0.1";
+              port = ports.matrixAlertBot;
+              alerts-path-prefix = "/alerts";
+            };
+            matrix = {
+              homeserver-url = matrixHomeserver;
+              user-id = cfg.alertmanager.matrix.userId;
+              access-token = "\${MATRIX_ACCESS_TOKEN}";
+              room-mapping.default = cfg.alertmanager.matrix.roomId;
+            };
+          });
+        in {
+          description = "Matrix Alertmanager Receiver";
+          after = [ "network-online.target" ];
+          wants = [ "network-online.target" ];
+          wantedBy = [ "multi-user.target" ];
+          script = ''
+            export MATRIX_ACCESS_TOKEN="$(cat ${config.sops.secrets.matrix_alertmanager_token.path})"
+            exec ${pkgs.matrix-alertmanager-receiver}/bin/matrix-alertmanager-receiver \
+              -config-path ${configFile}
+          '';
+          serviceConfig = {
+            Type = "simple";
+            Restart = "always";
+            RestartSec = 5;
+            DynamicUser = true;
+          };
+        }
+      );
 
       # ----------------------------------------
       # Enable Matrix metrics if Matrix is enabled
       # ----------------------------------------
-      services.matrix-synapse.settings.enable_metrics = lib.mkIf matrixEnabled true;
+      services.matrix-synapse.settings = lib.mkIf matrixEnabled {
+        enable_metrics = true;
+        listeners = [{
+          port = ports.synapseMetrics;
+          bind_addresses = [ "127.0.0.1" ];
+          type = "http";
+          tls = false;
+          resources = [{ names = [ "metrics" ]; compress = false; }];
+        }];
+      };
 
       # ----------------------------------------
       # Distributed backup

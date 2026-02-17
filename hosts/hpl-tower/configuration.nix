@@ -27,7 +27,6 @@
     enable = true;
     baseDomain = "dokkodo.me";
     federation.mode = "disabled";
-    federation.whitelist = [ "matrix.org" ];
     mediaRetention = {
       enable = true;
       remoteMediaLifetimeDays = 90;
@@ -49,6 +48,7 @@
       matrix = {
         enable = true;
         roomId = "!jYHruqewzLjIDOBihd:dokkodo.me";
+        userId = "@alertbot:dokkodo.me";
       };
     };
   };
