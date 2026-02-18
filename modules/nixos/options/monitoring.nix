@@ -274,6 +274,45 @@ in
                 { source_labels = [ "__journal_priority" ]; target_label = "priority"; }
                 { source_labels = [ "__journal_syslog_identifier" ]; target_label = "syslog_identifier"; }
               ];
+              pipeline_stages = [
+                # Drop DEBUG/INFO from noisy services
+                {
+                  match = {
+                    selector = ''{unit=~"gitlab-sidekiq.*|gitaly.*"}'';
+                    stages = [
+                      { json = { expressions = { severity = "severity"; }; }; }
+                      { drop = { source = "severity"; expression = "INFO"; }; }
+                    ];
+                  };
+                }
+                # Drop routine Matrix federation denials
+                {
+                  match = {
+                    selector = ''{unit="matrix-synapse.service"}'';
+                    stages = [
+                      { drop = { expression = "Federation denied with"; }; }
+                    ];
+                  };
+                }
+                # Drop prometheus scrape logs
+                {
+                  match = {
+                    selector = ''{unit="prometheus.service"}'';
+                    stages = [
+                      { drop = { expression = "Scrape.*completed"; }; }
+                    ];
+                  };
+                }
+                # Drop tailscale connection tracking noise for offline hosts
+                {
+                  match = {
+                    selector = ''{unit="tailscaled.service"}'';
+                    stages = [
+                      { drop = { expression = "(open-conn-track: timeout|does not know about peer)"; }; }
+                    ];
+                  };
+                }
+              ];
             }
             {
               job_name = "nginx";
@@ -319,7 +358,10 @@ in
           smtp_from = {};
         })
         (lib.mkIf (cfg.alertmanager.enable && cfg.alertmanager.matrix.enable) {
-          matrix_alertmanager_token = {};
+          matrix_alertmanager_token = {
+            owner = "matrix-alertbot";
+            group = "matrix-alertbot";
+          };
         })
       ];
 
@@ -655,6 +697,14 @@ in
         } else {});
       };
 
+      # Static user for matrix alertmanager bot (needed for sops secret access)
+      users.users.matrix-alertbot = lib.mkIf (cfg.alertmanager.enable && cfg.alertmanager.matrix.enable) {
+        isSystemUser = true;
+        group = "matrix-alertbot";
+        description = "Matrix Alertmanager Receiver";
+      };
+      users.groups.matrix-alertbot = lib.mkIf (cfg.alertmanager.enable && cfg.alertmanager.matrix.enable) {};
+
       # This runs a webhook receiver that posts to Matrix
       systemd.services.matrix-alertmanager-bot = lib.mkIf (cfg.alertmanager.enable && cfg.alertmanager.matrix.enable) (
         let
@@ -669,6 +719,16 @@ in
               user-id = cfg.alertmanager.matrix.userId;
               access-token = "\${MATRIX_ACCESS_TOKEN}";
               room-mapping.default = cfg.alertmanager.matrix.roomId;
+            };
+            templating = {
+              firing-template = ''
+                <strong><font color="red">FIRING</font></strong> <strong>{{ .Alert.Labels.alertname }}</strong>
+                {{ if .Alert.Labels.host }}on {{ .Alert.Labels.host }}{{ end }}
+                {{ if .Alert.Annotations.summary }}<br/>{{ .Alert.Annotations.summary }}{{ end }}
+                {{ if .Alert.Annotations.description }}<br/>{{ .Alert.Annotations.description }}{{ end }}'';
+              resolved-template = ''
+                <strong><font color="green">RESOLVED</font></strong> <strong>{{ .Alert.Labels.alertname }}</strong>
+                {{ if .Alert.Labels.host }}on {{ .Alert.Labels.host }}{{ end }}'';
             };
           });
         in {
@@ -685,7 +745,8 @@ in
             Type = "simple";
             Restart = "always";
             RestartSec = 5;
-            DynamicUser = true;
+            User = "matrix-alertbot";
+            Group = "matrix-alertbot";
           };
         }
       );
