@@ -2,7 +2,6 @@
 
 {
   imports = [
-    # ./disko-simple.nix
     ./hardware-configuration.nix
   ];
 
@@ -51,6 +50,13 @@
         userId = "@alertbot:dokkodo.me";
       };
     };
+  };
+
+  control.searxng = {
+    enable = true;
+    domain = "search.dokkodo.me";
+    publicAccess = true;
+    instance.name = "Dokkodo Search";
   };
 
   boot.loader = {

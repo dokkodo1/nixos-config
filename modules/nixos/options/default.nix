@@ -11,6 +11,7 @@
     ./matrix.nix
     ./monitoring.nix
     ./remote-builders.nix
+    ./searxng.nix
     ./tailscale.nix
     ./teamspeak6.nix
     ./vaultwarden.nix
