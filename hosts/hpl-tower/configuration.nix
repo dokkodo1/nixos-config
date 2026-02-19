@@ -25,7 +25,7 @@
   control.matrix = {
     enable = true;
     baseDomain = "dokkodo.me";
-    federation.mode = "disabled";
+    federation.mode = "full";
     mediaRetention = {
       enable = true;
       remoteMediaLifetimeDays = 90;
