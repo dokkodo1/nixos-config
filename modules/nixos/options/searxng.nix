@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 
 let
   cfg = config.control.searxng;
@@ -153,7 +153,7 @@ in
       };
 
       # Use uwsgi for production
-      runInUwsgi = true;
+      configureUwsgi = true;
       uwsgiConfig = {
         socket = "/run/searx/searx.sock";
         chmod-socket = "660";
