@@ -59,7 +59,7 @@
       flake = false;
     };
 
-    tmux-powerkit.url = "github:dokkodo1/tmux-powerkit/add-nix-packaging";
+    tmux-powerkit.url = "github:fabioluciano/tmux-powerkit";
 
   };
 
