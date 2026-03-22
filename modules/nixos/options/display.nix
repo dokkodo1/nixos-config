@@ -105,7 +105,7 @@ in {
       services.displayManager.sddm.wayland.enable = lib.mkDefault true;
       services.desktopManager.plasma6.enable = lib.mkDefault true;
       environment.systemPackages = with pkgs; [ konsave wl-clipboard foot ];
-      environment.plasma6.excludePackages = with pkgs.kdePackages; [ plasma-browser-integration elisa ];
+      environment.plasma6.excludePackages = with pkgs.kdePackages; [ plasma-browser-integration elisa baloo ];
       home-manager.users.${hostVars.username} = {
         programs.foot = {
           enable = lib.mkDefault true;
