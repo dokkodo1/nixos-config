@@ -351,6 +351,9 @@ in
             group = "grafana";
           };
         }
+        {
+          grafana_secret_key = {};
+        }
         (lib.mkIf (cfg.alertmanager.enable && cfg.alertmanager.email.enable) {
           smtp_host = {};
           smtp_username = {};
@@ -381,6 +384,7 @@ in
           security = {
             admin_user = "admin";
             admin_password = "$__file{${config.sops.secrets.grafana_admin_password.path}}";
+            secret_key = "$__file{${config.sops.secrets.grafana_secret_key.path}}";
           };
 
           "auth.anonymous" = lib.mkIf cfg.grafana.anonymousAccess {
