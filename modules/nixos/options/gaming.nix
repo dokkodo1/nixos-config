@@ -37,8 +37,8 @@ in {
       mangohud
       dxvk
       protonup-qt
-      wineWowPackages.waylandFull
-      wineWowPackages.staging
+      wineWow64Packages.waylandFull
+      wineWow64Packages.staging
       winetricks
     ] 
     ++ optional cfg.extras.discord.enable discord
