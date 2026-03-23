@@ -107,7 +107,6 @@ in
         '';
       };
 
-
       starship = {
         enable = true;
         enableZshIntegration = true;
