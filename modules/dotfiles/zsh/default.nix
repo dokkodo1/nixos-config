@@ -1,4 +1,4 @@
-{ pkgs, hostVars, ... }:
+{ lib, pkgs, hostVars, ... }:
 
 let
   homeDir = if pkgs.stdenv.isDarwin
@@ -106,6 +106,13 @@ in
           source ${./zshrc}
         '';
       };
+
+      home.activation.protectFlakeLock = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        if [ -d "${configDir}/.git" ]; then
+          cd "${configDir}"
+          $DRY_RUN_CMD git update-index --skip-worktree flake.lock 2>/dev/null || true
+        fi
+      '';
 
       starship = {
         enable = true;
