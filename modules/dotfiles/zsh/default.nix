@@ -1,4 +1,4 @@
-{ pkgs, hostVars, ... }:
+{ lib, pkgs, hostVars, ... }:
 
 let
   homeDir = if pkgs.stdenv.isDarwin
@@ -107,6 +107,7 @@ in
         '';
       };
 
+
       starship = {
         enable = true;
         enableZshIntegration = true;
@@ -115,5 +116,12 @@ in
 
     xdg.configFile."starship.toml".source = ./starship.toml;
     xdg.configFile."grc/nix.conf".source = ./grc-nix.conf;
+
+  home.activation.protectFlakeLock = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if [ -d "${configDir}/.git" ]; then
+      cd "${configDir}"
+      $DRY_RUN_CMD git update-index --skip-worktree flake.lock 2>/dev/null || true
+    fi
+  '';
   };
 }
