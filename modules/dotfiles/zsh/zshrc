@@ -1,24 +1,21 @@
 HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.zsh/zsh_history
-setopt HIST_IGNORE_DUPS      # Don't save duplicate commands
-setopt HIST_IGNORE_SPACE     # Don't save commands starting with space
-setopt SHARE_HISTORY         # Share history across all sessions
-setopt HIST_VERIFY           # Show command with history expansion before running it
-setopt AUTO_CD               # cd by just typing directory name
-setopt CORRECT               # Suggest corrections for typos
-setopt MENU_COMPLETE         # Automatically select first completion match
-setopt AUTO_PUSHD            # Make cd push old directory onto directory stack
-setopt PUSHD_IGNORE_DUPS     # Don't push duplicates onto directory stack
+setopt HIST_IGNORE_DUPS      
+setopt HIST_IGNORE_SPACE     
+setopt SHARE_HISTORY         
+setopt HIST_VERIFY           
+setopt AUTO_CD               
+setopt CORRECT               
+setopt MENU_COMPLETE         
+setopt AUTO_PUSHD            
+setopt PUSHD_IGNORE_DUPS     
 
 autoload -Uz compinit
 compinit
 
-# Case-insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-# Menu-style completion
 zstyle ':completion:*' menu select
-# Colors in completion
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 bindkey -e
