@@ -18,6 +18,8 @@
   ];
 
   control = {
+    remoteBuilders.enable = true;
+    remoteBuilders.serveAsBuilder = true;
     audio.enable = true;
     audio.pavucontrol.enable = true;
     audio.audioShare.enable = false;
@@ -43,7 +45,6 @@
     vlc
     deluge
     teamspeak6-client
-    claude-code
     bitwarden-desktop
   ];
 

@@ -16,11 +16,18 @@
   };
   control.remoteBuilders = {
     enable = true;
-    useBuilders = [{
-      hostName = "hpl-tower";
-      maxJobs = 8;
-      speedFactor = 2;
-    }];
+    useBuilders = [
+      {
+        hostName = "desktop";
+        maxJobs = 8;
+        speedFactor = 3;
+      }
+      {
+        hostName = "hpl-tower";
+        maxJobs = 8;
+        speedFactor = 2;
+      }
+    ];
   };
 
   services.udev.extraRules = ''
@@ -53,14 +60,12 @@
   hardware.uinput.enable = true;
   environment.systemPackages = with pkgs; [
     deluge
-    claude-code
     bitwarden-desktop
     mpv
   ];
 
   programs.nix-ld.enable = true;
 
-  # Default applications for URL opening
   xdg.mime.defaultApplications = {
     "text/html" = "qutebrowser.desktop";
     "x-scheme-handler/http" = "qutebrowser.desktop";
