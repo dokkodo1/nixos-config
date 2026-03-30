@@ -46,6 +46,7 @@
     deluge
     teamspeak6-client
     bitwarden-desktop
+    zapzap
   ];
 
   environment.sessionVariables.XKB_DEFAULT_OPTIONS = "caps:swapescape";

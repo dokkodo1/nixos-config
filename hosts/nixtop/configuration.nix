@@ -61,6 +61,7 @@
   environment.systemPackages = with pkgs; [
     deluge
     bitwarden-desktop
+    zapzap
     mpv
   ];
 
