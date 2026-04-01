@@ -22,6 +22,7 @@ in
           push.autoSetupRemote = true;
           core.editor = "nvim";
         };
+        signing.format = null;
       };
     })
 
