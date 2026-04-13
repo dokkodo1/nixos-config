@@ -21,6 +21,7 @@ in {
         gtk = {
           enable = true;
           gtk2.force = true;
+          gtk4.theme = null;
           theme = {
             name = "Adwaita-dark";
             package = pkgs.gnome-themes-extra;
