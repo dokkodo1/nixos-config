@@ -47,6 +47,7 @@
     teamspeak6-client
     bitwarden-desktop
     zapzap
+    telegram-desktop
   ];
 
   environment.sessionVariables.XKB_DEFAULT_OPTIONS = "caps:swapescape";
