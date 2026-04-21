@@ -131,6 +131,7 @@
               })
             ];
             nixpkgs.config.allowUnfree = true;
+            nixpkgs.config.allowDeprecatedx86_64Darwin = true;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "backup";
