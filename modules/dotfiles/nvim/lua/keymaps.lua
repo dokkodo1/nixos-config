@@ -20,12 +20,11 @@ map("n", "<leader>o", function()
 end, { desc = "Reload config" })
 
 -- Buffers
-map("n", "<leader>bw", vim.cmd.write, { desc = "Save buffer" })
-map("n", "<leader>bn", vim.cmd.bnext, { desc = "Next buffer" })
-map("n", "<leader>bp", vim.cmd.bprevious, { desc = "Previous buffer" })
-map("n", "<leader>bd", vim.cmd.bdelete, { desc = "Delete buffer" })
-map("n", "<leader>bD", vim.cmd.bdelete, { force = Truedesc = "Delete buffer" })
-map("n", "<leader>bls", vim.cmd.buffers, { desc = "List buffers" })
+map("n", "<leader>w", vim.cmd.write, { desc = "Save buffer" })
+map("n", "<leader>n", vim.cmd.bnext, { desc = "Next buffer" })
+map("n", "<leader>p", vim.cmd.bprevious, { desc = "Previous buffer" })
+map("n", "<leader>d", vim.cmd.bdelete, { desc = "Delete buffer" })
+map("n", "<leader>ls", vim.cmd.buffers, { desc = "List buffers" })
 
 -- Tabs
 map("n", "<leader>tn", vim.cmd.tabnext, { desc = "Next tab" })
