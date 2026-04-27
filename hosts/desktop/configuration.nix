@@ -32,8 +32,8 @@
     tailscale.enable = true;
     distributedBackup.allowIncoming = true;
     monitoring.agent = {
-      enable = true;
-      lokiUrl = "http://hpl-tower:3100";
+      enable = false;
+      # lokiUrl = "http://hpl-tower:3100";
     };
   };
 
