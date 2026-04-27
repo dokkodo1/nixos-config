@@ -5,6 +5,8 @@
   home-manager.users.${hostVars.username} = {
     programs.neovim = {
       enable = true;
+      withRuby = true;
+      withPython3 = true;
     };
 
     xdg.configFile."nvim/init.lua".source = ./init.lua;
