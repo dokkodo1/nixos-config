@@ -7,6 +7,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   hardware.firmware = [ pkgs.linux-firmware ];
   fileSystems."/mnt/sata1" = {
     device = "/dev/disk/by-uuid/3a472f59-0607-46f1-9885-4140a3314895";
@@ -42,6 +43,7 @@
   services.displayManager.sddm.enable = false;
 
   environment.systemPackages = with pkgs; [
+    zoom-us
     vlc
     deluge
     teamspeak6-client
