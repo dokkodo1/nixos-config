@@ -83,7 +83,7 @@ in
             # git add flake.lock
             # git commit -m "chore: update flake.lock on $HOST"
             git update-index --skip-worktree flake.lock
-            echo "Flake updated and committed. Re-locked."
+            echo "Flake updated. Re-locked."
           }
 
           # Update specific input(s): flake-update-input nixpkgs home-manager
@@ -97,8 +97,8 @@ in
             for input in "$@"; do
               nix flake update "$input"
             done
-            git add flake.lock
-            git commit -m "chore: update flake inputs: $* on $HOST"
+            # git add flake.lock
+            # git commit -m "chore: update flake inputs: $* on $HOST"
             git update-index --skip-worktree flake.lock
             echo "Updated $* and re-locked."
           }
