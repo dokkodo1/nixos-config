@@ -20,6 +20,55 @@ Your host's age private key lives at:
 
 sops-nix auto-generates this on first build if it does not exist.
 
+If not present, you can generate new keys with the following command:
+```
+mkdir -p ~/.config/sops/age
+age-keygen -o ~/.config/sops/age/keys.txt
+```
+
+---
+
+## Adding a new host to the encryption
+
+When you set up a new machine you need to add its age public key so it can decrypt the existing secrets.
+
+1. On the **new host**, get its public key:
+
+```sh
+grep "# public key:" ~/.config/sops/age/keys.txt
+```
+
+2. Open `.sops.yaml` (at the repo root) and add the key under `keys:` with a YAML anchor:
+
+```yaml
+keys:
+  - &existing-host age1...
+  - &new-host age1...          # <-- add this line
+```
+
+3. Add the anchor to every `key_groups` list in `creation_rules`:
+
+```yaml
+creation_rules:
+  - path_regex: secrets/[^/]+\.ya?ml$
+    key_groups:
+      - age:
+          - *existing-host
+          - *new-host            # <-- add this line
+```
+
+   Repeat for every rule block (yaml, json, etc.).
+
+4. Sync the recipients in every existing secrets file to match `.sops.yaml`. This **must** be done from a host that already has a working decryption key (i.e. a host whose key is already in the file):
+
+```sh
+sops updatekeys --yes secrets/secrets.yaml
+```
+
+   Repeat for any other secrets files in the directory. Note: `sops -r` (rotate) does **not** add new recipients — it only rotates the data encryption key. Use `updatekeys`.
+
+5. Commit and push. Pull on the new host and rebuild.
+
 ---
 
 ## Adding a new secret to an existing file
@@ -68,50 +117,6 @@ SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt sops secrets/new-file.yaml
 
 ---
 
-## Adding a new host to the encryption
-
-When you set up a new machine you need to add its age public key so it can decrypt the existing secrets.
-
-1. On the **new host**, get its public key:
-
-```sh
-grep "# public key:" ~/.config/sops/age/keys.txt
-```
-
-   If the key file does not exist yet, run a build first (`nh nixos switch`) — sops-nix will generate it.
-
-2. Open `.sops.yaml` (at the repo root) and add the key under `keys:` with a YAML anchor:
-
-```yaml
-keys:
-  - &existing-host age1...
-  - &new-host age1...          # <-- add this line
-```
-
-3. Add the anchor to every `key_groups` list in `creation_rules`:
-
-```yaml
-creation_rules:
-  - path_regex: secrets/[^/]+\.ya?ml$
-    key_groups:
-      - age:
-          - *existing-host
-          - *new-host            # <-- add this line
-```
-
-   Repeat for every rule block (yaml, json, etc.).
-
-4. Sync the recipients in every existing secrets file to match `.sops.yaml`. This **must** be done from a host that already has a working decryption key (i.e. a host whose key is already in the file):
-
-```sh
-sops updatekeys --yes secrets/secrets.yaml
-```
-
-   Repeat for any other secrets files in the directory. Note: `sops -r` (rotate) does **not** add new recipients — it only rotates the data encryption key. Use `updatekeys`.
-
-5. Commit and push. Pull on the new host and rebuild.
-
----
 
 ## Gotchas
 
