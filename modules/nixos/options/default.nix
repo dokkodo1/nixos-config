@@ -9,7 +9,7 @@
     ./gitlab.nix
     ./gpu.nix
     ./matrix.nix
-    ./monitoring.nix
+    # ./monitoring.nix
     ./remote-builders.nix
     ./searxng.nix
     ./tailscale.nix

@@ -37,20 +37,20 @@
     targets = [ "nixtop" "desktop" ];
   };
 
-  control.monitoring = {
-    enable = true;
-    grafana.domain = "grafana.dokkodo.me";
-    prometheus.remoteTargets = [ "nixtop" "desktop" ];
-
-    alertmanager = {
-      enable = true;
-      matrix = {
-        enable = true;
-        roomId = "!jYHruqewzLjIDOBihd:dokkodo.me";
-        userId = "@alertbot:dokkodo.me";
-      };
-    };
-  };
+  # control.monitoring = {
+  #   enable = true;
+  #   grafana.domain = "grafana.dokkodo.me";
+  #   prometheus.remoteTargets = [ "nixtop" "desktop" ];
+  #
+  #   alertmanager = {
+  #     enable = true;
+  #     matrix = {
+  #       enable = true;
+  #       roomId = "!jYHruqewzLjIDOBihd:dokkodo.me";
+  #       userId = "@alertbot:dokkodo.me";
+  #     };
+  #   };
+  # };
 
   control.searxng = {
     enable = true;

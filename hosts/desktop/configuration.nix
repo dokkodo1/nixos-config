@@ -28,14 +28,15 @@
     display.kde.enable = true;
     display.dwl.enable = true;
     gaming.enable = true;
+    # gaming.gamescope = true;
     gaming.starCitizen.enable = true;
     gaming.launchers.lutris.enable = true;
     tailscale.enable = true;
     distributedBackup.allowIncoming = true;
-    monitoring.agent = {
-      enable = false;
-      # lokiUrl = "http://hpl-tower:3100";
-    };
+    # monitoring.agent = {
+    #   enable = false;
+    #   # lokiUrl = "http://hpl-tower:3100";
+    # };
   };
 
   programs.nix-ld.enable = true;

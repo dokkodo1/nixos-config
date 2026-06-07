@@ -10,10 +10,10 @@
   control.audio.pavucontrol.enable = true;
   control.tailscale.enable = true;
   control.distributedBackup.allowIncoming = true;
-  control.monitoring.agent = {
-    enable = true;
-    lokiUrl = "http://hpl-tower:3100";
-  };
+  # control.monitoring.agent = {
+  #   enable = true;
+  #   lokiUrl = "http://hpl-tower:3100";
+  # };
   control.remoteBuilders = {
     enable = true;
     useBuilders = [
