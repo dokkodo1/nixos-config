@@ -80,8 +80,8 @@ in
             cd "$NIX_CONFIG_DIR" || return 1
             git update-index --no-skip-worktree flake.lock
             nix flake update
-            git add flake.lock
-            git commit -m "chore: update flake.lock on $HOST"
+            # git add flake.lock
+            # git commit -m "chore: update flake.lock on $HOST"
             git update-index --skip-worktree flake.lock
             echo "Flake updated and committed. Re-locked."
           }

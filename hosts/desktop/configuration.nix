@@ -18,6 +18,8 @@
     "d /mnt/sata1 0775 dokkodo users - -"
   ];
 
+  nixpkgs.config.permittedInsecurePackages = [ "electron-39.8.10" ]; # failed build, probably temporary fix. didn't feel like searching for which package broke it...
+
   control = {
     remoteBuilders.enable = true;
     remoteBuilders.serveAsBuilder = true;
