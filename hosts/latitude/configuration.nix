@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix
   ];
-
+  nixpkgs.config.permittedInsecurePackages = [ "electron-39.8.10" ]; # failed build, probably temporary fix. didn't feel like searching for which package broke it...
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
