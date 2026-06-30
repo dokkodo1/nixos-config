@@ -80,7 +80,7 @@ in {
     (mkIf (cfg.enable && cfg.proAudio.enable) {
 
       environment.systemPackages = with pkgs; [
-      wineWowPackages.yabridge
+      wineWow64Packages.yabridge
       yabridge
       yabridgectl
       qpwgraph
