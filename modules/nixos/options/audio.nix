@@ -86,10 +86,10 @@ in {
       qpwgraph
       qjackctl
       ]
-      ++ optionals cfg.reaper.enable [ reaper reaper-sws-extension reaper-reapack-extension ]
-      ++ optional cfg.ardour.enable ardour
-      ++ optional cfg.nativeAccess.enable inputs.native-access-nix.packages.x86_64.native-access
-      ++ optional cfg.musescore.enable musescore;
+      ++ optionals cfg.proAudio.reaper.enable [ reaper reaper-sws-extension reaper-reapack-extension ]
+      ++ optional cfg.proAudio.ardour.enable ardour
+      ++ optional cfg.proAudio.nativeAccess.enable inputs.native-access-nix.packages.x86_64.native-access
+      ++ optional cfg.proAudio.musescore.enable musescore;
       zramSwap = {
         enable = lib.mkDefault true;
         algorithm = "zstd";
@@ -100,7 +100,7 @@ in {
       musnix = {
       # https://github.com/musnix/musnix                                                                            	
         enable = lib.mkDefault true;                                                                                                
-        kernel.realtime = true;                                                                                     	
+        kernel.realtime = false;                                                                                     	
         #kernel.packages = pkgs.linuxPackages-latest_rt;                                                             	
         soundcardPciId = ""; # not applicable to USB sound cards. Example "00:1b.0" found with lspci | grep -i audio	
         ffado.enable = false; # use free FireWare audio drivers                                                     	
