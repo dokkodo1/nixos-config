@@ -25,6 +25,8 @@
     remoteBuilders.serveAsBuilder = true;
     audio.enable = true;
     audio.pavucontrol.enable = true;
+    audio.proAudio.enable = true;
+    audio.proAudio.reaper.enable = true;
     audio.audioShare.enable = false;
     gpuVendor = "amd";
     display.kde.enable = true;
@@ -33,6 +35,7 @@
     # gaming.gamescope = true;
     gaming.starCitizen.enable = true;
     gaming.launchers.lutris.enable = true;
+    gaming.extras.openrgb.enable = true;
     tailscale.enable = true;
     distributedBackup.allowIncoming = true;
     # monitoring.agent = {
