@@ -61,7 +61,7 @@ in {
       wineWow64Packages.waylandFull
       winetricks
     ] 
-    ++ optional cfg.extras.discord.enable discord
+    ++ optional cfg.extras.discord.enable discord-ptb
     ++ optional cfg.extras.openrgb.enable openrgb-with-all-plugins
     ++ optional cfg.launchers.heroic.enable heroic-unwrapped
     ++ optional cfg.launchers.lutris.enable lutris

@@ -24,8 +24,6 @@ if [[ -d "$HOME/.oh-my-zsh/plugins/git" ]]; then
     source "$HOME/.oh-my-zsh/plugins/git/git.plugin.zsh" 2>/dev/null || true
 fi
 
-alias wc3='wine Games/wc3/drive_c/Program\ Files/Warcraft\ 3/Warcraft\ III.exe'
-alias twow='cd ~/Games/twmoa_1180 && wine explorer /desktop=TurtleWoW,1920x1080 WoW.exe'
 alias ll='ls -lah'
 alias tm='tmux-default'
 alias screenshot='grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png'

@@ -1,6 +1,7 @@
 {
   security.polkit = {
     enable = true;
-    debug = true;
+    extraArgs = [ "--debug" ];
+    # debug = true;
   };
 }
