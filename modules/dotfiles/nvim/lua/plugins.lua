@@ -3,6 +3,7 @@ vim.notify("Loading plugins…")
 vim.pack.add({
   { src = "https://github.com/stevearc/oil.nvim" },
   { src = "https://github.com/neovim/nvim-lspconfig" },
+  { src = "https://github.com/MrcJkb/haskell-tools.nvim", version = vim.version.range('^10') },
   { src = "https://github.com/echasnovski/mini.pick" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
