@@ -45,6 +45,10 @@
   };
 
   programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    alsa-lib
+    pipewire
+  ];
   programs.firefox.enable = true;
   services.displayManager.sddm.enable = false;
 
