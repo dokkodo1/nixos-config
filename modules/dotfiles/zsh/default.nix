@@ -1,7 +1,7 @@
 { lib, pkgs, hostVars, ... }:
 
 let
-  homeDir = if pkgs.stdenv.isDarwin
+  homeDir = if pkgs.stdenv.hostPlatform.isDarwin
     then "/Users/${hostVars.username}"
     else "/home/${hostVars.username}";
   configDir = "${homeDir}/${hostVars.repoName}";
