@@ -2,11 +2,11 @@ vim.g.mapleader = " "
 local map = vim.keymap.set
 
 map("n", "<leader>q", vim.cmd.quit, { desc = "Quit" })
-map("n", "<leader>i", function() vim.cmd.edit("~/configurations/modules/dotfiles/nvim/init.lua") end,
+map("n", "<leader>i", function() vim.cmd.edit("~/nixos-config/modules/dotfiles/nvim/init.lua") end,
   { desc = "Edit init.lua" })
 map("n", "<leader>o", function()
   -- Bypass module cache by using dofile directly
-  local config_base = vim.fn.expand("~/configurations/modules/dotfiles/nvim/lua")
+  local config_base = vim.fn.expand("~/nixos-config/modules/dotfiles/nvim/lua")
 
   package.loaded['settings'] = nil
   package.loaded['keymaps'] = nil
@@ -49,6 +49,25 @@ map("n", "<leader>lf", vim.lsp.buf.format, { desc = "Format buffer" })
 map('n', '<leader>ca', function()
   vim.lsp.buf.code_action()
 end, { desc = 'Code action' })
+
+-- haskell-tools
+local ht = require('haskell-tools')
+local bufnr = vim.api.nvim_get_current_buf()
+local opts = { noremap = true, silent = true, buffer = bufnr, }
+-- haskell-language-server relies heavily on codeLenses,
+-- so auto-refresh (see advanced configuration) is enabled by default
+vim.keymap.set('n', '<leader>al', vim.lsp.codelens.run, opts)
+-- Hoogle search for the type signature of the definition under the cursor
+vim.keymap.set('n', '<leader>ah', ht.hoogle.hoogle_signature, opts)
+-- Evaluate all code snippets
+vim.keymap.set('n', '<leader>ae', ht.lsp.buf_eval_all, opts)
+-- Toggle a GHCi repl for the current package
+vim.keymap.set('n', '<leader>ar', ht.repl.toggle, opts)
+-- Toggle a GHCi repl for the current buffer
+vim.keymap.set('n', '<leader>ab', function()
+  ht.repl.toggle(vim.api.nvim_buf_get_name(0))
+end, opts)
+vim.keymap.set('n', '<leader>aq', ht.repl.quit, opts)
 
 -- Diagnostics
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })

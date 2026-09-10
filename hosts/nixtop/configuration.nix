@@ -5,11 +5,36 @@
     ./hardware-configuration.nix
   ];
 
-  control.display.dwl.enable = true;
-  control.audio.enable = true;
-  control.audio.pavucontrol.enable = true;
+  # Clamshell
+  services.logind.settings.Login = {
+    HandlePowerKey = "ignore";
+    HandleRebootKey = "ignore";
+    HandleSuspendKey = "ignore";
+    HandleHibernateKey = "ignore";
+    HandleLidSwitch = "ignore";
+  };
+
+  control.vaultwarden = {
+    enable = true;
+    domain = "vault.dokkodo.me";
+    signupsAllowed = false;
+    adminToken.enable = true;
+    backup.enable = true;
+  };
+
+  control.searxng = {
+    enable = true;
+    domain = "search.dokkodo.me";
+    publicAccess = true;
+    instance.name = "Dokkodo Search";
+  };
+
   control.tailscale.enable = true;
-  control.distributedBackup.allowIncoming = true;
+  # control.distributedBackup.allowIncoming = true;
+  # control.distributedBackup = {
+  #   enable = true;
+  #   targets = [ "latitude" "desktop" "hpl-tower" ];
+  # };
   # control.monitoring.agent = {
   #   enable = true;
   #   lokiUrl = "http://hpl-tower:3100";
@@ -53,27 +78,24 @@
   boot.loader = {
     grub.enable = true;
     grub.device = "/dev/sda";
-    grub.configurationLimit = 6;
+    grub.configurationLimit = 3;
     grub.efiSupport = false;
   };
 
   hardware.uinput.enable = true;
   environment.systemPackages = with pkgs; [
     deluge
-    bitwarden-desktop
-    zapzap
-    mpv
   ];
 
   programs.nix-ld.enable = true;
 
-  xdg.mime.defaultApplications = {
-    "text/html" = "qutebrowser.desktop";
-    "x-scheme-handler/http" = "qutebrowser.desktop";
-    "x-scheme-handler/https" = "qutebrowser.desktop";
-    "x-scheme-handler/about" = "qutebrowser.desktop";
-    "x-scheme-handler/unknown" = "qutebrowser.desktop";
-  };
+  # xdg.mime.defaultApplications = {
+  #   "text/html" = "qutebrowser.desktop";
+  #   "x-scheme-handler/http" = "qutebrowser.desktop";
+  #   "x-scheme-handler/https" = "qutebrowser.desktop";
+  #   "x-scheme-handler/about" = "qutebrowser.desktop";
+  #   "x-scheme-handler/unknown" = "qutebrowser.desktop";
+  # };
 
   environment.sessionVariables = {
     XKB_DEFAULT_OPTIONS = "caps:swapescape";

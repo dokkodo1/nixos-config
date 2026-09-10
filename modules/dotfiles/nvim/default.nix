@@ -20,6 +20,7 @@
       llvm
       clang-tools
       nixd
+      haskell-language-server
       basedpyright
       git
       nodejs
